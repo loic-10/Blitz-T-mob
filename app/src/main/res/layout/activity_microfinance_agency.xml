@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MicrofinanceAgenceActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/search_badge_up"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/background">
+
+            <com.github.florent37.materialtextfield.MaterialTextField
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/transparence_image"
+                android:paddingTop="10dp"
+                app:mtf_image="@drawable/ic_search_black_24dp"
+                app:mtf_labelColor="@color/defaultColorBlack">
+
+                <EditText
+                    android:id="@+id/text_search_microfinance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:freezesText="true"
+                    android:hint="@string/text_search"
+                    android:textColor="@color/defaultColorBlack"
+                    android:textColorHint="@color/defaultColorWhite"
+                    android:textSize="18sp"
+                    android:theme="@style/Theme.Design" />
+
+            </com.github.florent37.materialtextfield.MaterialTextField>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_agencies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_agency"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

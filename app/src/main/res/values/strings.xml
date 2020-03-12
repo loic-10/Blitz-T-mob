@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Blitz-T</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_slogan">Enter the world of financial management!</string>
+    <string name="start_text">Start</string>
+    <string name="start_skip">Skip this step</string>
+    <string name="text_create">Create account</string>
+    <string name="text_log_in">To log in</string>
+    <string name="text_search">Search</string>
+    <string name="text_menu_home">Home</string>
+    <string name="text_menu_account">Accounts</string>
+    <string name="text_menu_transaction">Transactions</string>
+    <string name="text_menu_benefit">Beneficiaries</string>
+    <string name="text_menu_agency_points">Agency points</string>
+    <string name="text_menu_suggestions">Suggestions</string>
+    <string name="text_menu_setting">Settings</string>
+    <string name="text_menu_log_out">Log out</string>
+    <string name="text_many_agencies">agencies</string>
+    <string name="text_name_microfinance">Microfinance</string>
+    <string name="text_name_micro_finance">Microfinance</string>
+    <string name="text_slogan">Slogan, slogan, slogan</string>
+    <string name="text_many_costumers">costumers</string>
+    <string name="button_item_visit_agency">Visit our agencies</string>
+    <string-array name="sex">
+        <item>se</item>
+    </string-array>
+</resources>

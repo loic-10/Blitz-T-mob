@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="@dimen/size_radius_button"
+        app:cardBackgroundColor="@color/transparent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_account_all_style"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/image_item_micro_finance"
+                        android:src="@drawable/background"
+                        android:layout_width="120dp"
+                        android:layout_height="160dp"
+                        android:scaleType="fitXY"
+                        app:riv_corner_radius="10dp"
+                        android:layout_centerInParent="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/info_micro_finance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/defaultColorGray"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/text_name_item_micro_finance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_name_micro_finance"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimaryDark"/>
+
+                        <TextView
+                            android:id="@+id/text_slogan_item_micro_finance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:text="@string/text_slogan"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/text_item_agency_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_many_agencies"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/text_item_costumer_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_many_costumers"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rating_micro_finance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/info_micro_finance"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true">
+
+                        <com.chaek.android.RatingBar
+                            android:id="@+id/rating_item_micro_finance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/button_item_more_agency"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginBottom="55dp"
+                            app:rating_flag="FIVE"
+                            app:rating_star_color="@color/colorPrimaryDark"
+                            app:rating_star_empty_color="#8e7d7d"
+                            app:rating_star_height="20dp"
+                            app:rating_star_width="20dp"
+                            app:rating_start_count="1" />
+
+                        <Button
+                            android:id="@+id/button_item_more_agency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/blue_2_radius_info"
+                            android:padding="10dp"
+                            android:text="@string/button_item_visit_agency"
+                            android:textAlignment="center"
+                            android:textColor="@color/defaultColorWhite" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

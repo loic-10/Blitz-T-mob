@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/text_menu_home" />
+        <item
+            android:id="@+id/nav_account"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="@string/text_menu_account" />
+        <item
+            android:id="@+id/nav_transaction"
+            android:icon="@drawable/ic_exchange_alt"
+            android:title="@string/text_menu_transaction" />
+        <item
+            android:id="@+id/nav_benefit"
+            android:icon="@drawable/ic_percentage"
+            android:title="@string/text_menu_benefit" />
+        <item
+            android:id="@+id/nav_agency_point"
+            android:icon="@drawable/ic_route"
+            android:title="@string/text_menu_agency_points" />
+        <item
+            android:id="@+id/nav_suggestion"
+            android:icon="@drawable/ic_question_circle"
+            android:title="@string/text_menu_suggestions" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/text_menu_setting" />
+        <item
+            android:id="@+id/nav_log_out"
+            android:icon="@drawable/ic_sign_out_alt"
+            android:title="@string/text_menu_log_out" />
+    </group>
+
+<!--    <item android:title="Others" >-->
+<!--        <menu>-->
+<!--        </menu>-->
+<!--    </item>-->
+</menu>
