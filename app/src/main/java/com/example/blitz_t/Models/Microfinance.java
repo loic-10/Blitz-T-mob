@@ -1,7 +1,7 @@
 package com.example.blitz_t.Models;
 
 public class Microfinance {
-    private String _id;
+    private int _id;
     private String name;
     private String logo;
     private String slogan;
@@ -24,4 +24,8 @@ public class Microfinance {
     private String nombre_mois_minimum_pour_epargne;
     private String frais_debloquer_compte;
     private String accepter_manuellement_demande_client;
+
+    public int get_id() {
+        return _id;
+    }
 }
