@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.blitz_t">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -9,27 +11,41 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailAgencyActivity"></activity>
+        <activity android:name=".Views.Country.CountryActivity">
+        </activity>
+        <activity android:name=".Views.City.CityActivity" />
+        <activity android:name=".Views.Login.Member.LoginMemberActivity" />
+        <activity android:name=".Views.Register.Member.RegisterMemberPart3Activity" />
+        <activity android:name=".Views.Register.Member.RegisterMemberPart2Activity" />
+        <activity android:name=".Views.Register.Member.RegisterMemberPart1Activity">
+        </activity>
+        <activity
+            android:name=".IntroActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".DetailAgencyActivity" />
         <activity android:name=".RefundActivity" />
         <activity android:name=".CreditActivity" />
         <activity android:name=".MicrofinanceAgenceActivity" />
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AllAccountActivity" />
+        <activity
+            android:name=".ChoiceMicrofinanceActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".ChoiceLogActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllAccountActivity" />
-        <activity android:name=".ChoiceMicrofinanceActivity" />
-        <activity
-            android:name=".ChoiceLogActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"

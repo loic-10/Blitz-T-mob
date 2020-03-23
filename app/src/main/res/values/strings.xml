@@ -21,8 +21,13 @@
     <string name="text_name_micro_finance">Microfinance</string>
     <string name="text_slogan">Slogan, slogan, slogan</string>
     <string name="text_many_costumers">costumers</string>
+    <string name="text_many_agency">agencies</string>
     <string name="button_item_visit_agency">Visit our agencies</string>
     <string-array name="sex">
         <item>se</item>
     </string-array>
+    <string name="SHARED_PREF_OPEN_APK">SHARED_PREF_OPEN_APK</string>
+    <string name="SHARED_PREF_MEMBER_REGISTER">SHARED_PREF_MEMBER_REGISTER</string>
+    <string name="KEY_SHARED_PREF_OPEN_APK">KEY_SHARED_PREF_OPEN_APK</string>
+    <string name="PREFERENCE_FILE_KEY">PREFERENCE_FILE_KEY</string>
 </resources>

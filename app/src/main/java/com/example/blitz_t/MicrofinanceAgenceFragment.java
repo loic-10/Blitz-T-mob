@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.blitz_t.Controllers.MicrofinanceAdapter;
-import com.example.blitz_t.Models.Microfinance;
+import com.example.blitz_t.Models.Microfinance.Microfinance;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MicrofinanceAgenceFragment extends Fragment {
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     @Nullable
     @Override

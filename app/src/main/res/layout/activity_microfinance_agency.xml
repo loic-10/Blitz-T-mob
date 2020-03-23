@@ -31,7 +31,7 @@
                 app:mtf_labelColor="@color/defaultColorBlack">
 
                 <EditText
-                    android:id="@+id/text_search_microfinance"
+                    android:id="@+id/text_search_agency_microfinance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:freezesText="true"

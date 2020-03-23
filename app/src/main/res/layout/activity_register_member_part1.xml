@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/defaultColorGrayOpacity"
+    tools:context=".Views.Register.Member.RegisterMemberPart1Activity">
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/defaultColorWhite">
+
+            <RelativeLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/btn_gradient_style"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@mipmap/logo" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/logo"
+                    android:lineSpacingExtra="10dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="Renseigner vos informations personnelles"
+                    android:textColor="@color/defaultColorWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toEndOf="@+id/logo"
+                    android:background="@color/defaultColorWhite" />
+
+            </RelativeLayout>
+
+            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                android:id="@+id/text_full_name_register_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="48dp"
+                app:labelText="Enter your Full name"
+                app:endIcon="@drawable/icons8_circled_right_24px">
+
+                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                    android:id="@+id/text_full_name_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
+
+            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                android:id="@+id/text_birth_date_register_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/text_full_name_register_group"
+                app:layout_constraintStart_toStartOf="@+id/text_full_name_register_group"
+                app:layout_constraintTop_toBottomOf="@+id/text_full_name_register_group"
+                app:labelText="Select your Birth date"
+                app:endIcon="@drawable/icons8_circled_right_24px">
+
+                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                    android:id="@+id/text_birth_date_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:enabled="false"/>
+
+            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                android:id="@+id/spinner_sex_register"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/text_birth_date_register_group"
+                app:layout_constraintStart_toStartOf="@+id/text_birth_date_register_group"
+                app:layout_constraintTop_toBottomOf="@+id/text_birth_date_register_group"
+                app:smsp_floatingLabelColor="#1976D2"
+                app:smsp_floatingLabelText="Sex"
+                app:smsp_hint="Choose your sex"
+                app:smsp_itemColor="@color/defaultColorBlack"
+                app:smsp_itemListColor="@color/defaultColorBlack"
+                app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
+                app:smsp_itemListHintColor="#FFFFFF"
+                app:smsp_underlineSize="1dp"
+                app:smsp_multilineError="false"
+                app:smsp_selectedItemListColor="@color/colorPrimaryDark"
+                android:spinnerMode="dropdown"
+                android:theme="@style/AppTheme"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/defaultColorGrayOpacity"
+                android:foregroundGravity="bottom"
+                android:gravity="bottom"
+                android:layout_marginTop="48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_sex_register">
+
+                <Button
+                    android:id="@+id/btn_next_register_member_part1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/btn_gradient_style"
+                    android:drawableEnd="@drawable/ic_arrow_circle_right"
+                    android:drawableTint="@color/defaultColorWhite"
+                    android:padding="@dimen/size_padding_button_text"
+                    android:text="Next"
+                    android:textColor="@color/defaultColorWhite"
+                    android:textSize="@dimen/size_button_text" />
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

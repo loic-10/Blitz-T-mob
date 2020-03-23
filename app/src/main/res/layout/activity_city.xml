@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.City.CityActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+            android:id="@+id/spinner"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_birth_date_register_group"
+            app:layout_constraintStart_toStartOf="@+id/text_birth_date_register_group"
+            app:layout_constraintTop_toBottomOf="@+id/text_birth_date_register_group"
+            app:smsp_floatingLabelColor="#1976D2"
+            app:smsp_floatingLabelText="Country"
+            app:smsp_hint="Choose your Country"
+            app:smsp_itemColor="@color/defaultColorBlack"
+            app:smsp_itemListColor="@color/defaultColorBlack"
+            app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
+            app:smsp_itemListHintColor="#FFFFFF"
+            app:smsp_underlineSize="1dp"
+            app:smsp_multilineError="false"
+            app:smsp_selectedItemListColor="@color/colorPrimaryDark"
+            android:spinnerMode="dropdown"
+            android:theme="@style/AppTheme"/>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="City name"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <TextView
+            android:id="@+id/text_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manage country"
+            android:textAlignment="center" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textViewUsername"
+                    android:id="@+id/text_ville_quartier"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Douala, Bonamoussadi"
@@ -37,7 +37,7 @@
                     android:textColor="@color/colorPrimaryDark"/>
 
                 <TextView
-                    android:id="@+id/textViewUsername1"
+                    android:id="@+id/text_heure_debut_fin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
@@ -48,7 +48,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewUsername2"
+                    android:id="@+id/text_position_geographique"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginEnd="-11dp"
-                    android:layout_toStartOf="@+id/more_agence"
+                    android:layout_toStartOf="@+id/text_telephone"
                     android:background="@drawable/white_2_raduis_info"
                     android:padding="15dp"
                     android:text="Telephone"
@@ -80,7 +80,7 @@
                     android:textColor="@color/defaultColorBlack" />
 
                 <TextView
-                    android:id="@+id/more_agence"
+                    android:id="@+id/text_telephone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

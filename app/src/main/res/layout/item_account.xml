@@ -67,7 +67,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_account_circle_black_24dp" />
+                    android:src="@drawable/ic_account_circle_black_24dp"
+                    android:tint="@color/defaultColorWhite"/>
 
                 <TextView
                     android:id="@+id/textViewUsername"
@@ -78,7 +79,8 @@
                     android:text="Compte epargne"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/defaultColorWhite"/>
             </RelativeLayout>
 
         </LinearLayout>

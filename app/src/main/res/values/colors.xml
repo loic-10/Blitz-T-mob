@@ -2,14 +2,16 @@
 <resources>
     <color name="colorPrimary">#009BFF</color>
     <color name="colorPrimaryDark">#01577D</color>
+    <color name="colorPrimaryDarkMenu">#F1F2F6</color>
     <color name="colorPrimaryDark_transparent_30">#3001577D</color>
     <color name="colorPrimaryDark_transparent_60">#6001577D</color>
     <color name="colorPrimaryDark_transparent_80">#8001577D</color>
+    <color name="colorPrimaryDark_transparent_99">#9901577D</color>
     <color name="colorAccent">#D81B60</color>
     <color name="defaultColorBlack">#000000</color>
     <color name="defaultColorBlack_90">#90000000</color>
     <color name="defaultColorWhite">#FFFFFF</color>
-    <color name="defaultColorWhiteOpacity">#80FFFFFF</color>
+    <color name="defaultColorWhiteOpacity">#99FFFFFF</color>
     <color name="defaultColorGray">#E4E4E4</color>
     <color name="defaultColorGrayOpacity">#99E4E4E4</color>
     <color name="transparent">#00000000</color>
@@ -17,4 +19,8 @@
     <color name="color2">#31577D</color>
     <color name="color3">#61577D</color>
     <color name="color4">#91577D</color>
+    <color name="colorPart1">#4db9ef</color>
+    <color name="colorPart2">#31409f</color>
+    <color name="colorPart1Opacity">#904db9ef</color>
+    <color name="colorPart2Opacity">#8031409f</color>
 </resources>
