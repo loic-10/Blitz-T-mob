@@ -3,18 +3,16 @@ package com.example.blitz_t.Views.City;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.CityHelper;
 import com.example.blitz_t.Api.CountryHelper;
+import com.example.blitz_t.Models.City.City;
 import com.example.blitz_t.Models.Country.Country;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.Country.CountryActivity;
@@ -22,9 +20,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CityActivity extends AppCompatActivity {
 
@@ -49,7 +47,8 @@ public class CityActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick ( View v ) {
-                CityHelper.createCity((Country) country.getSelectedItem(), name.getText().toString());
+                City city = new City(UUID.randomUUID().toString(), (Country) country.getSelectedItem(), name.getText().toString());
+                CityHelper.setCity(city);
                 Snackbar.make(v, name.getText().toString(), Snackbar.LENGTH_LONG).show();
             }
         });
@@ -65,7 +64,23 @@ public class CityActivity extends AppCompatActivity {
     }
 
     private void checkCountries(){
-//        final List<Country> countries = (List<Country>) CountryHelper.getCountries();
-        country.setItem((List) CountryHelper.getCountries());
+        final List<Country> countries = new ArrayList<>();
+        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Country country = data.getValue(Country.class);
+                    if(country != null){
+                        countries.add(country);
+                    }
+                }
+                country.setItem(countries);
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            }
+        });
     }
 }

@@ -34,7 +34,10 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="26sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:textColor="@color/colorPrimaryDark"
+                    android:drawableStart="@drawable/ic_related_companies"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/colorPrimaryDark"/>
 
                 <TextView
                     android:id="@+id/text_heure_debut_fin"
@@ -45,7 +48,10 @@
                     android:text="08h - 17h30"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_clock_checked"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/defaultColorBlack"/>
 
                 <TextView
                     android:id="@+id/text_position_geographique"
@@ -55,7 +61,10 @@
                     android:text="Douala derriere la station centrale de bonamoussadi"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="16sp"
-                    android:fitsSystemWindows="true"/>
+                    android:fitsSystemWindows="true"
+                    android:drawableStart="@drawable/ic_place_marker"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/defaultColorBlack"/>
 
             </LinearLayout>
 
@@ -75,9 +84,13 @@
                     android:layout_toStartOf="@+id/text_telephone"
                     android:background="@drawable/white_2_raduis_info"
                     android:padding="15dp"
+                    android:paddingEnd="30dp"
                     android:text="Telephone"
                     android:textAlignment="center"
-                    android:textColor="@color/defaultColorBlack" />
+                    android:textColor="@color/defaultColorBlack"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/defaultColorBlack"/>
 
                 <TextView
                     android:id="@+id/text_telephone"
@@ -90,7 +103,10 @@
                     android:text="+237 690 901 011"
                     android:textStyle="bold"
                     android:textAlignment="center"
-                    android:textColor="@color/defaultColorWhite" />
+                    android:textColor="@color/defaultColorWhite"
+                    android:drawableStart="@drawable/ic_keypad"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/defaultColorWhite"/>
             </RelativeLayout>
 
         </RelativeLayout>

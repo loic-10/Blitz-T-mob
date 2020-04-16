@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.blitz_t">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -10,14 +16,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Views.Country.CountryActivity">
+        android:theme="@style/AppTheme.NoActionBar" >
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapAgencyActivity">
+        </activity>
+        <activity android:name=".Views.Register.Customer.MembershipRequestActivity">
+        </activity>
+        <activity
+            android:name=".EditProfileActivity"/>
+        <activity android:name=".Views.Country.CountryActivity" >
         </activity>
         <activity android:name=".Views.City.CityActivity" />
-        <activity android:name=".Views.Login.Member.LoginMemberActivity" />
-        <activity android:name=".Views.Register.Member.RegisterMemberPart3Activity" />
-        <activity android:name=".Views.Register.Member.RegisterMemberPart2Activity" />
-        <activity android:name=".Views.Register.Member.RegisterMemberPart1Activity">
+        <activity
+            android:name=".Views.Login.Member.LoginMemberActivity"/>
+        <activity
+            android:name=".Views.Login.Customer.LoginCustomerActivity"/>
+        <activity
+            android:name=".Views.Register.Member.RegisterMemberPart2Activity"/>
+        <activity
+            android:name=".Views.Register.Member.RegisterMemberPart1Activity">
+
         </activity>
         <activity
             android:name=".IntroActivity"
@@ -26,26 +57,27 @@
         <activity android:name=".DetailAgencyActivity" />
         <activity android:name=".RefundActivity" />
         <activity android:name=".CreditActivity" />
-        <activity android:name=".MicrofinanceAgenceActivity" />
         <activity
-            android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AllAccountActivity" />
+            android:name=".MicrofinanceAgencyActivity"/>
         <activity
-            android:name=".ChoiceMicrofinanceActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".HomeCustomerActivity">
+        </activity>
         <activity
-            android:name=".ChoiceLogActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:name=".HomeMemberActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AllAccountActivity" />
+        <activity android:name=".OthersMicrofinancesFragment" />
+        <activity
+            android:name=".ChoiceLogActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <meta-data
             android:name="preloaded_fonts"

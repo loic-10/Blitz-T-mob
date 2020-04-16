@@ -1,16 +1,17 @@
 package com.example.blitz_t.Controllers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.*;
 import android.widget.*;
 
 import com.chaek.android.RatingBar;
-import com.example.blitz_t.MicrofinanceAgenceActivity;
-import com.example.blitz_t.Models.Agency.ModelAgency;
+import com.example.blitz_t.MicrofinanceAgencyActivity;
 import com.example.blitz_t.Models.MemberMicrofinance.ModelMemberMicrofinance;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
+import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
 import com.squareup.picasso.Picasso;
 
@@ -24,11 +25,13 @@ public class MicrofinanceAdapter extends RecyclerView.Adapter<MicrofinanceAdapte
 
     private List<Microfinance> mMicrofinances;
     private Context context;
+    private Activity activity;
     public static final String KEY_MICROFINANCE = "KEY_MICROFINANCE";
 
-    public MicrofinanceAdapter ( ArrayList<Microfinance> microfinances , Context context ) {
+    public MicrofinanceAdapter ( ArrayList<Microfinance> microfinances , Context context  , Activity activity ) {
         mMicrofinances = microfinances;
         this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -41,33 +44,33 @@ public class MicrofinanceAdapter extends RecyclerView.Adapter<MicrofinanceAdapte
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder ( @NonNull ViewHolder holder , int position ) {
+    public void onBindViewHolder ( @NonNull final ViewHolder holder , int position ) {
         final Microfinance microfinance = mMicrofinances.get(position);
 
-        holder.text_name_item_micro_finance.setText(microfinance.getName());
+        holder.text_name_item_micro_finance.setText(microfinance.getNom());
 
         holder.text_slogan_item_micro_finance.setText(microfinance.getSlogan());
 
         holder.text_item_costumer_number.setText(R.string.text_many_costumers);
 
-        holder.text_item_costumer_number.setText(ModelMemberMicrofinance.memberNumberMicrofinance(microfinance.get_id()) + " "
-                + holder.text_item_costumer_number.getText() );
+//        holder.text_item_costumer_number.setText(ModelMemberMicrofinance.memberNumberMicrofinance(microfinance.get_id()) + " "
+//                + holder.text_item_costumer_number.getText() );
 
         holder.text_item_agency_number.setText(R.string.text_many_agency);
-        holder.text_item_agency_number.setText(ModelAgency.searchAgenciesMicrofinance(microfinance.get_id()).size() + " "
-                + holder.text_item_agency_number.getText() );
+        holder.text_item_agency_number.setText(null);
 
         Picasso.with(context)
-                .load(microfinance.getLogo())
+                .load(microfinance.getImage())
                 .into(holder.image_item_micro_finance);
 
-        holder.rating_item_micro_finance.setScore(ModelMemberMicrofinance.ratingMicrofinance(microfinance.get_id()));
+//        holder.rating_item_micro_finance.setScore(ModelMemberMicrofinance.ratingMicrofinance(microfinance.get_id()));
 
         holder.button_item_more_agency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MicrofinanceAgenceActivity.class);
-                intent.putExtra(KEY_MICROFINANCE, microfinance);
+                Intent intent = new Intent(context, MicrofinanceAgencyActivity.class);
+                Model.saveFormPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
+                        context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
                 context.startActivity(intent);
             }
         });

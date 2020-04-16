@@ -109,7 +109,7 @@
                 android:textAlignment="center"
                 android:textSize="24sp"/>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
@@ -120,7 +120,7 @@
                     android:layout_height="match_parent"
                     tools:listitem="@layout/item_transaction" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
 
         </RelativeLayout>
     </LinearLayout>

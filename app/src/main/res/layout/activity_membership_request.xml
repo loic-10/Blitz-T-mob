@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.example.blitz_t.Views.Register.Customer.MembershipRequestActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/transparence_image">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="?colorPrimary"
+            android:fitsSystemWindows="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleGravity="start"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:contentScrim="@color/colorPrimaryDark_transparent_80"
+                app:expandedTitleGravity="bottom"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                app:title="@string/app_name">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/image_cni"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/background"
+                    app:layout_collapseMode="parallax" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparence_image"
+                    android:padding="5dp" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:isScrollContainer="true"
+                    app:contentInsetStart="10dp"
+                    app:layout_collapseMode="pin"
+                    app:menu="@menu/return_menu"
+                    app:navigationIcon="@drawable/ic_membership_card" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Now we are going to add content for app good look below collapsing toolbar -->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="60dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <TextView
+                        android:id="@+id/text_microfinance_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Microfinance name"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/text_microfinance_slogan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Microfinance slogan"
+                        android:textAlignment="center"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="italic"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/text_microfinance_name"
+                        app:layout_constraintTop_toBottomOf="@+id/text_microfinance_name" />
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_profession_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="32dp"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:iconSignifier="@drawable/ic_permanent_job"
+                        app:labelText="@string/text_enter_profession"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/text_microfinance_slogan"
+                        app:layout_constraintTop_toBottomOf="@+id/text_microfinance_slogan"
+                        app:primaryColor="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_profession"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/defaultColorWhite" />
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <RelativeLayout
+                        android:id="@+id/spinner_city_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_profession_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_profession_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_profession_group">
+
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_city"
+                            android:backgroundTint="@color/defaultColorGrayOpacity" />
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/spinner_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toEndOf="@+id/img1"
+                            android:theme="@style/AppTheme"
+                            app:smsp_isSearchable="true"
+                            android:spinnerMode="dialog"
+                            app:smsp_arrowColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelText="@string/text_title_city"
+                            app:smsp_hint="@string/text_choose_city"
+                            app:smsp_hintColor="@color/defaultColorWhite"
+                            app:smsp_itemColor="@color/defaultColorWhite"
+                            app:smsp_itemListColor="@color/defaultColorBlack"
+                            app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
+                            app:smsp_itemListHintColor="@color/defaultColorWhite"
+                            app:smsp_multilineError="false"
+                            app:smsp_selectedItemListColor="@color/colorPrimaryDark"
+                            app:smsp_underlineColor="@color/defaultColorWhite"
+                            app:smsp_underlineSize="1dp" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/spinner_agency_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/spinner_city_group"
+                        app:layout_constraintStart_toStartOf="@+id/spinner_city_group"
+                        app:layout_constraintTop_toBottomOf="@+id/spinner_city_group">
+
+                        <ImageView
+                            android:id="@+id/img2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_related_companies"
+                            android:backgroundTint="@color/defaultColorGrayOpacity" />
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/spinner_agency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toEndOf="@+id/img2"
+                            android:theme="@style/AppTheme"
+                            app:smsp_arrowColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelText="@string/text_title_agency"
+                            app:smsp_hint="@string/text_choose_agency"
+                            app:smsp_hintColor="@color/defaultColorWhite"
+                            app:smsp_isSearchable="true"
+                            android:spinnerMode="dialog"
+                            app:smsp_itemColor="@color/defaultColorWhite"
+                            app:smsp_itemListColor="@color/defaultColorBlack"
+                            app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
+                            app:smsp_itemListHintColor="@color/defaultColorWhite"
+                            app:smsp_multilineError="false"
+                            app:smsp_selectedItemListColor="@color/colorPrimaryDark"
+                            app:smsp_underlineColor="@color/defaultColorWhite"
+                            app:smsp_underlineSize="1dp" />
+                    </RelativeLayout>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_password_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:iconSignifier="@drawable/ic_password"
+                        app:labelText="@string/text_enter_password"
+                        app:layout_constraintEnd_toEndOf="@+id/spinner_agency_group"
+                        app:layout_constraintStart_toStartOf="@+id/spinner_agency_group"
+                        app:layout_constraintTop_toBottomOf="@+id/spinner_agency_group"
+                        app:primaryColor="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_password_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/defaultColorWhite" />
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_confirm_password_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:iconSignifier="@drawable/ic_password"
+                        app:labelText="@string/text_enter_confirm_password"
+                        app:layout_constraintEnd_toEndOf="@+id/text_password_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_password_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_password_register_group"
+                        app:primaryColor="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_confirm_password_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <Button
+                        android:id="@+id/button_save"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="48dp"
+                        android:background="@drawable/btn_gradient_style"
+                        android:drawableEnd="@drawable/ic_outgoing_data"
+                        android:drawableTint="@color/defaultColorWhite"
+                        android:padding="@dimen/size_padding_button_text"
+                        android:text="@string/text_send_membership_request"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="@dimen/size_button_text"
+                        app:layout_constraintEnd_toEndOf="@+id/text_confirm_password_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_confirm_password_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_confirm_password_register_group" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

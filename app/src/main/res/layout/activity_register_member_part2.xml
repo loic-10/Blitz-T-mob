@@ -1,246 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/defaultColorGrayOpacity"
+    android:background="@drawable/background"
     tools:context=".Views.Register.Member.RegisterMemberPart2Activity">
 
-    <ScrollView
-        android:id="@+id/scrollView3"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="@drawable/transparence_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:fitsSystemWindows="true"
+            android:background="@color/transparent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:collapsedTitleGravity="start"
+                app:expandedTitleGravity="bottom"
+                app:title="@string/app_name"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:menu="@menu/return_menu"
+                    app:navigationIcon="@drawable/groupe1"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Now we are going to add content for app good look below collapsing toolbar -->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/defaultColorWhite">
-
-            <RelativeLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/btn_gradient_style"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@mipmap/logo" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/logo"
-                    android:lineSpacingExtra="10dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:text="Renseigner vos informations confidentielles"
-                    android:textColor="@color/defaultColorWhite"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="5dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toEndOf="@+id/logo"
-                    android:background="@color/defaultColorWhite" />
-
-            </RelativeLayout>
-
-            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                android:id="@+id/text_cni_number_register_group"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="48dp"
-                app:labelText="Enter your CNI number"
-                app:endIcon="@drawable/icons8_circled_right_24px">
-
-                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                    android:id="@+id/text_cni_number_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"/>
-
-            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
-
-            <com.theophrast.ui.widget.SquareImageView
-                android:id="@+id/image_cni_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background"
-                android:scaleType="center"
-                app:hwRatio="0.6"
-                app:layout_constraintCircleRadius="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/text_link_cni_register_group"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/text_link_cni_register_group"
-                app:layout_constraintTop_toBottomOf="@+id/text_link_cni_register_group" />
-
-            <com.libRG.CustomTextView
-                android:id="@+id/text_link_cni_register_group"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="16dp"
-                android:hint="Link to CNI copy"
-                android:padding="15dp"
-                app:layout_constraintEnd_toEndOf="@+id/text_cni_number_register_group"
-                app:layout_constraintStart_toStartOf="@+id/text_cni_number_register_group"
-                app:layout_constraintTop_toBottomOf="@+id/text_cni_number_register_group"
-                app:lib_setRadius="2dp"
-                app:lib_setRoundedBGColor="@color/defaultColorGrayOpacity"
-                app:lib_setRoundedBorderColor="@color/defaultColorGray"
-                app:lib_setRoundedView="true"
-                app:lib_setShape="rectangle"
-                app:lib_setStrokeWidth="3dp" />
-
-            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                android:id="@+id/spinner_country_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="16dp"
-                android:spinnerMode="dialog"
-                android:theme="@style/AppTheme"
-                app:layout_constraintEnd_toEndOf="@+id/image_cni_register"
-                app:layout_constraintStart_toStartOf="@+id/image_cni_register"
-                app:layout_constraintTop_toBottomOf="@+id/image_cni_register"
-                app:smsp_floatingLabelColor="#1976D2"
-                app:smsp_floatingLabelText="Sex"
-                app:smsp_hint="Choose your country"
-                app:smsp_itemColor="@color/defaultColorBlack"
-                app:smsp_itemListColor="@color/defaultColorBlack"
-                app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
-                app:smsp_itemListHintColor="#FFFFFF"
-                app:smsp_multilineError="false"
-                app:smsp_selectedItemListColor="@color/colorPrimaryDark"
-                app:smsp_underlineSize="1dp" />
-
-            <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                android:id="@+id/spinner_city_register"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="16dp"
-                android:spinnerMode="dialog"
-                android:theme="@style/AppTheme"
-                app:layout_constraintEnd_toEndOf="@+id/spinner_country_register"
-                app:layout_constraintStart_toStartOf="@+id/spinner_country_register"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_country_register"
-                app:smsp_floatingLabelColor="#1976D2"
-                app:smsp_floatingLabelText="Sex"
-                app:smsp_hint="Choose your city"
-                app:smsp_itemColor="@color/defaultColorBlack"
-                app:smsp_itemListColor="@color/defaultColorBlack"
-                app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
-                app:smsp_itemListHintColor="#FFFFFF"
-                app:smsp_multilineError="false"
-                app:smsp_selectedItemListColor="@color/colorPrimaryDark"
-                app:smsp_underlineSize="1dp" />
-
-            <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-                android:id="@+id/text_address_register_group"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxHeight="100dp"
-                android:layout_marginTop="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                app:endIcon="@drawable/icons8_circled_right_24px"
-                app:labelText="Enter your address"
-                app:layout_constraintEnd_toEndOf="@+id/spinner_city_register"
-                app:layout_constraintStart_toStartOf="@+id/spinner_city_register"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_city_register">
-
-                <studio.carbonylgroup.textfieldboxes.ExtendedEditText
-                    android:id="@+id/text_address_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine" />
-
-            </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+            android:layout_gravity="fill_vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                android:id="@+id/relativeLayout3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:background="@color/defaultColorGrayOpacity"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_address_register_group"
-                android:foregroundGravity="bottom"
-                android:gravity="bottom"
-                android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="60dp">
 
-                <Button
-                    android:id="@+id/btn_next_register_member_part2"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_gradient_style"
-                    android:drawableEnd="@drawable/ic_arrow_circle_right"
-                    android:drawableTint="@color/defaultColorWhite"
-                    android:padding="@dimen/size_padding_button_text"
-                    android:text="Next"
-                    android:layout_margin="20dp"
-                    android:textColor="@color/defaultColorWhite"
-                    android:textSize="@dimen/size_button_text" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp">
 
-                <Button
-                    android:id="@+id/btn_prev_register_member_part2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_button"
-                    android:drawableStart="@drawable/ic_arrow_circle_left"
-                    android:drawableTint="@color/defaultColorWhite"
-                    android:padding="@dimen/size_padding_button_text"
-                    android:text="Preview"
-                    android:layout_margin="20dp"
-                    android:textColor="@color/defaultColorWhite"
-                    android:textSize="@dimen/size_button_text" />
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_cni_number_register_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        app:iconSignifier="@drawable/ic_identification_documents"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite"
+                        app:labelText="Enter your CNI number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_cni_number_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <com.libRG.CustomTextView
+                        android:id="@+id/text_link_cni_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="24dp"
+                        android:text="Import your CNI copy"
+                        android:drawableStart="@drawable/ic_identification_documents"
+                        android:drawableTint="@color/defaultColorGrayOpacity"
+                        android:textColor="@color/defaultColorGrayOpacity"
+                        android:drawablePadding="10dp"
+                        android:textSize="18sp"
+                        android:padding="15dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_cni_number_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_cni_number_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_cni_number_register_group"
+                        app:lib_setRadius="2dp"
+                        app:lib_setRoundedBGColor="@color/defaultColorBlack_10"
+                        app:lib_setRoundedBorderColor="@color/defaultColorBlack_10"
+                        app:lib_setRoundedView="true"
+                        app:lib_setShape="rectangle"
+                        app:lib_setStrokeWidth="3dp" />
+
+                    <com.theophrast.ui.widget.SquareImageView
+                        android:id="@+id/image_cni_register"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/defaultColorWhite"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/cni"
+                        app:layout_constraintCircleRadius="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_link_cni_register_group"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/text_link_cni_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_link_cni_register_group" />
+
+                    <com.libRG.CustomTextView
+                        android:id="@+id/text_link_profil_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="24dp"
+                        android:text="Edit your profile picture"
+                        android:drawableStart="@drawable/ic_user"
+                        android:drawableTint="@color/defaultColorGrayOpacity"
+                        android:textColor="@color/defaultColorGrayOpacity"
+                        android:drawablePadding="10dp"
+                        android:textSize="18sp"
+                        android:padding="15dp"
+                        app:layout_constraintEnd_toEndOf="@+id/image_cni_register"
+                        app:layout_constraintStart_toStartOf="@+id/image_cni_register"
+                        app:layout_constraintTop_toBottomOf="@+id/image_cni_register"
+                        app:lib_setRadius="2dp"
+                        app:lib_setRoundedBGColor="@color/defaultColorBlack_10"
+                        app:lib_setRoundedBorderColor="@color/defaultColorBlack_10"
+                        app:lib_setRoundedView="true"
+                        app:lib_setShape="rectangle"
+                        app:lib_setStrokeWidth="3dp" />
+
+                    <com.theophrast.ui.widget.SquareImageView
+                        android:id="@+id/image_profil_register"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/defaultColorWhite"
+                        android:src="@drawable/profil"
+                        android:scaleType="fitXY"
+                        app:layout_constraintCircleRadius="10dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_link_profil_register_group"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/text_link_profil_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_link_profil_register_group" />
+
+                    <RelativeLayout
+                        android:id="@+id/spinner_code_phone_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintEnd_toEndOf="@+id/image_profil_register"
+                        app:layout_constraintStart_toStartOf="@+id/image_profil_register"
+                        app:layout_constraintTop_toBottomOf="@+id/image_profil_register">
+
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/ic_voip_gateway"
+                            android:backgroundTint="@color/defaultColorGrayOpacity"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/spinner_code_phone_register"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/img1"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:spinnerMode="dialog"
+                            app:smsp_isSearchable="true"
+                            android:theme="@style/AppTheme"
+                            app:smsp_arrowColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                            app:smsp_hintColor="@color/defaultColorWhite"
+                            app:smsp_itemColor="@color/defaultColorWhite"
+                            app:smsp_itemListColor="@color/defaultColorBlack"
+                            app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
+                            app:smsp_itemListHintColor="@color/defaultColorWhite"
+                            app:smsp_selectedItemListColor="@color/colorPrimaryDark"
+                            app:smsp_underlineColor="@color/defaultColorWhite"
+                            app:smsp_floatingLabelText="@string/text_title_code_phone"
+                            app:smsp_multilineError="false"
+                            app:smsp_hint="@string/text_choose_code_phone"
+                            app:smsp_underlineSize="1dp" />
+
+                    </RelativeLayout>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_phone_number_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/spinner_code_phone_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/spinner_code_phone_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/spinner_code_phone_register_group"
+                        app:labelText="Enter your phone number"
+                        app:iconSignifier="@drawable/ic_phone2"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_phone_number_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textColor="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_password_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_phone_number_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_phone_number_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_phone_number_register_group"
+                        app:labelText="Enter your password"
+                        app:iconSignifier="@drawable/ic_password"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_password_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_confirm_password_register_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="@+id/text_password_register_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_password_register_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_password_register_group"
+                        app:labelText="Confirm your password"
+                        app:iconSignifier="@drawable/ic_password"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_confirm_password_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="48dp"
+                        android:foregroundGravity="bottom"
+                        android:gravity="bottom"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_confirm_password_register_group">
+
+                        <Button
+                            android:id="@+id/btn_sign_in_register_member_part3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@drawable/btn_gradient_style"
+                            android:drawableEnd="@drawable/ic_enter_2"
+                            android:drawableTint="@color/defaultColorWhite"
+                            android:padding="@dimen/size_padding_button_text"
+                            android:text="@string/text_register"
+                            android:textColor="@color/defaultColorWhite"
+                            android:textSize="@dimen/size_button_text" />
+
+                        <Button
+                            android:id="@+id/btn_prev_register_member_part3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@drawable/gradient_button"
+                            android:drawableStart="@drawable/ic_angle_double_left"
+                            android:drawableTint="@color/defaultColorWhite"
+                            android:padding="@dimen/size_padding_button_text"
+                            android:text="Preview"
+                            android:textColor="@color/defaultColorWhite"
+                            android:textSize="@dimen/size_button_text" />
+
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

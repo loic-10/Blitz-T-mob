@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 
 import com.example.blitz_t.Controllers.AccountAdapter;
-import com.example.blitz_t.Models.Account;
 
 import java.util.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class AccountClientFragment extends Fragment {
@@ -33,11 +30,6 @@ public class AccountClientFragment extends Fragment {
         View view = inflater.inflate(R.layout.account_view , container , false);
 
         mAccounts = new ArrayList<>();
-        mAccounts.add(new Account(R.drawable.background, "Compte epargne", "30 500 XAF"));
-        mAccounts.add(new Account(R.drawable.background, "Compte courant", "30 500 XAF"));
-        mAccounts.add(new Account(R.drawable.background, "Compte courant", "30 500 XAF"));
-        mAccounts.add(new Account(R.drawable.background, "Compte epargne", "30 500 XAF"));
-        mAccounts.add(new Account(R.drawable.background, "Compte epargne", "30 500 XAF"));
 
         mAdapter = new AccountAdapter(mAccounts, getContext());
         mViewPager = view.findViewById(R.id.viewPager);

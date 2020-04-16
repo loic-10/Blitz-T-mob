@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.example.blitz_t.Models.Model;
 import com.squareup.picasso.Picasso;
 
 import eightbitlab.com.blurview.BlurView;
@@ -39,9 +40,9 @@ public class DesignApp {
                 .into(imageView);
     }
 
-    public static void chooseImage( Activity activity ){
+    public static void chooseImage( Activity activity, int requestCode ){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        activity.startActivityForResult(intent, 0);
+        activity.startActivityForResult(intent, requestCode);
     }
 }

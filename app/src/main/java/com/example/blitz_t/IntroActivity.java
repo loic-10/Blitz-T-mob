@@ -19,7 +19,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class IntroActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if(restorePrefData()){
-            Intent mIntent = new Intent(getApplicationContext(), HomeActivity.class);
+            Intent mIntent = new Intent(getApplicationContext(), HomeCustomerActivity.class);
             startActivity(mIntent);
             finish();
         }
@@ -73,7 +72,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick ( View v ) {
                 savePrefsData();
-                Intent mIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent mIntent = new Intent(getApplicationContext(), HomeCustomerActivity.class);
                 startActivity(mIntent);
                 finish();
             }

@@ -1,23 +1,18 @@
 package com.example.blitz_t.Controllers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chaek.android.RatingBar;
-import com.example.blitz_t.MicrofinanceAgenceActivity;
+import com.example.blitz_t.MicrofinanceAgencyActivity;
 import com.example.blitz_t.Models.Agency.Agency;
-import com.example.blitz_t.Models.Agency.ModelAgency;
-import com.example.blitz_t.Models.MemberMicrofinance.ModelMemberMicrofinance;
-import com.example.blitz_t.Models.Microfinance.Microfinance;
+import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,11 +23,13 @@ public class AgencyMicrofinanceAdapter extends RecyclerView.Adapter<AgencyMicrof
 
     private List<Agency> mAgencies;
     private Context context;
+    private Activity activity;
     public static final String KEY_AGENCY = "KEY_AGENCY";
 
-    public AgencyMicrofinanceAdapter ( List<Agency> agencies , Context context ) {
+    public AgencyMicrofinanceAdapter ( List<Agency> agencies , Context context  , Activity activity ) {
         mAgencies = agencies;
         this.context = context;
+        this.activity = activity;
     }
 
     @NonNull
@@ -48,20 +45,20 @@ public class AgencyMicrofinanceAdapter extends RecyclerView.Adapter<AgencyMicrof
     public void onBindViewHolder ( @NonNull ViewHolder holder , int position ) {
         final Agency agency = mAgencies.get(position);
 
-        holder.text_ville_quartier.setText(new StringBuilder().append(agency.getVille()).append(", ").append(agency.getQuartier()));
+        holder.text_ville_quartier.setText(new StringBuilder().append(agency.getCity().getName()).append(", ").append(agency.getQuartier()));
 
         holder.text_heure_debut_fin.setText(new StringBuilder().append(agency.getHeure_ouverture()).append(" - ").append(agency.getHeure_fermeture()));
 
-        holder.text_position_geographique.setText(agency.getDescription());
+        holder.text_position_geographique.setText(agency.getDescription_position());
 
-        holder.text_telephone.setText(agency.getNumero_tel());
+        holder.text_telephone.setText(agency.getNumero_telephone());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, MicrofinanceAgenceActivity.class);
-//                intent.putExtra(KEY_AGENCY, agency);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, MicrofinanceAgencyActivity.class);
+                Model.saveFormPreference(agency , String.valueOf(R.string.SHARED_PREF_AGENCY_SELECT) , String.valueOf(R.string.PREFERENCE_FILE_KEY) , activity);
+                context.startActivity(intent);
             }
         });
 

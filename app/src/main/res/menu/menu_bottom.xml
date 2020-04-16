@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/my_micro_finance"
+        android:icon="@drawable/ic_bank_building_my"
+        android:title="My microfinances"
+        app:cnb_backgroundColor="@color/defaultColorWhite"
+        app:cnb_iconColor="@color/colorPrimaryDark"
+        app:cnb_textColor="@color/colorPrimaryDark"/>
+
+    <item
+        android:id="@+id/other_micro_finance"
+        android:icon="@drawable/ic_bank_building_others"
+        android:title="Others microfinances"
+        app:cnb_backgroundColor="@color/defaultColorWhite"
+        app:cnb_iconColor="@color/colorPrimaryDark"
+        app:cnb_textColor="@color/colorPrimaryDark"/>
+
+    <item
+        android:id="@+id/my_account"
+        android:icon="@drawable/ic_user"
+        android:title="My account"
+        app:cnb_backgroundColor="@color/defaultColorWhite"
+        app:cnb_iconColor="@color/colorPrimaryDark"
+        app:cnb_textColor="@color/colorPrimaryDark"/>
+</menu>

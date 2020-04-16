@@ -6,6 +6,6 @@
     <gradient
         android:angle="45"
         android:useLevel="true"
-        android:startColor="@color/colorPart2"
-        android:endColor="@color/colorPart1"/>
+        android:endColor="@color/colorPart1Opacity"
+        android:startColor="@color/colorPart2Opacity"/>
 </shape>

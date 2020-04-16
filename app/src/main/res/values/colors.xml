@@ -10,10 +10,12 @@
     <color name="colorAccent">#D81B60</color>
     <color name="defaultColorBlack">#000000</color>
     <color name="defaultColorBlack_90">#90000000</color>
+    <color name="defaultColorBlack_10">#10000000</color>
     <color name="defaultColorWhite">#FFFFFF</color>
     <color name="defaultColorWhiteOpacity">#99FFFFFF</color>
     <color name="defaultColorGray">#E4E4E4</color>
     <color name="defaultColorGrayOpacity">#99E4E4E4</color>
+    <color name="defaultColorBlackOpacity">#99000000</color>
     <color name="transparent">#00000000</color>
     <color name="color1">#01577D</color>
     <color name="color2">#31577D</color>
@@ -21,6 +23,6 @@
     <color name="color4">#91577D</color>
     <color name="colorPart1">#4db9ef</color>
     <color name="colorPart2">#31409f</color>
-    <color name="colorPart1Opacity">#904db9ef</color>
-    <color name="colorPart2Opacity">#8031409f</color>
+    <color name="colorPart1Opacity">#994db9ef</color>
+    <color name="colorPart2Opacity">#9931409f</color>
 </resources>

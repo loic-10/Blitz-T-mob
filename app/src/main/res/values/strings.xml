@@ -26,8 +26,69 @@
     <string-array name="sex">
         <item>se</item>
     </string-array>
+
+    // --- SHARED PREFERENCES ---
+
     <string name="SHARED_PREF_OPEN_APK">SHARED_PREF_OPEN_APK</string>
     <string name="SHARED_PREF_MEMBER_REGISTER">SHARED_PREF_MEMBER_REGISTER</string>
+    <string name="SHARED_PREF_MICROFINANCE_SELECT">SHARED_PREF_MICROFINANCE_SELECT</string>
+    <string name="SHARED_PREF_AGENCY_SELECT">SHARED_PREF_AGENCY_SELECT</string>
+    <string name="SHARED_PREF_MEMBER_LOGIN">SHARED_PREF_MEMBER_LOGIN</string>
     <string name="KEY_SHARED_PREF_OPEN_APK">KEY_SHARED_PREF_OPEN_APK</string>
     <string name="PREFERENCE_FILE_KEY">PREFERENCE_FILE_KEY</string>
+
+
+    // --- VALUES BUTTONS ---
+    <string name="text_edit_profile">Edit your profile</string>
+    <string name="text_edit_profile_description">Update your profile information</string>
+    <string name="text_notification">Notifications</string>
+    <string name="text_notification_description">Access new information</string>
+    <string name="text_settings">Settings</string>
+    <string name="text_settings_description">Adapt the system according to your needs</string>
+    <string name="text_sign_out">Sign out</string>
+    <string name="text_sign_out_description">Close your member session</string>
+    <string name="text_create_account">Create an account</string>
+    <string name="text_create_account_description">Create a free member account</string>
+    <string name="text_login">To log in</string>
+    <string name="text_login_description">Access your workspace</string>
+    <string name="text_save">Save</string>
+    <string name="text_send_membership_request">Send your membership request</string>
+
+
+    // --- VALUES TEXT ---
+    <string name="text_return">Return</string>
+
+    <string name="text_my_micro_finances">My microfinances</string>
+    <string name="text_others_micro_finances">Others microfinances</string>
+    <string name="text_my_account">My account</string>
+    <string name="text_edit_account">Edit account</string>
+    <string name="text_personal_information">Register: Personal Information</string>
+    <string name="text_further_information">Register: Further information</string>
+    <string name="text_modified_account">Modified account</string>
+    <string name="text_modified_cni">Modified CNI picture</string>
+    <string name="text_modified_profile">Modified profile picture</string>
+    <string name="text_operation_failed">Operation failed!</string>
+    <string name="text_no_account_found">No account found!</string>
+    <string name="text_error_complete_field">Please complete all fields!</string>
+    <string name="text_enter_cni_number">Enter your CNI number</string>
+    <string name="text_enter_password">Enter your password</string>
+    <string name="text_enter_confirm_password">Confirm your password</string>
+    <string name="text_enter_full_name">Enter your full name</string>
+    <string name="text_enter_profession">Enter your profession</string>
+    <string name="text_select_birth_date">Select your birth date</string>
+    <string name="text_title_sex">Sex</string>
+    <string name="text_choose_sex">Choose your gender</string>
+    <string name="text_title_code_phone">Code phone</string>
+    <string name="text_choose_code_phone">Choose code phone</string>
+    <string name="text_title_country">Country</string>
+    <string name="text_title_agency">Agency</string>
+    <string name="text_choose_country">Choose your country</string>
+    <string name="text_choose_agency">Choose your agency</string>
+    <string name="text_title_city">City</string>
+    <string name="text_choose_city">Choose your city</string>
+    <string name="text_enter_address">Enter your address</string>
+    <string name="text_membership_request">Membership request</string>
+    <string name="text_next">Next</string>
+    <string name="text_register">Register</string>
+    <string name="title_activity_map_agency">Map</string>
 </resources>

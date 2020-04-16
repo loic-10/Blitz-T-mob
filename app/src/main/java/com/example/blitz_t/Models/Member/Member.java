@@ -1,16 +1,12 @@
 package com.example.blitz_t.Models.Member;
 
-import android.net.Uri;
-
 import com.example.blitz_t.Models.City.City;
 import com.example.blitz_t.Models.Country.Country;
-import com.example.blitz_t.Models.Model;
-import com.example.blitz_t.Models.Sex;
+import com.example.blitz_t.Models.Sex.Sex;
 
-import java.util.Date;
 import java.util.Objects;
 
-public class Member extends Model{
+public class Member{
     private String _id;
     private String full_name;
     private String birth_date;
@@ -22,15 +18,14 @@ public class Member extends Model{
     private City city;
     private String address;
     private String profile_picture;
-    private Object uri_picture;
-    private Date registration_date;
+    private String registration_date;
     private String password;
 
     public Member () {
     }
 
     public Member ( String _id , String full_name , String birth_date , String cni_number , String cni_copy , Sex sex , String phone_number ,
-                    Country country , City city ,  String address , String profile_picture , Date registration_date , String password ) {
+                    Country country , City city ,  String address , String profile_picture , String registration_date , String password ) {
         this._id = _id;
         this.full_name = full_name;
         this.birth_date = birth_date;
@@ -46,33 +41,12 @@ public class Member extends Model{
         this.password = password;
     }
 
-    public Member ( String _id , String full_name , String birth_date , String cni_number , String cni_copy , Sex sex , String phone_number ,
-                    Country country , City city , String address , Object uri_picture , Date registration_date , String password ) {
-        this._id = _id;
-        this.full_name = full_name;
-        this.birth_date = birth_date;
-        this.cni_number = cni_number;
-        this.cni_copy = cni_copy;
-        this.sex = sex;
-        this.phone_number = phone_number;
-        this.country = country;
-        this.city = city;
-        this.address = address;
-        this.uri_picture = uri_picture;
-        this.registration_date = registration_date;
-        this.password = password;
-    }
-
-    public Object getUri_picture () {
-        return uri_picture;
-    }
-
-    public void setUri_picture ( Uri uri_picture ) {
-        this.uri_picture = uri_picture;
-    }
-
     public String get_id () {
         return _id;
+    }
+
+    public void set_id ( String _id ) {
+        this._id = _id;
     }
 
     public String getFull_name () {
@@ -115,12 +89,28 @@ public class Member extends Model{
         this.sex = sex;
     }
 
-    public City getCity_id () {
+    public String getPhone_number () {
+        return phone_number;
+    }
+
+    public void setPhone_number ( String phone_number ) {
+        this.phone_number = phone_number;
+    }
+
+    public Country getCountry () {
+        return country;
+    }
+
+    public void setCountry ( Country country ) {
+        this.country = country;
+    }
+
+    public City getCity () {
         return city;
     }
 
-    public void setCity_id ( City city_id ) {
-        this.city = city_id;
+    public void setCity ( City city ) {
+        this.city = city;
     }
 
     public String getAddress () {
@@ -139,8 +129,12 @@ public class Member extends Model{
         this.profile_picture = profile_picture;
     }
 
-    public Date getRegistration_date () {
+    public String getRegistration_date () {
         return registration_date;
+    }
+
+    public void setRegistration_date ( String registration_date ) {
+        this.registration_date = registration_date;
     }
 
     public String getPassword () {
@@ -151,49 +145,17 @@ public class Member extends Model{
         this.password = password;
     }
 
-    public void set_id ( String _id ) {
-        this._id = _id;
-    }
-
-    public String getPhone_number () {
-        return phone_number;
-    }
-
-    public void setPhone_number ( String phone_number ) {
-        this.phone_number = phone_number;
-    }
-
-    public City getCity () {
-        return city;
-    }
-
-    public void setCity ( City city ) {
-        this.city = city;
-    }
-
-    public Country getCountry () {
-        return country;
-    }
-
-    public void setCountry ( Country country ) {
-        this.country = country;
-    }
-
-    public void setRegistration_date ( Date registration_date ) {
-        this.registration_date = registration_date;
-    }
-
     @Override
     public boolean equals ( Object o ) {
         if ( this == o ) return true;
         if ( !(o instanceof Member) ) return false;
         Member member = (Member) o;
-        return get_id().equals(member.get_id());
+        return getPhone_number().equals(member.getPhone_number());
     }
 
     @Override
     public int hashCode () {
-        return Objects.hash(get_id());
+        return Objects.hash(getPhone_number());
     }
 
     @Override

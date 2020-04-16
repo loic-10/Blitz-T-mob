@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp">
@@ -23,75 +22,95 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_account_all_style"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_centerInParent="true">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp">
+                    android:layout_height="210dp"
+                    android:layout_marginBottom="-115dp"
+                    android:padding="5dp">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/image_item_micro_finance"
                         android:src="@drawable/background"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:scaleType="fitXY"
-                        app:riv_corner_radius="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius_top_left="@dimen/size_radius_button"
+                        app:riv_corner_radius_top_right="@dimen/size_radius_button"
                         android:layout_centerInParent="true"/>
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/info_micro_finance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="@color/defaultColorGrayOpacity"
                         android:padding="10dp">
 
                         <TextView
                             android:id="@+id/text_name_item_micro_finance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="3dp"
                             android:text="@string/text_name_micro_finance"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorPrimaryDark"/>
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:drawableStart="@drawable/ic_bank_building_my_micro_finance"
+                            android:drawablePadding="10dp"
+                            android:drawableTint="@color/colorPrimaryDark"/>
+
+                        <TextView
+                            android:id="@+id/text_item_agency_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="@string/text_many_agencies"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="@color/defaultColorBlack"
+                            android:textSize="16sp"
+                            android:lineHeight="25dp"
+                            android:drawableStart="@drawable/ic_home"
+                            android:drawablePadding="10dp"/>
+
+                        <TextView
+                            android:id="@+id/text_item_costumer_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="@string/text_many_costumers"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="@color/defaultColorBlack"
+                            android:textSize="16sp"
+                            android:lineHeight="25dp"
+                            android:drawableStart="@drawable/ic_credit_card"
+                            android:drawablePadding="12dp"/>
 
                         <TextView
                             android:id="@+id/text_slogan_item_micro_finance"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:padding="4dp"
                             android:text="@string/text_slogan"
-                            android:textColor="@color/defaultColorBlack"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="@color/defaultColorBlack"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_item_agency_number"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_many_agencies"
-                            android:textColor="@color/defaultColorBlack"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/text_item_costumer_number"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/defaultColorBlack"
-                            android:text="@string/text_many_costumers"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                            android:textSize="16sp" />
+                            android:textStyle="bold"
+                            android:drawableStart="@drawable/ic_rules"
+                            android:drawablePadding="10dp"
+                            android:lineHeight="20dp"/>
 
                     </LinearLayout>
 
@@ -109,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignEnd="@+id/button_item_more_agency"
                             android:layout_alignParentTop="true"
-                            android:layout_marginEnd="20dp"
+                            android:layout_marginEnd="30dp"
                             android:layout_marginBottom="55dp"
                             app:rating_flag="FIVE"
                             app:rating_star_color="@color/colorPrimaryDark"
@@ -128,7 +147,10 @@
                             android:padding="10dp"
                             android:text="@string/button_item_visit_agency"
                             android:textAlignment="center"
-                            android:textColor="@color/defaultColorWhite" />
+                            android:textColor="@color/defaultColorWhite"
+                            android:drawableStart="@drawable/ic_home"
+                            android:drawableTint="@color/defaultColorWhite"
+                            android:drawablePadding="10dp"/>
                     </RelativeLayout>
 
                 </RelativeLayout>

@@ -1,19 +1,13 @@
 package com.example.blitz_t;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.*;
 
 import com.example.blitz_t.Views.DesignApp;
 
@@ -43,7 +37,7 @@ public class ChoiceLogActivity extends AppCompatActivity {
         text_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick ( View v ) {
-                mIntent = new Intent(ChoiceLogActivity.this, ChoiceMicrofinanceActivity.class);
+                mIntent = new Intent(ChoiceLogActivity.this, OthersMicrofinancesFragment.class);
                 startActivity(mIntent);
             }
         });

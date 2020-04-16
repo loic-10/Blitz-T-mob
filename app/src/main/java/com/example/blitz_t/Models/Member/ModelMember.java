@@ -1,10 +1,6 @@
 package com.example.blitz_t.Models.Member;
 
-import com.example.blitz_t.Models.Sex;
-
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ModelMember {
 

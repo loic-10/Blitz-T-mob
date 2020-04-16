@@ -1,16 +1,16 @@
 package com.example.blitz_t.Views.Country;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-
 import com.example.blitz_t.Api.CountryHelper;
+import com.example.blitz_t.Models.Country.Country;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.City.CityActivity;
 import com.google.android.material.snackbar.Snackbar;
+import java.util.UUID;
 
 public class CountryActivity extends AppCompatActivity {
 
@@ -39,8 +39,9 @@ public class CountryActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick ( View v ) {
-                CountryHelper.createCountry( name.getText().toString(), code_phone.getText().toString());
-//                Snackbar.make(v, name.getText().toString(), Snackbar.LENGTH_LONG).show();
+                Country country = new Country(UUID.randomUUID().toString(), name.getText().toString(), code_phone.getText().toString());
+                CountryHelper.setCountry( country );
+                Snackbar.make(v, name.getText().toString(), Snackbar.LENGTH_LONG).show();
             }
 
         });

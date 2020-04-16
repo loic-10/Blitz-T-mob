@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/size_radius_button"/>
+    <gradient
+        android:angle="45"
+        android:useLevel="true"
+        android:endColor="@color/colorPart1Opacity"
+        android:startColor="@color/colorPart2Opacity"/>
+</shape>

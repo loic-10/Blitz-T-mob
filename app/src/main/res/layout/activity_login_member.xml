@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Views.Login.Member.LoginMemberActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="@drawable/transparence_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:fitsSystemWindows="true"
+            android:background="@color/transparent">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:collapsedTitleGravity="start"
+                app:expandedTitleGravity="bottom"
+                app:title="@string/app_name"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:menu="@menu/return_menu"
+                    app:navigationIcon="@drawable/groupe1"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Now we are going to add content for app good look below collapsing toolbar -->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="60dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="30dp">
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_cni_login_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        app:iconSignifier="@drawable/ic_identification_documents"
+                        android:foregroundTint="@color/defaultColorWhite"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite"
+                        app:labelText="@string/text_enter_cni_number"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_cni_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/defaultColorWhite"
+                            android:drawableTint="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                        android:id="@+id/text_password_login_group"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="24dp"
+                        app:iconSignifier="@drawable/ic_password"
+                        android:backgroundTint="@color/defaultColorWhite"
+                        app:labelText="@string/text_enter_password"
+                        app:layout_constraintEnd_toEndOf="@+id/text_cni_login_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_cni_login_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_cni_login_group"
+                        app:secondaryColor="@color/defaultColorGray"
+                        app:primaryColor="@color/defaultColorWhite">
+
+                        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                            android:id="@+id/text_password_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/defaultColorWhite"
+                            android:drawableTint="@color/defaultColorWhite"/>
+
+                    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                    <Button
+                        android:id="@+id/btn_login_member"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/btn_gradient_style"
+                        android:drawableEnd="@drawable/ic_enter_2"
+                        android:drawableTint="@color/defaultColorWhite"
+                        android:padding="@dimen/size_padding_button_text"
+                        android:text="@string/text_login"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="@dimen/size_button_text"
+                        app:layout_constraintEnd_toEndOf="@+id/text_password_login_group"
+                        app:layout_constraintStart_toStartOf="@+id/text_password_login_group"
+                        app:layout_constraintTop_toBottomOf="@+id/text_password_login_group" />
+
+                    <TextView
+                        android:id="@+id/text_not_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Pas de compte ?"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@+id/btn_login_member"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_login_member" />
+
+                    <TextView
+                        android:id="@+id/text_forgot_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Mot de passe oublie ?"
+                        android:textColor="@color/defaultColorWhite"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@+id/btn_login_member"
+                        app:layout_constraintTop_toBottomOf="@+id/btn_login_member" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

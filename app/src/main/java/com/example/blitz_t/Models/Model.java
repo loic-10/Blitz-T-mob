@@ -3,16 +3,12 @@ package com.example.blitz_t.Models;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
-
-import com.example.blitz_t.Models.Member.Member;
-import com.example.blitz_t.R;
 import com.google.gson.Gson;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class Model {
 
@@ -41,7 +37,15 @@ public class Model {
         String contentPreference = new Gson().toJson(object);
         SharedPreferences.Editor editor = contextWrapper.getSharedPreferences(preferenceFileKey , Context.MODE_PRIVATE).edit();
         editor.putString(filePreference , contentPreference);
-        editor.commit();
+        editor.apply();
+    }
+
+    public static void clearFormPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
+        String contentPreference = new Gson().toJson(object);
+        SharedPreferences.Editor editor = contextWrapper.getSharedPreferences(preferenceFileKey , Context.MODE_PRIVATE).edit();
+        editor.putString(filePreference , contentPreference);
+        editor.apply();
+        editor.clear();
     }
 
     public static Object contentPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
@@ -52,5 +56,18 @@ public class Model {
         }
         return null;
     }
+
+    public static String currentDate(){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
+    }
+
+//    public static boolean isOnline(Context context) {
+//        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        assert cm != null;
+//        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+//        return netInfo != null && netInfo.isConnectedOrConnecting();
+//    }
 
 }
