@@ -18,7 +18,6 @@ import com.google.firebase.storage.UploadTask;
 import java.util.UUID;
 
 public class MemberHelper {
-    private static final String COLLECTION_NAME = "member";
 
     // --- CREATE AND SET ---
 

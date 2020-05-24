@@ -135,7 +135,7 @@
                     </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
                     <Button
-                        android:id="@+id/btn_login_member"
+                        android:id="@+id/btn_login_customer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"

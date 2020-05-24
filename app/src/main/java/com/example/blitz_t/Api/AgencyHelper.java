@@ -3,9 +3,7 @@ package com.example.blitz_t.Api;
 import android.app.Activity;
 import android.content.Context;
 
-import com.example.blitz_t.Controllers.AgencyMicrofinanceAdapter;
-import com.example.blitz_t.Controllers.MicrofinanceAdapter;
-import com.example.blitz_t.Models.Customer.Customer;
+import com.example.blitz_t.Controllers.AgencyMicrofinanceRecyclerAdapter;
 import com.example.blitz_t.Models.Agency.Agency;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.R;
@@ -47,7 +45,7 @@ public class AgencyHelper {
                         agencies.add(agency);
                     }
                 }
-                AgencyMicrofinanceAdapter adapter = new AgencyMicrofinanceAdapter(agencies , context, activity);
+                AgencyMicrofinanceRecyclerAdapter adapter = new AgencyMicrofinanceRecyclerAdapter(agencies , context, activity);
                 recyclerView.setAdapter(adapter);
             }
 

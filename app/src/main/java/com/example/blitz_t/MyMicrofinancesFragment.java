@@ -1,27 +1,15 @@
 package com.example.blitz_t;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.example.blitz_t.Api.MicrofinanceHelper;
-import com.example.blitz_t.Controllers.MicrofinanceAdapter;
 import com.example.blitz_t.Models.Member.Member;
-import com.example.blitz_t.Models.Microfinance.Microfinance;
-import com.example.blitz_t.Models.Microfinance.ModelMicrofinance;
 import com.example.blitz_t.Models.Model;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,8 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.example.blitz_t.Api.MicrofinanceHelper.checkMicrofinances;
+import static com.example.blitz_t.Models.Model.checkMicrofinances;
 
 public class MyMicrofinancesFragment extends Fragment {
 

@@ -14,11 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-
-import java.net.UnknownHostException;
-
 public class SplashScreenActivity extends AppCompatActivity {
 
     private Button button_start;
@@ -31,23 +26,16 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        MongoClient mongoClient = null;
-        try {
-            mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017/blitz-t"));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_LONG).show();
-        }
 
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setStatusBarColor(R.color.colorPart2);
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         button_start = findViewById(R.id.button_start);
         constraintLayout2 = findViewById(R.id.constraintLayout2);
         progressBar = findViewById(R.id.progressBar);
 
         button_start.setVisibility(View.INVISIBLE);
-
 
         btnAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_animation);
         logoInfo = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_info_animation);
@@ -59,8 +47,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 showButton();
             }
         }, 6000);
-
-
 
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override

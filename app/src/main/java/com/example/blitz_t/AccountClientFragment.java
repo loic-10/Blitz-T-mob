@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.blitz_t.Controllers.AccountAdapter;
+import com.example.blitz_t.Controllers.AccountPagerAdapter;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 public class AccountClientFragment extends Fragment {
 
     ViewPager mViewPager;
-    AccountAdapter mAdapter;
+    AccountPagerAdapter mAdapter;
     Integer[] color = null;
     ArrayList mAccounts;
     ArgbEvaluator mArgbEvaluator = new ArgbEvaluator();
@@ -31,7 +31,7 @@ public class AccountClientFragment extends Fragment {
 
         mAccounts = new ArrayList<>();
 
-        mAdapter = new AccountAdapter(mAccounts, getContext());
+        mAdapter = new AccountPagerAdapter(mAccounts, getContext(), getActivity());
         mViewPager = view.findViewById(R.id.viewPager);
         mViewPager.setAdapter(mAdapter);
 

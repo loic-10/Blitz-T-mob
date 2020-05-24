@@ -6,5 +6,6 @@
     <dimen name="size_app_slogan">18sp</dimen>
     <dimen name="space_text_element">30dp</dimen>
     <dimen name="size_radius_button">15dp</dimen>
+    <dimen name="size_medium_radius_button">15dp</dimen>
     <dimen name="size_text_start">200dp</dimen>
 </resources>

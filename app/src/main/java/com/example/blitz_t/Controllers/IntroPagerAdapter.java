@@ -17,12 +17,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-public class IntroViewPagerAdapter extends PagerAdapter {
+public class IntroPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private List<ScreenItem> mScreenItems;
 
-    public IntroViewPagerAdapter ( Context context , List<ScreenItem> screenItems ) {
+    public IntroPagerAdapter ( Context context , List<ScreenItem> screenItems ) {
         mContext = context;
         mScreenItems = screenItems;
     }

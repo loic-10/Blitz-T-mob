@@ -32,8 +32,10 @@
     <string name="SHARED_PREF_OPEN_APK">SHARED_PREF_OPEN_APK</string>
     <string name="SHARED_PREF_MEMBER_REGISTER">SHARED_PREF_MEMBER_REGISTER</string>
     <string name="SHARED_PREF_MICROFINANCE_SELECT">SHARED_PREF_MICROFINANCE_SELECT</string>
+    <string name="SHARED_PREF_ACCOUNT_SELECT">SHARED_PREF_ACCOUNT_SELECT</string>
     <string name="SHARED_PREF_AGENCY_SELECT">SHARED_PREF_AGENCY_SELECT</string>
     <string name="SHARED_PREF_MEMBER_LOGIN">SHARED_PREF_MEMBER_LOGIN</string>
+    <string name="SHARED_PREF_CUSTOMER_LOGIN">SHARED_PREF_CUSTOMER_LOGIN</string>
     <string name="KEY_SHARED_PREF_OPEN_APK">KEY_SHARED_PREF_OPEN_APK</string>
     <string name="PREFERENCE_FILE_KEY">PREFERENCE_FILE_KEY</string>
 
@@ -91,4 +93,27 @@
     <string name="text_next">Next</string>
     <string name="text_register">Register</string>
     <string name="title_activity_map_agency">Map</string>
+    <string name="text_login_as_member">Please login as a member</string>
+    <string name="request_wait_confirmation">Request made. You must wait for the response from microfinance, or go to the nearest agency for confirmation or call one of the microfinance agencies for more information. Thank you!</string>
+    <string name="request_success_customer">Request made. You are now a customer of this microfinance!</string>
+    <string name="request_in_progress">Request in progress!</string>
+    <string name="text_new_account">New account</string>
+    <string name="text_view_more">View more</string>
+    <string name="recent_transactions">Recent transactions</string>
+    <string name="text_new_credit">New credit</string>
+    <string name="fast_transactions">Fast transaction</string>
+    <string name="make_deposit">Make a deposit on this account</string>
+    <string name="title_deposit">Deposit</string>
+    <string name="title_withdrawal">Withdrawal</string>
+    <string name="make_withdrawal">Make a withdrawal on this account</string>
+    <string name="title_transfer">Transfer</string>
+    <string name="make_transfer">Transfer to this account</string>
+    <string name="text_transaction_history">Transaction history</string>
+    <string name="text_credit">Credit</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_title_owner_type">Owner type</string>
+    <string name="text_choose_owner_type">Choose owner type</string>
+    <string name="text_title_account">Recipient account</string>
+    <string name="text_choose_account">Choose recipient account</string>
+    <string name="text_enter_recipient_name">Enter recipient name</string>
 </resources>

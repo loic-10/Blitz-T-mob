@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:maxWidth="300dp"
     android:layout_height="wrap_content"
@@ -21,6 +22,7 @@
             android:padding="10dp"
             android:background="@color/defaultColorGray">
             <TextView
+                android:id="@+id/text_date_transaction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="date_time"
@@ -39,7 +41,7 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/type_transaction_circle">
                     <TextView
-                        android:id="@+id/textView_type_transaction_letter"
+                        android:id="@+id/text_type_transaction_letter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLength="1"
@@ -60,18 +62,22 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@id/relativeLayout_circle_type_transaction">
                     <TextView
+                        android:id="@+id/text_type_transaction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="type_transaction"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:padding="5dp"/>
+                        android:padding="5dp"
+                        android:textAllCaps="true"/>
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/text_code_transaction"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="type_transaction"
-                        android:textSize="16sp"
-                        android:padding="5dp"/>
+                        android:padding="5dp"
+                        android:text="code_transactions"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
 
@@ -81,24 +87,29 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_centerInParent="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/defaultColorGray">
 
                     <TextView
+                        android:id="@+id/text_status_transaction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="en_cours_validite"
-                        android:textColor="@color/colorPrimaryDark"
                         android:padding="5dp"
-                        android:textAlignment="textEnd"/>
+                        android:textAlignment="textEnd"
+                        android:background="@color/defaultColorGray"/>
 
                     <TextView
+                        android:id="@+id/text_amount_transaction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="250 000 XAF"
-                        android:padding="5dp"
                         android:textStyle="bold"
                         android:textSize="16sp"
-                        android:textAlignment="textEnd"/>
+                        android:textAlignment="textEnd"
+                        android:paddingTop="11sp"
+                        android:paddingEnd="5sp"
+                        android:background="@color/defaultColorGray"/>
 
                 </LinearLayout>
 
@@ -112,7 +123,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="5dp"
         android:background="@color/colorPrimaryDark"
         android:layout_below="@+id/cardview_transaction"/>
 </RelativeLayout>

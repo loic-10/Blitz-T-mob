@@ -12,11 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import com.example.blitz_t.Controllers.MicrofinanceAdapter;
-import com.example.blitz_t.Models.Microfinance.ModelMicrofinance;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import static com.example.blitz_t.Api.MicrofinanceHelper.checkMicrofinances;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import static com.example.blitz_t.Models.Model.checkMicrofinances;
 
 public class OthersMicrofinancesFragment extends Fragment {
 

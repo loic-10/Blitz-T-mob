@@ -6,54 +6,55 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.blitz_t.Api.MemberHelper;
+import com.example.blitz_t.HomeCustomerActivity;
 import com.example.blitz_t.HomeMemberActivity;
+import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Member.Member;
+import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
-import com.example.blitz_t.OthersMicrofinancesFragment;
 import com.example.blitz_t.R;
-import com.example.blitz_t.Views.Register.Member.RegisterMemberPart1Activity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.blitz_t.Views.DesignApp;
+import com.example.blitz_t.Views.Register.Customer.MembershipRequestActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.List;
-
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
+import static com.example.blitz_t.Api.CustomerHelper.getCustomers;
+
 public class LoginCustomerActivity extends AppCompatActivity {
 
-    private View constraintLayout;
-    private TextFieldBoxes text_cni_login_group, text_password_login_group;
-    private ExtendedEditText text_cni_login, text_password_login;
-    private Button btn_login_member;
-    private TextView text_not_account, text_forgot_password;
     private Member mMember;
-    private ContextWrapper mContextWrapper;
     private Toolbar app_bar;
     private CollapsingToolbarLayout collapsing;
+    private Microfinance mMicrofinance;
+    private ImageView image_item_micro_finance;
+    private TextView text_microfinance_name;
+    private TextView text_microfinance_slogan;
+    private ExtendedEditText text_password_login;
+    private TextFieldBoxes text_password_login_group;
+    private Button btn_login_customer;
+    private MenuItem buttonItem;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_customer);
 
-        mContextWrapper = this;
 
+        initView();
+        
         initEvent();
 
-        app_bar = findViewById(R.id.app_bar);
-        collapsing = findViewById(R.id.collapsing);
-        collapsing.setTitle(getString(R.string.text_log_in));
-
-        MenuItem buttonItem = app_bar.getMenu().findItem(R.id.menu_return);
         if(buttonItem != null){
             buttonItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
@@ -68,40 +69,114 @@ public class LoginCustomerActivity extends AppCompatActivity {
                 new Member(),
                 getString(R.string.SHARED_PREF_MEMBER_LOGIN),
                 getString(R.string.PREFERENCE_FILE_KEY),
-                mContextWrapper);
+                this);
 
-        if(mMember != null){
+        if(mMember == null){
             Intent intent = new Intent(getApplicationContext(), HomeMemberActivity.class);
             startActivity(intent);
+            finish();
         }
+
+
+        mMicrofinance = (Microfinance) Model.contentPreference(
+                new Microfinance(),
+                getString(R.string.SHARED_PREF_MICROFINANCE_SELECT),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
+        initInfoMicrofinance(mMicrofinance);
+
+        isCustomerMicrofinance();
+
+    }
+
+    private void initInfoMicrofinance ( Microfinance microfinance ) {
+        DesignApp.updateImage(getApplicationContext(), image_item_micro_finance, microfinance.getImage(), null);
+        collapsing.setTitle(microfinance.getNom());
+        text_microfinance_name.setText(microfinance.getNom());
+        text_microfinance_slogan.setText(microfinance.getSlogan());
     }
 
     private void initEvent () {
-        btn_login_member.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick ( View v ) {
-                startLoginMember();
-            }
-        });
+        btn_login_customer.setOnClickListener(mListener);
+    }
 
-        text_not_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick ( View v ) {
-                Intent intent = new Intent(getApplicationContext(), RegisterMemberPart1Activity.class);
-                startActivity(intent);
+    private View.OnClickListener mListener = new View.OnClickListener() {
+        @Override
+        public void onClick ( View v ) {
+            switch (v.getId()){
+                case R.id.btn_login_customer:
+                    startLoginCustomer();
+                    break;
             }
-        });
+        }
+    };
 
-        text_forgot_password.setOnClickListener(new View.OnClickListener() {
+    private void initView () {
+        text_microfinance_name = findViewById(R.id.text_microfinance_name);
+        text_microfinance_slogan = findViewById(R.id.text_microfinance_slogan);
+        btn_login_customer = findViewById(R.id.btn_login_customer);
+        text_password_login = findViewById(R.id.text_password_login);
+        text_password_login_group = findViewById(R.id.text_password_login_group);
+        app_bar = findViewById(R.id.app_bar);
+        collapsing = findViewById(R.id.collapsing);
+        image_item_micro_finance = findViewById(R.id.image_item_micro_finance);
+        buttonItem = app_bar.getMenu().findItem(R.id.menu_return);
+    }
+
+    private void startLoginCustomer() {
+        getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick ( View v ) {
-                Intent intent = new Intent(getApplicationContext(), RegisterMemberPart1Activity.class);
-                startActivity(intent);
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Customer customer = data.getValue(Customer.class);
+                    if(customer != null &&
+                        customer.getMember().get_id().equals(mMember.get_id()) &&
+                        customer.getMicrofinance().get_id().equals(mMicrofinance.get_id()) &&
+                        customer.getPassword().equals(text_password_login.getText().toString())){
+                            Intent intent = new Intent(getApplicationContext(), HomeCustomerActivity.class);
+                            Model.saveFormPreference(customer, getString(R.string.SHARED_PREF_CUSTOMER_LOGIN),
+                                    getString(R.string.PREFERENCE_FILE_KEY), (ContextWrapper) getApplicationContext());
+                            startActivity(intent);
+                            finish();
+                    }
+                }
+                Snackbar.make(text_password_login, R.string.text_no_account_found, Snackbar.LENGTH_LONG);
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+                Snackbar.make(text_password_login, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
             }
         });
     }
 
-    private void startLoginMember () {
+    private void isCustomerMicrofinance () {
+        final ArrayList<Microfinance> microfinances = new ArrayList<>();
+        getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Customer customer = data.getValue(Customer.class);
+                    if(customer != null &&
+                        customer.getMember().get_id().equals(mMember.get_id()) &&
+                        customer.getMicrofinance().get_id().equals(mMicrofinance.get_id())){
+                        microfinances.add(customer.getMicrofinance());
+                        break;
+                    }
+                }
 
+                if(microfinances.size() <= 0){
+                    Intent intent = new Intent(getApplicationContext(), MembershipRequestActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+            }
+        });
     }
+
 }

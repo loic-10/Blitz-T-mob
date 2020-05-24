@@ -2,14 +2,12 @@ package com.example.blitz_t.Models.Transaction;
 
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Employee.Employee;
-import com.example.blitz_t.Models.Saving.Saving;
 import com.example.blitz_t.Models.Status.Status;
 
 public class Transaction {
 
     private String _id;
     private Status.TransactionType transaction_type;
-    private Saving saving;
     private String transaction_date;
     private Employee sending_employee;
     private Employee validator_employee;
@@ -18,16 +16,20 @@ public class Transaction {
     private double amount;
     private Status.TransactionStatus transaction_status;
     private int number_day_waiting;
+    private String recipient_name;
+    private String recipient_phone_number;
+    private String recipient_cni_number;
+    private String key_code;
 
     public Transaction () {
     }
 
-    public Transaction ( String _id , Status.TransactionType transaction_type , Saving saving , String transaction_date ,
-                         Employee sending_employee , Employee validator_employee , Account sending_account , Account recipient_account ,
-                         double amount , Status.TransactionStatus transaction_status , int number_day_waiting ) {
+    public Transaction ( String _id , Status.TransactionType transaction_type , String transaction_date , Employee sending_employee ,
+                         Employee validator_employee , Account sending_account , Account recipient_account , double amount ,
+                         Status.TransactionStatus transaction_status , int number_day_waiting , String recipient_name ,
+                         String recipient_phone_number , String recipient_cni_number , String key_code ) {
         this._id = _id;
         this.transaction_type = transaction_type;
-        this.saving = saving;
         this.transaction_date = transaction_date;
         this.sending_employee = sending_employee;
         this.validator_employee = validator_employee;
@@ -36,6 +38,10 @@ public class Transaction {
         this.amount = amount;
         this.transaction_status = transaction_status;
         this.number_day_waiting = number_day_waiting;
+        this.recipient_name = recipient_name;
+        this.recipient_phone_number = recipient_phone_number;
+        this.recipient_cni_number = recipient_cni_number;
+        this.key_code = key_code;
     }
 
     public String get_id () {
@@ -52,14 +58,6 @@ public class Transaction {
 
     public void setTransaction_type ( Status.TransactionType transaction_type ) {
         this.transaction_type = transaction_type;
-    }
-
-    public Saving getSaving () {
-        return saving;
-    }
-
-    public void setSaving ( Saving saving ) {
-        this.saving = saving;
     }
 
     public String getTransaction_date () {
@@ -124,5 +122,37 @@ public class Transaction {
 
     public void setNumber_day_waiting ( int number_day_waiting ) {
         this.number_day_waiting = number_day_waiting;
+    }
+
+    public String getRecipient_name () {
+        return recipient_name;
+    }
+
+    public void setRecipient_name ( String recipient_name ) {
+        this.recipient_name = recipient_name;
+    }
+
+    public String getRecipient_phone_number () {
+        return recipient_phone_number;
+    }
+
+    public void setRecipient_phone_number ( String recipient_phone_number ) {
+        this.recipient_phone_number = recipient_phone_number;
+    }
+
+    public String getRecipient_cni_number () {
+        return recipient_cni_number;
+    }
+
+    public void setRecipient_cni_number ( String recipient_cni_number ) {
+        this.recipient_cni_number = recipient_cni_number;
+    }
+
+    public String getKey_code () {
+        return key_code;
+    }
+
+    public void setKey_code ( String key_code ) {
+        this.key_code = key_code;
     }
 }

@@ -6,6 +6,8 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Status.Status;
 
+import java.util.Date;
+
 public class Customer {
 
     private String _id;
@@ -15,7 +17,7 @@ public class Customer {
     private String profession;
     private Status.CustomerStatus customer_status;
     private String password;
-    private String register_date;
+    public String register_date;
 
     public Customer () {
     }
@@ -90,9 +92,5 @@ public class Customer {
 
     public String getRegister_date () {
         return register_date;
-    }
-
-    public void setRegister_date ( String register_date ) {
-        this.register_date = register_date;
     }
 }

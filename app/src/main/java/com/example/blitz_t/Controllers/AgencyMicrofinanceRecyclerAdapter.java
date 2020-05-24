@@ -19,14 +19,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AgencyMicrofinanceAdapter extends RecyclerView.Adapter<AgencyMicrofinanceAdapter.ViewHolder> {
+public class AgencyMicrofinanceRecyclerAdapter extends RecyclerView.Adapter<AgencyMicrofinanceRecyclerAdapter.ViewHolder> {
 
     private List<Agency> mAgencies;
     private Context context;
     private Activity activity;
     public static final String KEY_AGENCY = "KEY_AGENCY";
 
-    public AgencyMicrofinanceAdapter ( List<Agency> agencies , Context context  , Activity activity ) {
+    public AgencyMicrofinanceRecyclerAdapter ( List<Agency> agencies , Context context  , Activity activity ) {
         mAgencies = agencies;
         this.context = context;
         this.activity = activity;

@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/btn_new_credit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/blue_principal_button"
@@ -16,30 +17,33 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="20dp"
         android:padding="2dp">
+
         <RelativeLayout
             android:id="@+id/img_cre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@drawable/white_principal_button">
+            android:background="@drawable/white_principal_button"
+            android:padding="8dp">
+
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_library_add_black_24dp"/>
+                android:src="@drawable/ic_library_add_black_24dp" />
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nouveau credit"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/img_cre"
             android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/img_cre"
+            android:text="@string/text_new_credit"
             android:textColor="@color/defaultColorWhite"
-            android:textSize="22sp"/>
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

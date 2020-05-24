@@ -7,27 +7,29 @@
     android:orientation="vertical">
 
 
-    <com.github.florent37.materialtextfield.MaterialTextField
+    <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+        android:id="@+id/text_search_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:mtf_image="@drawable/ic_search_black_24dp"
-        app:mtf_labelColor="@color/defaultColorBlack">
+        android:padding="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        app:iconSignifier="@drawable/ic_search_black_24dp"
+        app:labelText="@string/text_search"
+        app:primaryColor="@color/colorPrimaryDark"
+        app:secondaryColor="@color/colorPrimaryDark">
 
-        <EditText
-            android:id="@+id/text_search_microfinance"
-            android:layout_width="match_parent"
+        <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+            android:id="@+id/text_search"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:freezesText="true"
-            android:hint="@string/text_search"
-            android:textColor="@color/defaultColorBlack"
-            android:textColorHint="@color/defaultColorWhite"
-            android:textSize="18sp"
-            android:theme="@style/Theme.Design" />
+            android:drawableTint="@color/colorPrimaryDark"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark" />
 
-    </com.github.florent37.materialtextfield.MaterialTextField>
+    </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_transaction"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_transaction"/>

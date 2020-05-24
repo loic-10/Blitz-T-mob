@@ -52,7 +52,9 @@ public class Status {
         pending_validity,
         canceled,
         valided,
-        advised
+        transferred,
+        advised,
+        refunded
     }
 
     public enum TransactionType {

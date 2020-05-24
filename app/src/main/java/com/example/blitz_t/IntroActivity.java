@@ -8,12 +8,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
-import com.example.blitz_t.Controllers.IntroViewPagerAdapter;
+import com.example.blitz_t.Controllers.IntroPagerAdapter;
 import com.example.blitz_t.Views.ScreenItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -25,7 +24,7 @@ public class IntroActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private Button mButton;
     private Button mButtonStarted;
-    private IntroViewPagerAdapter mIntroViewPagerAdapter;
+    private IntroPagerAdapter mIntroViewPagerAdapter;
     private List<ScreenItem> mScreenItems;
     private TabLayout mTabLayout;
     private int position = 0;
@@ -36,7 +35,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if(restorePrefData()){
             Intent mIntent = new Intent(getApplicationContext(), HomeCustomerActivity.class);
@@ -62,7 +61,7 @@ public class IntroActivity extends AppCompatActivity {
         mScreenItems.add(new ScreenItem("Withdrawal", "Withdrawal means the operation by which the account holder withdraws cash.", R.drawable.member));
         mScreenItems.add(new ScreenItem("Transfer", "The Transfer is a banking technique by which, by debiting his account.", R.drawable.img3));
 
-        mIntroViewPagerAdapter = new IntroViewPagerAdapter(this, mScreenItems);
+        mIntroViewPagerAdapter = new IntroPagerAdapter(this, mScreenItems);
 
         mViewPager.setAdapter(mIntroViewPagerAdapter);
 

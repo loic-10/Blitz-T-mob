@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".AccountCustomerActivity">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inilialise transaction"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/defaultColorWhite"
+        android:textSize="18sp"
+        android:drawableStart="@drawable/ic_transaction"
+        android:gravity="center_vertical"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" text insert"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_below="@+id/text_title"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="5dp"
+        android:shadowRadius="@integer/google_play_services_version"
+        android:shadowColor="@color/colorPrimaryDark"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/text_message">
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark_transparent_99"
+            android:text="@string/text_cancel"
+            android:textColor="@color/defaultColorWhite"/>
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark_transparent_80"
+            android:text="@string/text_save"
+            android:textColor="@color/defaultColorWhite"/>
+    </LinearLayout>
+
+</RelativeLayout>

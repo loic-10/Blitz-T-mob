@@ -13,26 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.blitz_t.Api.MemberHelper;
-import com.example.blitz_t.Controllers.MicrofinanceAdapter;
 import com.example.blitz_t.HomeMemberActivity;
-import com.example.blitz_t.Models.Customer.Customer;
-import com.example.blitz_t.Models.Microfinance.Microfinance;
-import com.example.blitz_t.OthersMicrofinancesFragment;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.Register.Member.RegisterMemberPart1Activity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginMemberActivity extends AppCompatActivity {
 
@@ -121,10 +111,10 @@ public class LoginMemberActivity extends AppCompatActivity {
                         Model.saveFormPreference(member, getString(R.string.SHARED_PREF_MEMBER_LOGIN),
                                 getString(R.string.PREFERENCE_FILE_KEY), mContextWrapper );
                         startActivity(intent);
-                        break;
+                        finish();
                     }
-                    Snackbar.make(text_password_login, R.string.text_no_account_found, Snackbar.LENGTH_LONG);
                 }
+                Snackbar.make(text_password_login, R.string.text_no_account_found, Snackbar.LENGTH_LONG);
             }
 
             @Override

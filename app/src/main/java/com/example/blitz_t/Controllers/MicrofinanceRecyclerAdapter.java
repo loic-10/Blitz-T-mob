@@ -3,16 +3,18 @@ package com.example.blitz_t.Controllers;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.view.*;
 import android.widget.*;
 
 import com.chaek.android.RatingBar;
 import com.example.blitz_t.MicrofinanceAgencyActivity;
-import com.example.blitz_t.Models.MemberMicrofinance.ModelMemberMicrofinance;
+import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
+import com.example.blitz_t.Views.Login.Customer.LoginCustomerActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,17 +23,23 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MicrofinanceAdapter extends RecyclerView.Adapter<MicrofinanceAdapter.ViewHolder> {
+public class MicrofinanceRecyclerAdapter extends RecyclerView.Adapter<MicrofinanceRecyclerAdapter.ViewHolder> {
 
     private List<Microfinance> mMicrofinances;
     private Context context;
     private Activity activity;
     public static final String KEY_MICROFINANCE = "KEY_MICROFINANCE";
+    public Member mMember = null;
 
-    public MicrofinanceAdapter ( ArrayList<Microfinance> microfinances , Context context  , Activity activity ) {
+    public MicrofinanceRecyclerAdapter ( ArrayList<Microfinance> microfinances , Context context  , Activity activity ) {
         mMicrofinances = microfinances;
         this.context = context;
         this.activity = activity;
+        mMember = (Member) Model.contentPreference(
+                new Member(),
+                context.getString(R.string.SHARED_PREF_MEMBER_LOGIN),
+                context.getString(R.string.PREFERENCE_FILE_KEY),
+                (ContextWrapper) context.getApplicationContext());
     }
 
     @NonNull
@@ -65,6 +73,7 @@ public class MicrofinanceAdapter extends RecyclerView.Adapter<MicrofinanceAdapte
 
 //        holder.rating_item_micro_finance.setScore(ModelMemberMicrofinance.ratingMicrofinance(microfinance.get_id()));
 
+
         holder.button_item_more_agency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +81,21 @@ public class MicrofinanceAdapter extends RecyclerView.Adapter<MicrofinanceAdapte
                 Model.saveFormPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
                         context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick ( View v ) {
+                if(mMember != null) {
+                    Intent intent = new Intent(context , LoginCustomerActivity.class);
+                    Model.saveFormPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
+                            context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
+                    context.startActivity(intent);
+                }
+                else {
+                    Toast.makeText(context, context.getString(R.string.text_login_as_member), Toast.LENGTH_LONG).show();
+                }
             }
         });
 

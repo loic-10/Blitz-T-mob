@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllAccountActivity"
+    tools:context=".AllAccountFragment"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
+        android:id="@+id/btn_new_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/blue_principal_button"
@@ -23,11 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/white_principal_button"
-            android:padding="10dp">
+            android:padding="8dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
@@ -41,18 +41,19 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/img_cre"
-            android:text="Nouveau compte"
+            android:text="@string/text_new_account"
             android:textColor="@color/defaultColorWhite"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/btn_new_account"
         tools:listitem="@layout/item_account" />
 
 </LinearLayout>

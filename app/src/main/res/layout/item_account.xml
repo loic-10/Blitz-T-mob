@@ -24,24 +24,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:background="@color/transparent">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imageViewProfil"
+                    android:id="@+id/image_view_status_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_lock_open_black_24dp"
-                    android:tint="@color/defaultColorWhite"/>
+                    android:tint="@color/defaultColorWhite"
+                    android:layout_margin="5dp"/>
 
                 <TextView
+                    android:id="@+id/text_balance_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:text="280 000 XAF"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="balance account"
                     android:textColor="@color/defaultColorWhite"
-                    android:textSize="28sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:shadowColor = "@color/colorPrimaryDark"
                     android:shadowDx = "2"
@@ -49,13 +51,14 @@
                     android:shadowRadius = "1"/>
 
                 <TextView
+                    android:id="@+id/text_code_account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="CMP0000001"
+                    android:text="code account"
                     android:textColor="@color/defaultColorWhite"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:shadowColor = "@color/colorPrimaryDark"
                     android:shadowDx = "2"
@@ -67,27 +70,28 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/item_account_type_style"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:layout_marginTop="5dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
+                    android:id="@+id/img_micro_finance"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_account_circle_black_24dp"
-                    android:tint="@color/defaultColorWhite"/>
+                    android:src="@drawable/background"
+                    android:tint="@color/defaultColorWhite"
+                    app:hasBorder="false"/>
 
                 <TextView
-                    android:id="@+id/textViewUsername"
+                    android:id="@+id/text_account_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="40dp"
-                    android:text="Compte epargne"
+                    android:layout_marginLeft="30dp"
+                    android:text="account type"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/defaultColorWhite"/>
             </RelativeLayout>

@@ -12,10 +12,6 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.example.blitz_t.Api.AgencyHelper;
-import com.example.blitz_t.Controllers.AgencyMicrofinanceAdapter;
-import com.example.blitz_t.Controllers.MicrofinanceAdapter;
-import com.example.blitz_t.Models.Agency.ModelAgency;
-import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Views.DesignApp;
