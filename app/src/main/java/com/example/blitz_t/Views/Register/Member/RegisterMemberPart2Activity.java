@@ -12,16 +12,13 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.Api.CountryHelper;
 import com.example.blitz_t.Api.DirectoryUpload;
 import com.example.blitz_t.Api.MemberHelper;
-import com.example.blitz_t.Models.Country.Country;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
@@ -31,12 +28,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 import com.libRG.CustomTextView;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -74,10 +67,6 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
 
         initView();
 
-        initSpinner();
-
-        initEvent();
-
         mMember = (Member) Model.contentPreference(
                 new Member(),
                 getString(R.string.SHARED_PREF_MEMBER_REGISTER),
@@ -90,6 +79,10 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
         else {
             mMember = new Member();
         }
+
+        initSpinner();
+
+        initEvent();
 
         app_bar = findViewById(R.id.app_bar);
         collapsing = findViewById(R.id.collapsing);
@@ -108,28 +101,7 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
     }
 
     private void initSpinner () {
-        listNumberCode = new ArrayList<>();
-
-        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Country country = data.getValue(Country.class);
-                    if(country != null){
-                        listNumberCode.add(country.getCode_phone());
-                    }
-                }
-                spinner_code_phone_register.setItem(listNumberCode);
-                if(mMember.getPhone_number() != null) {
-                    spinner_code_phone_register.setSelection(listNumberCode.indexOf(mMember.getPhone_number().split(" ")[0]));
-                }
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
+        Model.checkListNumberCode(spinner_code_phone_register, mMember);
     }
 
     private void startSaveMember(){

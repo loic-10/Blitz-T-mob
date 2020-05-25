@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import com.example.blitz_t.Controllers.AccountPagerAdapter;
 import com.example.blitz_t.Controllers.DialogPerso;
+import com.example.blitz_t.Controllers.MakeTransactionDialog;
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Customer.Customer;
+import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
+import com.example.blitz_t.Models.Status.Status;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,7 @@ public class AccountCustomerActivity extends AppCompatActivity {
     private View btn_make_withdrawal;
     private View btn_make_transfer;
     private AccountCustomerActivity mActivity;
+    private Member mMember;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -64,6 +68,12 @@ public class AccountCustomerActivity extends AppCompatActivity {
                 getString(R.string.PREFERENCE_FILE_KEY),
                 this);
 
+        mMember = (Member) Model.contentPreference(
+                new Member(),
+                getString(R.string.SHARED_PREF_MEMBER_LOGIN),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
         mMicrofinance = (Microfinance) Model.contentPreference(
                 new Microfinance(),
                 getString(R.string.SHARED_PREF_MICROFINANCE_SELECT),
@@ -85,6 +95,7 @@ public class AccountCustomerActivity extends AppCompatActivity {
         @Override
         public void onClick ( View v ) {
             Intent intent = null;
+            MakeTransactionDialog dialog = new MakeTransactionDialog();
             switch (v.getId()){
                 case R.id.btn_credit :
                     break;
@@ -92,11 +103,13 @@ public class AccountCustomerActivity extends AppCompatActivity {
                     intent = new Intent(getApplicationContext(), TransactionAccountActivity.class);
                     break;
                 case R.id.btn_make_deposit :
-                    DialogPerso.showDialog(mActivity, "Voici mon message! Je te le dedie.");
+                    dialog.showDialog(mActivity, Status.TransactionType.deposit, mMember, mMicrofinance, mAccount, mCustomer);
                     break;
                 case R.id.btn_make_withdrawal :
+                    dialog.showDialog(mActivity, Status.TransactionType.withdrawal, mMember, mMicrofinance, mAccount, mCustomer);
                     break;
                 case R.id.btn_make_transfer :
+                    dialog.showDialog(mActivity, Status.TransactionType.transfer, mMember, mMicrofinance, mAccount, mCustomer);
                     break;
             }
 

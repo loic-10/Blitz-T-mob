@@ -93,7 +93,8 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/defaultColorWhite"/>
+                    android:textColor="@color/defaultColorWhite"
+                    android:textAllCaps="true"/>
             </RelativeLayout>
 
         </LinearLayout>

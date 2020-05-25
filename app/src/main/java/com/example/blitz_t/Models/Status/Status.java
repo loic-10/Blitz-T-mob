@@ -151,4 +151,9 @@ public class Status {
         impossible,
         risked
     }
+
+    public enum RecipientStatus {
+        customer,
+        non_customer
+    }
 }

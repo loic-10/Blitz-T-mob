@@ -116,4 +116,12 @@
     <string name="text_title_account">Recipient account</string>
     <string name="text_choose_account">Choose recipient account</string>
     <string name="text_enter_recipient_name">Enter recipient name</string>
+    <string name="text_title_code_phone_recipient">Recipient code phone</string>
+    <string name="text_choose_code_phone_recipient">Choose code phone recipient</string>
+    <string name="text_enter_phone_number_recipient">Enter phone number recipient</string>
+    <string name="text_enter_cni_number_recipient">Enter cni number recipient</string>
+    <string name="text_enter_key_code">Enter key code</string>
+    <string name="text_enter_amount">Enter amount</string>
+    <string name="text_title_status_recipient">Status recipient</string>
+    <string name="text_choose_status_recipient">Choose status recipient</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.blitz_t.Views.Register.Member;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import eightbitlab.com.blurview.BlurView;
@@ -10,13 +9,10 @@ import android.app.DatePickerDialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.Api.CityHelper;
-import com.example.blitz_t.Api.CountryHelper;
 import com.example.blitz_t.Models.City.City;
 import com.example.blitz_t.Models.Country.Country;
 import com.example.blitz_t.Models.Member.Member;
@@ -25,10 +21,6 @@ import com.example.blitz_t.Models.Sex.Sex;
 import com.example.blitz_t.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -63,12 +55,6 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
 
         initView();
 
-        initSpinner();
-
-        initEvent();
-
-//        DesignApp.blurEffect(view_background , getApplicationContext(), getWindow(), 10);
-
         mMember = (Member) Model.contentPreference(
                 new Member(),
                 getString(R.string.SHARED_PREF_MEMBER_REGISTER),
@@ -81,6 +67,13 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
         else {
             mMember = new Member();
         }
+
+        initSpinner();
+
+        initEvent();
+
+//        DesignApp.blurEffect(view_background , getApplicationContext(), getWindow(), 10);
+
 
         app_bar = findViewById(R.id.app_bar);
         collapsing = findViewById(R.id.collapsing);
@@ -113,8 +106,7 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet ( DatePicker view , int year , int month , int dayOfMonth ) {
-                String date = dayOfMonth+"-"+(month+1)+"-"+year;
-                text_birth_date_register.setText(date);
+                text_birth_date_register.setText(Model.getBirthDateSelect(dayOfMonth, month + 1, year));
             }
         };
 
@@ -122,7 +114,7 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id) {
                 Country country = (Country) adapterView.getSelectedItem();
-                checkCitiesForCountries(country.getName());
+                Model.checkCitiesForCountries(spinner_city_register, country, mMember);
             }
 
             @Override
@@ -199,69 +191,6 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
         view_background = findViewById(R.id.view_background);
     }
 
-    private void checkCountries(){
-        countries = new ArrayList<>();
-        final Country[] countrySearch = {new Country()};
-
-        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Country country = data.getValue(Country.class);
-                    if(country != null){
-                        countries.add(country);
-                    }
-                    if(mMember.getCountry() != null){
-                        if (country.getName().equals(mMember.getCountry().getName())) {
-                            countrySearch[0] = country;
-                        }
-                    }
-                }
-                spinner_country_register.setItem(countries);
-                if(countries.size() > 0) {
-                    spinner_country_register.setSelection(countries.indexOf(countrySearch[0]));
-                    checkCitiesForCountries(countrySearch[0].getName());
-                }
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
-    }
-
-    private void checkCitiesForCountries( final String country_name) {
-        cities = new ArrayList<>();
-        final City[] citySearch = {new City()};
-
-        CityHelper.getCities().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    City city = data.getValue(City.class);
-                    if(city != null){
-                        if ( city.getCountry().getName().equals(country_name) ) {
-                            cities.add(city);
-                            if(mMember.getCity() != null) {
-                                if ( city.getName().equals(mMember.getCity().getName()) ) {
-                                    citySearch[0] = city;
-                                }
-                            }
-                        }
-                    }
-                }
-                spinner_city_register.setItem(cities);
-                spinner_city_register.setSelection(cities.indexOf(citySearch[0]));
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
-    }
-
     private void initSpinner() {
         Sex[] array = Sex.values();
         List<Sex> sexes = Arrays.asList(array);
@@ -277,6 +206,6 @@ public class RegisterMemberPart1Activity extends AppCompatActivity {
             }
         });
 
-        checkCountries();
+        Model.checkCountries(spinner_country_register, spinner_city_register, mMember);
     }
 }

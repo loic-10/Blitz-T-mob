@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -14,14 +13,10 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.Api.CityHelper;
-import com.example.blitz_t.Api.CountryHelper;
 import com.example.blitz_t.Api.DirectoryUpload;
 import com.example.blitz_t.Api.MemberHelper;
 import com.example.blitz_t.Models.City.City;
@@ -30,16 +25,11 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Sex.Sex;
 import com.example.blitz_t.Views.DesignApp;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.UploadTask;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -102,10 +92,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         initView();
 
-        initSpinner();
-
-        initEvent();
-
         mMember = (Member) Model.contentPreference(
                 new Member(),
                 getString(R.string.SHARED_PREF_MEMBER_LOGIN),
@@ -118,6 +104,10 @@ public class EditProfileActivity extends AppCompatActivity {
         else {
             mMember = new Member();
         }
+
+        initSpinner();
+
+        initEvent();
 
         app_bar = findViewById(R.id.app_bar);
         collapsing = findViewById(R.id.collapsing);
@@ -193,88 +183,10 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        checkCountries();
-        listNumberCode = new ArrayList<>();
+        Model.checkListNumberCode(spinner_code_phone_register, mMember);
 
-        CountryHelper.getCountryCollection()
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete ( @NonNull Task<QuerySnapshot> task ) {
-                        if ( task.isSuccessful() ) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Country country = document.toObject(Country.class);
-                                listNumberCode.add(country.getCode_phone());
-                                Log.d("TAG" , document.getId() + " => " + document.getData());
-                            }
-                            spinner_code_phone_register.setItem(listNumberCode);
-                            if(mMember.getPhone_number() != null) {
-                                spinner_code_phone_register.setSelection(listNumberCode.indexOf(mMember.getPhone_number().split(" ")[0]));
-                            }
-                        }
-                        else {
-                            Log.w("TAG" , "Error getting documents." , task.getException());
-                        }
-                    }
-                });
-    }
+        Model.checkCountries(spinner_country_register, spinner_city_register, mMember);
 
-    private void checkCountries(){
-        countries = new ArrayList<>();
-        final Country[] countrySearch = {new Country()};
-
-        CountryHelper.getCountryCollection()
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete ( @NonNull Task<QuerySnapshot> task ) {
-                        if ( task.isSuccessful() ) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Country country = document.toObject(Country.class);
-                                countries.add(country);
-                                if(country.getName().equals(mMember.getCountry().getName())) {
-                                    countrySearch[0] = country;
-                                }
-                                Log.d("TAG" , document.getId() + " => " + document.getData());
-                            }
-                            spinner_country_register.setItem(countries);
-                            spinner_country_register.setSelection(countries.indexOf(countrySearch[0]));
-                            checkCitiesForCountries(countrySearch[0].getName());
-                        }
-                        else {
-                            Log.w("TAG" , "Error getting documents." , task.getException());
-                        }
-                    }
-                });
-    }
-
-    private void checkCitiesForCountries( final String country_name) {
-        cities = new ArrayList<>();
-        final City[] citySearch = {new City()};
-        CityHelper.getCityCollection()
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete ( @NonNull Task<QuerySnapshot> task ) {
-                        if ( task.isSuccessful() ) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                City city = document.toObject(City.class);
-                                if ( city.getCountry().getName().equals(country_name) ) {
-                                    cities.add(city);
-                                    if(city.getName().equals(mMember.getCity().getName())){
-                                        citySearch[0] = city;
-                                    }
-                                    Log.d("TAG" , document.getId() + " => " + document.getData());
-                                }
-                            }
-                            spinner_city_register.setItem(cities);
-                            spinner_city_register.setSelection(cities.indexOf(citySearch[0]));
-                        }
-                        else {
-                            Log.w("TAG" , "Error getting documents." , task.getException());
-                        }
-                    }
-                });
     }
 
     private View.OnClickListener listener =
@@ -326,8 +238,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet ( DatePicker view , int year , int month , int dayOfMonth ) {
-                String date = dayOfMonth+"-"+(month+1)+"-"+year;
-                text_birth_date_register.setText(date);
+                text_birth_date_register.setText(Model.getBirthDateSelect(dayOfMonth, month + 1, year));
             }
         };
 
@@ -335,7 +246,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id) {
                 Country country = (Country) adapterView.getSelectedItem();
-                checkCitiesForCountries(country.getName());
+                Model.checkCitiesForCountries(spinner_city_register, country, mMember);
             }
 
             @Override
@@ -388,7 +299,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                     public void onSuccess ( Uri uri ) {
                                         MemberHelper.deleteImage(mMember.getProfile_picture());
                                         mMember.setProfile_picture(uri.toString());
-                                        updatedMember(mMember, btn_edit_profile, R.string.text_modified_cni);
+                                        updatedMember(mMember, btn_edit_profile, R.string.text_modified_profile);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

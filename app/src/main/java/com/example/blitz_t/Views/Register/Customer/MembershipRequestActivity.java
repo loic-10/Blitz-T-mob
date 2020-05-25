@@ -1,18 +1,15 @@
 package com.example.blitz_t.Views.Register.Customer;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.Api.AgencyHelper;
 import com.example.blitz_t.Api.CustomerHelper;
 import com.example.blitz_t.HomeMemberActivity;
 import com.example.blitz_t.Models.Agency.Agency;
@@ -33,10 +29,6 @@ import com.example.blitz_t.Models.Status.Status;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.DesignApp;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,56 +114,9 @@ public class MembershipRequestActivity extends AppCompatActivity {
     }
 
     private void initSpinner () {
-        checkCitiesForAgencyMicrofinance();
+        Model.checkCitiesForAgencyMicrofinance(spinner_city, mMicrofinance);
     }
 
-
-    private void checkCitiesForAgencyMicrofinance() {
-        cities = new ArrayList<>();
-        AgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Agency agency = data.getValue(Agency.class);
-                    if(agency != null){
-                        if ( !cities.contains(agency.getCity()) && agency.getMicrofinance().get_id().equals(mMicrofinance.get_id())) {
-                            cities.add(agency.getCity());
-                        }
-                    }
-                }
-                spinner_city.setItem(cities);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
-    }
-
-    private void checkAgencyCity ( final City city ) {
-        agencies = new ArrayList<>();
-        AgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Agency agency = data.getValue(Agency.class);
-                    if(agency != null){
-                        if ( agency.getCity().get_id().equals(city.get_id()) &&
-                            agency.getMicrofinance().get_id().equals(mMicrofinance.get_id())) {
-                            agencies.add(agency);
-                        }
-                    }
-                }
-                spinner_agency.setItem(agencies);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
-    }
 
     private boolean isComplete(String profession, int selectCity, int selectAgency, String password, String confirm_password) {
         return !profession.isEmpty() &&
@@ -196,7 +141,7 @@ public class MembershipRequestActivity extends AppCompatActivity {
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id) {
                 City city = (City) adapterView.getSelectedItem();
-                checkAgencyCity(city);
+                Model.checkAgencyCity(spinner_agency, mMicrofinance, city);
             }
 
             @Override

@@ -60,7 +60,8 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@id/relativeLayout_circle_type_transaction">
+                    android:layout_toEndOf="@id/relativeLayout_circle_type_transaction"
+                    android:layout_toStartOf="@+id/status_and_info">
                     <TextView
                         android:id="@+id/text_type_transaction"
                         android:layout_width="wrap_content"
@@ -83,6 +84,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/status_and_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"

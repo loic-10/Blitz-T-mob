@@ -94,5 +94,8 @@ public class Account {
         this.register_date = register_date;
     }
 
-
+    @Override
+    public String toString () {
+        return _id +"(" + account_type +") => " + customer.getMember().getFull_name();
+    }
 }
