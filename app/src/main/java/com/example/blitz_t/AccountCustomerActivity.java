@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import com.example.blitz_t.Controllers.AccountPagerAdapter;
-import com.example.blitz_t.Controllers.DialogPerso;
 import com.example.blitz_t.Controllers.MakeTransactionDialog;
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Customer.Customer;
@@ -18,8 +17,6 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Status.Status;
-
-import java.util.ArrayList;
 
 import static com.example.blitz_t.Models.Model.checkAccountCustomer;
 
@@ -35,8 +32,10 @@ public class AccountCustomerActivity extends AppCompatActivity {
     private View btn_make_deposit;
     private View btn_make_withdrawal;
     private View btn_make_transfer;
-    private AccountCustomerActivity mActivity;
+    private AccountCustomerActivity mAccountCustomerActivity;
     private Member mMember;
+    private Activity mActivity;
+
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -45,6 +44,7 @@ public class AccountCustomerActivity extends AppCompatActivity {
 
         this.setTitle(R.string.text_menu_account);
 
+        mAccountCustomerActivity = this;
         mActivity = this;
 
         getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -103,13 +103,13 @@ public class AccountCustomerActivity extends AppCompatActivity {
                     intent = new Intent(getApplicationContext(), TransactionAccountActivity.class);
                     break;
                 case R.id.btn_make_deposit :
-                    dialog.showDialog(mActivity, Status.TransactionType.deposit, mMember, mMicrofinance, mAccount, mCustomer);
+                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.deposit, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
                     break;
                 case R.id.btn_make_withdrawal :
-                    dialog.showDialog(mActivity, Status.TransactionType.withdrawal, mMember, mMicrofinance, mAccount, mCustomer);
+                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.withdrawal, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
                     break;
                 case R.id.btn_make_transfer :
-                    dialog.showDialog(mActivity, Status.TransactionType.transfer, mMember, mMicrofinance, mAccount, mCustomer);
+                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.transfer, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
                     break;
             }
 

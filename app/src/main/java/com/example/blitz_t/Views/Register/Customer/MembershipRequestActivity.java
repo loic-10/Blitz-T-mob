@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
+
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.CustomerHelper;
+import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.HomeMemberActivity;
 import com.example.blitz_t.Models.Agency.Agency;
 import com.example.blitz_t.Models.City.City;
@@ -64,6 +67,8 @@ public class MembershipRequestActivity extends AppCompatActivity {
     private Button button_save;
 
     private MenuItem buttonItem;
+    private Activity mActivity;
+    private MembershipRequestActivity mMembershipRequestActivity;
 
     private List<City> cities;
     private List<Agency> agencies;
@@ -75,6 +80,11 @@ public class MembershipRequestActivity extends AppCompatActivity {
 
         mBuilder = new AlertDialog.Builder(this);
         mProgressDialog = new ProgressDialog(this);
+
+        mActivity = this;
+
+        mMembershipRequestActivity = this;
+
         initView();
         initSpinner();
         initEvent();
@@ -210,18 +220,31 @@ public class MembershipRequestActivity extends AppCompatActivity {
             mCustomer.setMicrofinance(mMicrofinance);
             mCustomer.setProfession(text_profession.getText().toString());
             mCustomer.setPassword(text_password_register.getText().toString());
-            mCustomer.register_date = Model.currentDate();
+            mCustomer.register_date = Model.currentDateString();
             CustomerHelper.setCustomer(mCustomer);
             mProgressDialog.dismiss();
-            mBuilder.setMessage(mMicrofinance.isAccepter_manuellement_demande_client() ?
-                    R.string.request_wait_confirmation :
-                    R.string.request_success_customer).show();
-            startActivity(intent);
-            finish();
+
+            new DialogPersonal().showDialog(
+                    mMembershipRequestActivity,
+                    getString(R.string.text_membership_request),
+                    getString(mMicrofinance.isAccepter_manuellement_demande_client() ?
+                            R.string.request_wait_confirmation :
+                            R.string.request_success_customer),
+                    Status.AlertStatus.success ,
+                    intent ,
+                    true ,
+                    mActivity);
         }
         else{
             mProgressDialog.dismiss();
-            mBuilder.setMessage(R.string.text_operation_failed).show();
+            new DialogPersonal().showDialog(
+                    mMembershipRequestActivity,
+                    getString(R.string.text_membership_request),
+                    getString(R.string.text_operation_failed),
+                    Status.AlertStatus.error ,
+                    null ,
+                    true ,
+                    mActivity);
         }
     }
 

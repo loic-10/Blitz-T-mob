@@ -33,6 +33,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,12 +53,33 @@ public class Model {
         return formatter.format(date);
     }
 
+    public static Date ConvertToDate(String dateInString) throws ParseException {
+        String format = "YYYY-MM-dd";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat( format );
+        return formatter.parse(getDateUtil(dateInString));
+    }
+
+    public static String removeTDate(String dateInString){
+        return dateInString.replace("T", " ");
+    }
+
+    public static String getDateUtil(String dateInString){
+        return removeTDate(dateInString).split(" ")[0];
+    }
+
     public static String getBirthDateSelect(int dayOfMonth, int mounth, int year) {
         String DAY = String.valueOf(dayOfMonth).length() == 1 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
         String MOUNT = String.valueOf(mounth).length() == 1 ? "0" + mounth : String.valueOf(mounth);
         return year + "-" + MOUNT + "-" + DAY;
     }
 
+    public static double getAmountAndInterest(double amount, double interest){
+        return amount + (interest * (amount / 100) );
+    }
+
+    public static String getNewId(){
+        return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+    }
 
     public static void saveFormPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
         String contentPreference = new Gson().toJson(object);
@@ -82,11 +105,18 @@ public class Model {
         return null;
     }
 
-    public static String currentDate(){
+    public static String currentDateString(){
         String format = "YYYY-MM-dd H:mm:ss";
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat( format );
         Date date = new Date();
         return formatter.format(date);
+    }
+
+    public static Date currentDate() throws ParseException {
+        String format = "YYYY-MM-dd H:mm:ss";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat( format );
+        Date date = new Date();
+        return formatter.parse(formatter.format(date));
     }
 
     public static void reverseList(ArrayList objects){
@@ -196,14 +226,17 @@ public class Model {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Transaction transaction = data.getValue(Transaction.class);
                     if(transaction != null &&
-                        (transaction.getRecipient_account().getCustomer().get_id().equals(customer.get_id()) ||
+                        ((transaction.getRecipient_account() != null &&
+                            transaction.getRecipient_account().getCustomer().get_id().equals(customer.get_id())
+                            ) ||
                             transaction.getSending_account().getCustomer().get_id().equals(customer.get_id())
                         ) &&
                         transaction.getSending_account().getCustomer().getMicrofinance().get_id().equals(microfinance.get_id()) &&
                         ((String.valueOf(transaction.getAmount()).toLowerCase().contains(value.toLowerCase())) ||
                             transaction.getTransaction_type().toString().toLowerCase().contains(value.toLowerCase()) ||
                             transaction.getTransaction_date().toLowerCase().contains(value.toLowerCase()) ||
-                            transaction.getTransaction_status().toString().toLowerCase().contains(value.toLowerCase())
+                            transaction.getTransaction_status().toString().toLowerCase().contains(value.toLowerCase()) ||
+                            transaction.get_id().toLowerCase().contains(value.toLowerCase())
                         ) &&
                         (account == null ||
                             (transaction.getSending_account().get_id().equals(account.get_id()) ||

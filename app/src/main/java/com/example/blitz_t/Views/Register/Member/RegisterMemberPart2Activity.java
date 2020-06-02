@@ -19,19 +19,21 @@ import android.widget.ImageView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.DirectoryUpload;
 import com.example.blitz_t.Api.MemberHelper;
+import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Model;
+import com.example.blitz_t.Models.Status.Status;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.DesignApp;
 import com.example.blitz_t.Views.Login.Member.LoginMemberActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.storage.UploadTask;
 import com.libRG.CustomTextView;
 import java.util.List;
-import java.util.UUID;
+
+import static com.example.blitz_t.Models.Model.getNewId;
 
 public class RegisterMemberPart2Activity extends AppCompatActivity {
 
@@ -54,6 +56,7 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
     private ExtendedEditText text_cni_number_register;
     private Toolbar app_bar;
     private CollapsingToolbarLayout collapsing;
+    private RegisterMemberPart2Activity mRegisterMemberPart2Activity;
 
 
     @Override
@@ -64,6 +67,8 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
         mContextWrapper = this;
 
         mActivity = this;
+
+        mRegisterMemberPart2Activity = this;
 
         initView();
 
@@ -115,7 +120,14 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
             uploadImageCNI();
         }
         else {
-            Snackbar.make(btn_sign_in_register_member_part3, getString(R.string.text_error_complete_field), Snackbar.LENGTH_LONG).show();
+            new DialogPersonal().showDialog(
+                    mRegisterMemberPart2Activity,
+                    getString(R.string.text_create_account),
+                    getString(R.string.text_error_complete_field),
+                    Status.AlertStatus.error ,
+                    null ,
+                    true ,
+                    mActivity);
         }
     }
 
@@ -195,12 +207,20 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
         mMember.setProfile_picture(imageProfileUrl);
         mMember.setPhone_number(spinner_code_phone_register.getSelectedItem().toString() + " " + text_phone_number_register.getText().toString());
         mMember.setPassword(text_password_register.getText().toString());
-        mMember.set_id(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
+        mMember.set_id(getNewId());
         mMember.setCni_number(text_cni_number_register.getText().toString());
-        mMember.setRegistration_date(Model.currentDate());
+        mMember.setRegistration_date(Model.currentDateString());
         MemberHelper.setMember(mMember);
         Model.clearFormPreference(mMember, getString(R.string.SHARED_PREF_MEMBER_REGISTER), getString(R.string.PREFERENCE_FILE_KEY), mContextWrapper );
-        startActivity(intent);
+
+        new DialogPersonal().showDialog(
+                mRegisterMemberPart2Activity,
+                getString(R.string.text_create_account),
+                getString(R.string.text_account_created),
+                Status.AlertStatus.success ,
+                intent ,
+                true ,
+                mActivity);
     }
 
     @Override

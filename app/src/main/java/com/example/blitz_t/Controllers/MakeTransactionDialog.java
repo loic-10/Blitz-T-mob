@@ -1,7 +1,7 @@
 package com.example.blitz_t.Controllers;
-import android.app.Application;
+
+import android.app.Activity;
 import android.app.Dialog;
-import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -9,19 +9,25 @@ import android.widget.ImageView;
 import android.widget.*;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.AccountCustomerActivity;
+import com.example.blitz_t.Api.MicrofinanceHelper;
+import com.example.blitz_t.Api.TransactionHelper;
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Status.Status;
+import com.example.blitz_t.Models.Transaction.Transaction;
 import com.example.blitz_t.R;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
+import static com.example.blitz_t.Models.Model.currentDateString;
+import static com.example.blitz_t.Models.Model.getNewId;
 
 public class MakeTransactionDialog {
 
@@ -58,16 +64,24 @@ public class MakeTransactionDialog {
     private ViewGroup.LayoutParams spinner_status_recipient_group_layout_params;
     private ViewGroup.LayoutParams spinner_account_group_layout_params;
     private ViewGroup.LayoutParams spinner_code_phone_recipient_group_layout_params;
+    private Status.RecipientStatus mRecipientStatus;
+    private Status.TransactionType mTransactionType;
+    private Dialog dialog;
+    private AccountCustomerActivity mAccountCustomerActivity;
+    private Activity mActivity;
 
-    public void showDialog( AccountCustomerActivity mainActivity, Status.TransactionType transactionType, Member member, Microfinance microfinance, Account account , Customer customer ){
-        Dialog dialog = new Dialog(mainActivity);
+    public void showDialog ( AccountCustomerActivity accountCustomerActivity , Status.TransactionType transactionType , Member member , Microfinance microfinance , Account account , Customer customer , Activity activity ){
+        dialog = new Dialog(accountCustomerActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.pop_make_transaction);
 
+        mAccountCustomerActivity = accountCustomerActivity;
+        mActivity = activity;
         mMember = member;
         mMicrofinance = microfinance;
         mAccount = account;
         mCustomer = customer;
+        mTransactionType = transactionType;
 
         initView(dialog);
 
@@ -79,9 +93,9 @@ public class MakeTransactionDialog {
 
         assignLayoutParams();
 
-        eliminatedView(transactionType);
+        eliminatedView(mTransactionType);
 
-        fillForm(transactionType);
+        fillForm(mTransactionType);
 
         dialog.show();
 
@@ -122,14 +136,16 @@ public class MakeTransactionDialog {
         spinner_status_recipient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected( AdapterView<?> adapterView, View view, int position, long id) {
-                Status.RecipientStatus recipientStatus = Status.RecipientStatus.valueOf(adapterView.getSelectedItem().toString());
-                eliminatedView(recipientStatus);
+                mRecipientStatus = Status.RecipientStatus.valueOf(adapterView.getSelectedItem().toString());
+                eliminatedView(mRecipientStatus);
             }
 
             @Override
             public void onNothingSelected( AdapterView<?> adapterView) {
             }
         });
+
+        btn_save.setOnClickListener(mListener);
     }
 
     private void eliminatedView ( Status.RecipientStatus recipientStatus ) {
@@ -249,13 +265,110 @@ public class MakeTransactionDialog {
 
     }
 
-    private static View.OnClickListener mListener = new View.OnClickListener() {
+    private View.OnClickListener mListener = new View.OnClickListener() {
         @Override
         public void onClick ( View v ) {
             switch (v.getId()){
                 case R.id.btn_save :
+                    saveTransaction();
                     break;
             }
         }
     };
+
+    private boolean isCompleted() throws Exception {
+        if(!text_amount.getText().toString().isEmpty() &&
+            !text_password.getText().toString().isEmpty() &&
+            text_password.getText().toString().equals(mCustomer.getPassword()) &&
+            (!mTransactionType.equals(Status.TransactionType.transfer) ||
+                (mRecipientStatus.equals(Status.RecipientStatus.customer) ?
+                    spinner_account.getSelectedItemPosition() > -1 :
+                    (!text_key_code.getText().toString().isEmpty() &&
+                        !text_cni_number_recipient.getText().toString().isEmpty() &&
+                        !text_full_name_recipient.getText().toString().isEmpty() &&
+                        spinner_code_phone_recipient.getSelectedItemPosition() > -1 &&
+                        !text_phone_number_recipient.getText().toString().isEmpty()
+                    )
+                )
+            )
+        ){
+            return true;
+        }
+        else {
+            throw new Exception(mAccountCustomerActivity.getString(R.string.text_error_complete_field));
+        }
+    }
+
+    private void saveTransaction(){
+        try {
+            boolean completed = isCompleted();
+            Transaction transaction = new Transaction();
+            transaction.set_id(getNewId());
+            transaction.setSending_account(mAccount);
+            transaction.setTransaction_date(currentDateString());
+            transaction.setAmount(Double.parseDouble(text_amount.getText().toString()));
+            transaction.setNumber_day_waiting(0);
+            transaction.setTransaction_type(mTransactionType);
+            transaction.setSending_employee(null);
+            if(mTransactionType.equals(Status.TransactionType.transfer)){
+                if(mRecipientStatus.equals(Status.RecipientStatus.customer)){
+                    transaction.setRecipient_account((Account) spinner_account.getSelectedItem());
+                }
+                else {
+                    transaction.setKey_code(text_key_code.getText().toString());
+                    transaction.setRecipient_cni_number(text_cni_number_recipient.getText().toString());
+                    transaction.setRecipient_name(text_full_name_recipient.getText().toString());
+                    transaction.setRecipient_phone_number(spinner_code_phone_recipient.getSelectedItem().toString() +
+                            " " +
+                            text_phone_number_recipient.getText().toString());
+                }
+                transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
+
+                TransactionHelper.setTransaction(transaction);
+                TransactionHelper.validedTransaction(transaction.get_id(), null);
+
+                new DialogPersonal().showDialog(
+                        mAccountCustomerActivity,
+                        mTransactionType.toString(),
+                        mAccountCustomerActivity.getString(R.string.request_success_transaction),
+                        Status.AlertStatus.success ,
+                        null ,
+                        true ,
+                        mActivity);
+            }
+            else {
+                transaction.setRecipient_account(mAccount);
+                if(mAccount.getAccount_type().equals(Status.AccountType.saving)){
+                    transaction.setNumber_day_waiting(Objects.requireNonNull(MicrofinanceHelper.getMicrofinance(mMicrofinance.get_id())).getNombre_jour_avis_retrait_epargne());
+                    transaction.setTransaction_status(Status.TransactionStatus.advised);
+                }
+                else {
+                    transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
+                }
+                TransactionHelper.setTransaction(transaction);
+
+                new DialogPersonal().showDialog(
+                        mAccountCustomerActivity,
+                        mTransactionType.toString(),
+                        mAccountCustomerActivity.getString(R.string.request_go_confirmation_transaction),
+                        Status.AlertStatus.success ,
+                        null ,
+                        true ,
+                        mActivity);
+            }
+
+        }
+        catch (Exception ex){
+            new DialogPersonal().showDialog(
+                    mAccountCustomerActivity,
+                    mTransactionType.toString(),
+                    ex.getMessage(),
+                    Status.AlertStatus.error ,
+                    null ,
+                    true ,
+                    mActivity);
+
+        }
+
+    }
 }

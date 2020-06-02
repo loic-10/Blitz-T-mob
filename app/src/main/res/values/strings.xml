@@ -96,6 +96,8 @@
     <string name="text_login_as_member">Please login as a member</string>
     <string name="request_wait_confirmation">Request made. You must wait for the response from microfinance, or go to the nearest agency for confirmation or call one of the microfinance agencies for more information. Thank you!</string>
     <string name="request_success_customer">Request made. You are now a customer of this microfinance!</string>
+    <string name="request_success_transaction">Transaction successfully completed!</string>
+    <string name="request_go_confirmation_transaction">Request made. Go to the nearest agency for confirmation or call one of the microfinance agencies for more information. Thank you!</string>
     <string name="request_in_progress">Request in progress!</string>
     <string name="text_new_account">New account</string>
     <string name="text_view_more">View more</string>
@@ -124,4 +126,9 @@
     <string name="text_enter_amount">Enter amount</string>
     <string name="text_title_status_recipient">Status recipient</string>
     <string name="text_choose_status_recipient">Choose status recipient</string>
+    <string name="text_ok">Okay</string>
+    <string name="text_welcome">Welcome</string>
+    <string name="text_login_member">Login member</string>
+    <string name="text_login_customer">Login customer</string>
+    <string name="text_account_created">Your account has been created</string>
 </resources>

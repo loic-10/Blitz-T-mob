@@ -24,7 +24,6 @@ public class NavHeader extends Fragment {
     private TextView text_customer_name;
     private TextView text_customer_phone_number;
 
-
     @Nullable
     @Override
     public View onCreateView ( @NonNull LayoutInflater inflater , @Nullable ViewGroup container , @Nullable Bundle savedInstanceState ) {

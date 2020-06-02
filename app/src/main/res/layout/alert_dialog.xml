@@ -6,52 +6,84 @@
     android:layout_height="wrap_content"
     tools:context=".AccountCustomerActivity">
 
-    <TextView
-        android:id="@+id/text_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Inilialise transaction"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/defaultColorWhite"
-        android:textSize="18sp"
-        android:drawableStart="@drawable/ic_transaction"
-        android:gravity="center_vertical"
-        android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/text_message"
+    <RelativeLayout
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" text insert"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_below="@+id/text_title"
-        android:paddingVertical="20dp"
-        android:paddingHorizontal="5dp"
-        android:shadowRadius="@integer/google_play_services_version"
-        android:shadowColor="@color/colorPrimaryDark"
-        />
+        android:background="@color/colorPrimaryDark"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/icon_status"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_error"
+            android:tint="@color/defaultColorWhite"
+            android:layout_margin="5dp"/>
+
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TITLE"
+            android:textColor="@color/defaultColorWhite"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:layout_toEndOf="@+id/icon_status"
+            android:layout_centerInParent="true"
+            android:textAllCaps="true"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/title"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" text insert"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="5dp"
+            android:shadowRadius="@integer/google_play_services_version"
+            android:shadowColor="@color/colorPrimaryDark"/>
+
+        <ImageView
+            android:id="@+id/image_status"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/succes"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/text_message">
+        android:layout_below="@id/message"
+        android:layout_centerInParent="true">
         <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_ok"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark_transparent_99"
-            android:text="@string/text_cancel"
-            android:textColor="@color/defaultColorWhite"/>
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/colorPrimaryDark_transparent_80"
-            android:text="@string/text_save"
+            android:text="@string/text_ok"
             android:textColor="@color/defaultColorWhite"/>
     </LinearLayout>
 

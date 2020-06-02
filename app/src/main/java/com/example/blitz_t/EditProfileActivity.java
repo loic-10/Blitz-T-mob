@@ -19,16 +19,17 @@ import android.widget.*;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.DirectoryUpload;
 import com.example.blitz_t.Api.MemberHelper;
+import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.Models.City.City;
 import com.example.blitz_t.Models.Country.Country;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Sex.Sex;
+import com.example.blitz_t.Models.Status.Status;
 import com.example.blitz_t.Views.DesignApp;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +66,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private List<City> cities;
     private List<Country> countries;
     private DatePickerDialog.OnDateSetListener setListener;
+    private EditProfileActivity mEditProfileActivity;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -73,6 +75,8 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         listNumberCode = new ArrayList<>();
+
+        mEditProfileActivity = this;
 
         if(this.selectedImageCNIUri != null) {
             DesignApp.updateImage(getApplicationContext() , image_cni , null , this.selectedImageCNIUri);
@@ -268,13 +272,22 @@ public class EditProfileActivity extends AppCompatActivity {
                                     public void onSuccess ( Uri uri ) {
                                         MemberHelper.deleteImage(mMember.getCni_copy());
                                         mMember.setCni_copy(uri.toString());
-                                        updatedMember(mMember, btn_edit_cni, R.string.text_modified_cni);
+
+                                        updatedMember(mMember, R.string.text_modified_cni);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure ( @NonNull Exception e ) {
-                                        Snackbar.make(btn_edit_cni, getString(R.string.text_operation_failed), Snackbar.LENGTH_LONG).show();
+
+                                        new DialogPersonal().showDialog(
+                                                mEditProfileActivity,
+                                                getString(R.string.text_edit_profile),
+                                                getString(R.string.text_operation_failed),
+                                                Status.AlertStatus.error ,
+                                                null ,
+                                                true ,
+                                                mActivity);
                                     }
                                 });
                     }
@@ -282,7 +295,15 @@ public class EditProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure ( @NonNull Exception e ) {
-                        Snackbar.make(btn_edit_cni, getString(R.string.text_operation_failed), Snackbar.LENGTH_LONG).show();
+
+                        new DialogPersonal().showDialog(
+                                mEditProfileActivity,
+                                getString(R.string.text_edit_profile),
+                                getString(R.string.text_operation_failed),
+                                Status.AlertStatus.error ,
+                                null ,
+                                true ,
+                                mActivity);
                     }
                 });
     }
@@ -299,13 +320,23 @@ public class EditProfileActivity extends AppCompatActivity {
                                     public void onSuccess ( Uri uri ) {
                                         MemberHelper.deleteImage(mMember.getProfile_picture());
                                         mMember.setProfile_picture(uri.toString());
-                                        updatedMember(mMember, btn_edit_profile, R.string.text_modified_profile);
+
+                                        updatedMember(mMember,  R.string.text_modified_profile);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure ( @NonNull Exception e ) {
-                                        Snackbar.make(btn_edit_profile, getString(R.string.text_operation_failed), Snackbar.LENGTH_LONG).show();
+
+                                        new DialogPersonal().showDialog(
+                                                mEditProfileActivity,
+                                                getString(R.string.text_edit_profile),
+                                                getString(R.string.text_operation_failed),
+                                                Status.AlertStatus.error ,
+                                                null ,
+                                                true ,
+                                                mActivity);
+
                                     }
                                 });
                     }
@@ -313,16 +344,32 @@ public class EditProfileActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure ( @NonNull Exception e ) {
-                        Snackbar.make(btn_edit_profile, getString(R.string.text_operation_failed), Snackbar.LENGTH_LONG).show();
+
+                        new DialogPersonal().showDialog(
+                                mEditProfileActivity,
+                                getString(R.string.text_edit_profile),
+                                getString(R.string.text_operation_failed),
+                                Status.AlertStatus.error ,
+                                null ,
+                                true ,
+                                mActivity);
 
                     }
                 });
     }
 
-    private void updatedMember( final Member member, final View view, final int messageSuccess){
+    private void updatedMember( final Member member, final int messageSuccess){
         MemberHelper.setMember(member);
         Model.saveFormPreference(member, getString(R.string.SHARED_PREF_MEMBER_LOGIN), getString(R.string.PREFERENCE_FILE_KEY), mContextWrapper );
-        Snackbar.make(view, getString(messageSuccess), Snackbar.LENGTH_LONG).show();
+
+        new DialogPersonal().showDialog(
+                mEditProfileActivity,
+                getString(R.string.text_edit_profile),
+                getString(messageSuccess),
+                Status.AlertStatus.success ,
+                null ,
+                true ,
+                mActivity);
     }
 
     private void saveMember(){
@@ -335,7 +382,7 @@ public class EditProfileActivity extends AppCompatActivity {
         mMember.setAddress(text_address_register.getText().toString());
         mMember.setPhone_number(spinner_code_phone_register.getSelectedItem().toString() + " " + text_phone_number_register.getText().toString());
         mMember.setPassword(text_password_register.getText().toString());
-        updatedMember(mMember, button_save, R.string.text_modified_account);
+        updatedMember(mMember, R.string.text_modified_account);
 
     }
 

@@ -156,4 +156,9 @@ public class Status {
         customer,
         non_customer
     }
+
+    public enum AlertStatus {
+        error,
+        success
+    }
 }

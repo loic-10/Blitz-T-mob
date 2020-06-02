@@ -1,5 +1,6 @@
 package com.example.blitz_t.Views.Login.Customer;
 
+import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,17 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.HomeCustomerActivity;
 import com.example.blitz_t.HomeMemberActivity;
 import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
+import com.example.blitz_t.Models.Status.Status;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.DesignApp;
 import com.example.blitz_t.Views.Register.Customer.MembershipRequestActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -44,12 +47,17 @@ public class LoginCustomerActivity extends AppCompatActivity {
     private TextFieldBoxes text_password_login_group;
     private Button btn_login_customer;
     private MenuItem buttonItem;
+    private Activity mActivity;
+    private LoginCustomerActivity mLoginCustomerActivity;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_customer);
 
+        mActivity = this;
+
+        mLoginCustomerActivity = this;
 
         initView();
         
@@ -128,6 +136,7 @@ public class LoginCustomerActivity extends AppCompatActivity {
         getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                final ArrayList<Customer> customers = new ArrayList<>();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Customer customer = data.getValue(Customer.class);
                     if(customer != null &&
@@ -137,16 +146,41 @@ public class LoginCustomerActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), HomeCustomerActivity.class);
                             Model.saveFormPreference(customer, getString(R.string.SHARED_PREF_CUSTOMER_LOGIN),
                                     getString(R.string.PREFERENCE_FILE_KEY), (ContextWrapper) getApplicationContext());
-                            startActivity(intent);
-                            finish();
+                        customers.add(customer);
+                        new DialogPersonal().showDialog(
+                                mLoginCustomerActivity,
+                            getString(R.string.text_login_customer),
+                            getString(R.string.text_welcome) + " " + customer.getMicrofinance().getNom(),
+                            Status.AlertStatus.success ,
+                            intent ,
+                            true ,
+                            mActivity);
+                        break;
                     }
                 }
-                Snackbar.make(text_password_login, R.string.text_no_account_found, Snackbar.LENGTH_LONG);
+
+                if(customers.size() <= 0){
+                    new DialogPersonal().showDialog(
+                            mLoginCustomerActivity,
+                            getString(R.string.text_login_customer),
+                            getString(R.string.text_no_account_found),
+                            Status.AlertStatus.error ,
+                            null ,
+                            true ,
+                            mActivity);
+                }
             }
 
             @Override
             public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(text_password_login, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
+                new DialogPersonal().showDialog(
+                        mLoginCustomerActivity,
+                        getString(R.string.text_login_customer),
+                        getString(R.string.text_operation_failed),
+                        Status.AlertStatus.error ,
+                        null,
+                        true ,
+                        mActivity);
             }
         });
     }
