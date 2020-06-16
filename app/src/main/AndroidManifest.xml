@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".TransactionAccountActivity"></activity>
+        <activity android:name=".Views.Transaction.Activity.MakeTransactionActivity"></activity>
+        <activity android:name=".Views.Transaction.Activity.TransactionAccountActivity" />
         <activity android:name=".AccountCustomerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

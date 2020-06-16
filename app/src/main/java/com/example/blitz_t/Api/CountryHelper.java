@@ -11,32 +11,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class CountryHelper {
-    private static final String COLLECTION_NAME = "/country/";
+public class CountryHelper extends DB<Country> {
 
-    // --- COLLECTION REFERENCE ---
-
-    // Write a message to the database
-
-    public static CollectionReference getCountryCollection(){
-        return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+    public CountryHelper ( Country data ) {
+        super(data);
     }
 
     // --- CREATE ---
 
-    public static void setCountry(Country country){
-        new DB<Country>(country).setObject(country, country.get_id());
+    public void setCountry(Country country){
+        setObject(country, country.get_id());
     }
 
     // --- GET ---
 
-    public static DatabaseReference getCountries(){
-        return new DB<Country>(new Country()).getReference();
+    public DatabaseReference getCountries(){
+        return getReference();
     }
 
     // --- DELETE ---
 
-    public static void deleteCountry( String _id ){
-        new DB<Country>(new Country()).removeObject(_id);
+    public void deleteCountry( String _id ){
+        removeObject(_id);
     }
 }

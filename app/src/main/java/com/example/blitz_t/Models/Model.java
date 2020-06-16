@@ -11,8 +11,12 @@ import com.example.blitz_t.Api.AccountHelper;
 import com.example.blitz_t.Api.AgencyHelper;
 import com.example.blitz_t.Api.CityHelper;
 import com.example.blitz_t.Api.CountryHelper;
+import com.example.blitz_t.Api.CustomerHelper;
+import com.example.blitz_t.Api.MicrofinanceHelper;
+import com.example.blitz_t.Api.TransactionHelper;
 import com.example.blitz_t.Controllers.AccountPagerAdapter;
 import com.example.blitz_t.Controllers.AccountRecyclerAdapter;
+import com.example.blitz_t.Controllers.AgencyMicrofinanceRecyclerAdapter;
 import com.example.blitz_t.Controllers.MicrofinanceRecyclerAdapter;
 import com.example.blitz_t.Controllers.TransactionRecyclerAdapter;
 import com.example.blitz_t.Models.Account.Account;
@@ -34,17 +38,27 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
-import static com.example.blitz_t.Api.AccountHelper.getAccounts;
-import static com.example.blitz_t.Api.CustomerHelper.getCustomers;
-import static com.example.blitz_t.Api.MicrofinanceHelper.getMicrofinances;
-import static com.example.blitz_t.Api.TransactionHelper.getTransactions;
 
 public class Model {
+
+    static MicrofinanceHelper sMicrofinanceHelper = new MicrofinanceHelper(new Microfinance());
+
+    static CustomerHelper sCustomerHelper = new CustomerHelper(new Customer());
+
+    static CountryHelper sCountryHelper = new CountryHelper(new Country());
+
+    static CityHelper sCityHelper = new CityHelper(new City());
+
+    static AgencyHelper sAgencyHelper = new AgencyHelper(new Agency());
+
+    static AccountHelper sAccountHelper = new AccountHelper(new Account());
+
+    static TransactionHelper sTransactionHelper = new TransactionHelper(new Transaction());
 
     public static String ConvertToString(String dateInString) throws ParseException {
         String format = "YYYY-MM-dd";
@@ -136,28 +150,59 @@ public class Model {
 //    }
 
 
-    public static void checkAccountCustomer( final ViewPager viewPager, final Context context, final Activity activity, final Customer customer, final Microfinance microfinance, final Account account){
-        final ArrayList<Account> accounts = new ArrayList<>();
-        getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
+
+    public static void checkAgenciesMicrofinance( final RecyclerView recyclerView, final Context context, final String name, final Microfinance microfinance, final Activity activity){
+        final ArrayList<Agency> agencies = new ArrayList<>();
+        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                if ( account ==  null ){
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
-                        Account account = data.getValue(Account.class);
-                        if(account != null &&
-                                account.getCustomer().get_id().equals(customer.get_id()) &&
-                                account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())){
-                            accounts.add(account);
-                        }
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Agency agency = data.getValue(Agency.class);
+                    if(agency != null &&
+                            (agency.getQuartier().toLowerCase().contains(name.toLowerCase()) ||
+                                    agency.getCity().getName().toLowerCase().contains(name.toLowerCase())
+                            ) &&
+                            agency.getMicrofinance().get_id().equals(microfinance.get_id())){
+                        agencies.add(agency);
                     }
                 }
-                else{
-                    accounts.add(account);
+                AgencyMicrofinanceRecyclerAdapter adapter = new AgencyMicrofinanceRecyclerAdapter(agencies , context, activity);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
+            }
+        });
+    }
+
+    public static void checkAccountCustomer( final ViewPager viewPager, final Context context, final Activity activity, final Customer customer, final Microfinance microfinance, final Account account_, final ArrayList<Account> accounts_){
+        final ArrayList<Account> accounts = new ArrayList<>();
+        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Account account = data.getValue(Account.class);
+                    if((account_ == null &&
+                            account != null &&
+                            account.getCustomer().get_id().equals(customer.get_id()) &&
+                            account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())
+                        ) ||
+                        (account_ != null &&
+                            account_.get_id().equals(account.get_id()))
+                        ){
+                        accounts.add(account);
+                        if(account_ != null)
+                            break;
+                    }
                 }
 
                 AccountPagerAdapter mAdapter = new AccountPagerAdapter(accounts, context, activity);
                 viewPager.setAdapter(mAdapter);
                 viewPager.setPadding(50, 0, 50, 0);
+                accounts_.clear();
+                accounts_.addAll(accounts);
 
             }
 
@@ -175,7 +220,8 @@ public class Model {
             return;
         }
         final ArrayList<Microfinance> microfinances = new ArrayList<>();
-        getMicrofinances().addListenerForSingleValueEvent(new ValueEventListener() {
+
+        sMicrofinanceHelper.getMicrofinances().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -197,7 +243,7 @@ public class Model {
 
     public static void checkMicrofinancesMember( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
         final ArrayList<Microfinance> microfinances = new ArrayList<>();
-        getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCustomerHelper.getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -218,9 +264,20 @@ public class Model {
         });
     }
 
-    public static void checkTransactionCustomer( final RecyclerView recyclerView, final Context context, final Customer customer, final Microfinance microfinance, final Activity activity, final String value, final int limit, final Account account ){
+    public static void checkTransactionCustomer ( final RecyclerView recyclerView , final Context context , final Customer customer , final Microfinance microfinance , final Activity activity , final String value , final int limit , final Account account , final SwipeRefreshLayout swipe_refresh_recycler_transaction ){
         final ArrayList<Transaction> transactions = new ArrayList<>();
-        getTransactions().addListenerForSingleValueEvent(new ValueEventListener() {
+        if(swipe_refresh_recycler_transaction != null)
+        {
+            swipe_refresh_recycler_transaction.setColorSchemeResources(
+                    R.color.colorPrimaryDark,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+        }
+
+//        Query queryTransaction = sTransactionHelper.getTransactions().orderByChild("transaction_date");
+
+        sTransactionHelper.getTransactions().orderByChild("transaction_date").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -240,18 +297,24 @@ public class Model {
                         ) &&
                         (account == null ||
                             (transaction.getSending_account().get_id().equals(account.get_id()) ||
-                            transaction.getRecipient_account().get_id().equals(account.get_id()))
+                                (transaction.getRecipient_account() != null &&
+                                    transaction.getRecipient_account().get_id().equals(account.get_id())
+                                )
+                            )
                         )
                     ){
                         transactions.add(transaction);
                     }
                 }
+
                 reverseList(transactions);
 
-                if(limit > 0){
+                if(limit > 0 && transactions.size() > 0){
                     final ArrayList<Transaction> results = new ArrayList<>();
                     for (int i = 0; i < limit; i++){
                         results.add(transactions.get(i));
+                        if((i + 1) >= transactions.size())
+                            break;
                     }
                     transactions.clear();
                     transactions.addAll(results);
@@ -261,6 +324,10 @@ public class Model {
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 recyclerView.setAdapter(mAdapter);
+
+                if(swipe_refresh_recycler_transaction != null){
+                    swipe_refresh_recycler_transaction.setRefreshing(false);
+                }
 
             }
 
@@ -273,7 +340,7 @@ public class Model {
 
     public static void checkAccountCustomer( final RecyclerView recyclerView, final Context context, final Customer customer, final Microfinance microfinance, final Activity activity){
         final ArrayList<Account> accounts = new ArrayList<>();
-        getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
+        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -304,7 +371,7 @@ public class Model {
         final ArrayList<City> cities = new ArrayList<>();
         final City[] citySearch = {new City()};
 
-        CityHelper.getCities().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCityHelper.getCities().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -336,7 +403,7 @@ public class Model {
         final ArrayList<Country> countries = new ArrayList<>();
         final Country[] countrySearch = {new Country()};
 
-        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -371,7 +438,7 @@ public class Model {
 
         final ArrayList<String> listNumberCode = new ArrayList<>();
 
-        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -395,7 +462,7 @@ public class Model {
 
     public static void checkCitiesForAgencyMicrofinance( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance) {
         final ArrayList<City> cities = new ArrayList<>();
-        AgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
+        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -418,7 +485,7 @@ public class Model {
 
     public static void checkAgencyCity ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final City city ) {
         final ArrayList<Agency> agencies = new ArrayList<>();
-        AgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
+        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -442,7 +509,7 @@ public class Model {
 
     public static void checkAccountMicrofinance ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final Account account ) {
         final ArrayList<Account> accounts = new ArrayList<>();
-        AccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
+        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {

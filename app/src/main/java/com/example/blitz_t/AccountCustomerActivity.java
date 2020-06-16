@@ -8,7 +8,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+
 import com.example.blitz_t.Controllers.AccountPagerAdapter;
 import com.example.blitz_t.Controllers.MakeTransactionDialog;
 import com.example.blitz_t.Models.Account.Account;
@@ -17,6 +20,10 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Status.Status;
+import com.example.blitz_t.Views.Transaction.Activity.MakeTransactionActivity;
+import com.example.blitz_t.Views.Transaction.Activity.TransactionAccountActivity;
+
+import java.util.ArrayList;
 
 import static com.example.blitz_t.Models.Model.checkAccountCustomer;
 
@@ -36,11 +43,16 @@ public class AccountCustomerActivity extends AppCompatActivity {
     private Member mMember;
     private Activity mActivity;
 
+    private MenuItem buttonItem;
+    private Toolbar app_bar;
+
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_customer);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         this.setTitle(R.string.text_menu_account);
 
@@ -53,6 +65,16 @@ public class AccountCustomerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initView();
+
+        if(buttonItem != null){
+            buttonItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick ( MenuItem item ) {
+                    finish();
+                    return true;
+                }
+            });
+        }
 
         initEvent();
 
@@ -80,7 +102,7 @@ public class AccountCustomerActivity extends AppCompatActivity {
                 getString(R.string.PREFERENCE_FILE_KEY),
                 this);
 
-        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount);
+        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, new ArrayList<Account>());
     }
 
     private void initEvent () {
@@ -103,13 +125,19 @@ public class AccountCustomerActivity extends AppCompatActivity {
                     intent = new Intent(getApplicationContext(), TransactionAccountActivity.class);
                     break;
                 case R.id.btn_make_deposit :
-                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.deposit, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
+                    intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
+                    Model.saveFormPreference(Status.TransactionType.deposit , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                            getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
                 case R.id.btn_make_withdrawal :
-                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.withdrawal, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
+                    intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
+                    Model.saveFormPreference(Status.TransactionType.withdrawal , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                            getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
                 case R.id.btn_make_transfer :
-                    dialog.showDialog(mAccountCustomerActivity , Status.TransactionType.transfer, mMember, mMicrofinance, mAccount, mCustomer, mActivity);
+                    intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
+                    Model.saveFormPreference(Status.TransactionType.transfer , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                            getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
             }
 
@@ -126,6 +154,10 @@ public class AccountCustomerActivity extends AppCompatActivity {
         btn_make_deposit = findViewById(R.id.btn_make_deposit);
         btn_make_withdrawal = findViewById(R.id.btn_make_withdrawal);
         btn_make_transfer = findViewById(R.id.btn_make_transfer);
+
+        app_bar = findViewById(R.id.toolbar);
+
+        buttonItem = app_bar.getMenu().findItem(R.id.menu_return);
 
     }
 }

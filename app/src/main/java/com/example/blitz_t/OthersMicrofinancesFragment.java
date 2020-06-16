@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import static com.example.blitz_t.Models.Model.checkMicrofinances;
 
@@ -58,4 +61,5 @@ public class OthersMicrofinancesFragment extends Fragment {
 
         return view;
     }
+
 }

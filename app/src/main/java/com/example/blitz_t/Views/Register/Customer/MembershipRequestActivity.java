@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -78,6 +79,8 @@ public class MembershipRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_membership_request);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         mBuilder = new AlertDialog.Builder(this);
         mProgressDialog = new ProgressDialog(this);
 
@@ -86,8 +89,6 @@ public class MembershipRequestActivity extends AppCompatActivity {
         mMembershipRequestActivity = this;
 
         initView();
-        initSpinner();
-        initEvent();
 
         if(buttonItem != null){
             buttonItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -118,6 +119,10 @@ public class MembershipRequestActivity extends AppCompatActivity {
                 getString(R.string.SHARED_PREF_MICROFINANCE_SELECT),
                 getString(R.string.PREFERENCE_FILE_KEY),
                 this);
+
+        initEvent();
+
+        initSpinner();
 
         initInfoMicrofinance(mMicrofinance);
 
@@ -195,9 +200,9 @@ public class MembershipRequestActivity extends AppCompatActivity {
         text_confirm_password_register = findViewById(R.id.text_confirm_password_register);
 
         button_save = findViewById(R.id.button_save);
-        app_bar = findViewById(R.id.app_bar);
         collapsing = findViewById(R.id.collapsing);
         image_item_micro_finance = findViewById(R.id.image_item_micro_finance);
+        app_bar = findViewById(R.id.app_bar);
         buttonItem = app_bar.getMenu().findItem(R.id.menu_return);
     }
 
@@ -243,7 +248,7 @@ public class MembershipRequestActivity extends AppCompatActivity {
                     getString(R.string.text_operation_failed),
                     Status.AlertStatus.error ,
                     null ,
-                    true ,
+                    false ,
                     mActivity);
         }
     }

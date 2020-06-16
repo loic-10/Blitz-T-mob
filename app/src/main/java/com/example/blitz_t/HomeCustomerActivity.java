@@ -8,21 +8,16 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blitz_t.Models.Customer.Customer;
-import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
-import com.example.blitz_t.Views.DesignApp;
+import com.example.blitz_t.Views.Transaction.Fragment.TransactionFragment;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.Objects;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;

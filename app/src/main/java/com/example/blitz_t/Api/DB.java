@@ -3,11 +3,14 @@ package com.example.blitz_t.Api;
 import android.net.Uri;
 
 import com.example.blitz_t.Models.Microfinance.Microfinance;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.snapshot.BooleanNode;
+import com.google.firebase.database.snapshot.IndexedNode;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,12 +38,51 @@ class DB<T> {
     }
 
     void getReferenceObject ( String _id , final ArrayList objects , final Object o ){
-        getReference().equalTo(_id, "_id").addListenerForSingleValueEvent(new ValueEventListener() {
+        getReference().equalTo(_id, "_id").getRef().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     if(data != null){
                         objects.add(data.getValue(o.getClass()));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+
+            }
+        });
+    }
+
+    void getObjects (final ArrayList objects){
+        final T data_ = this.data;
+        getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    if(data != null){
+                        objects.add(data.getValue(data_.getClass()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled ( @NonNull DatabaseError databaseError ) {
+
+            }
+        });
+    }
+
+    void getObjects ( final ArrayList objects, final String _id){
+        final T data_ = this.data;
+        getReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    if(data != null && Objects.requireNonNull(data.child("_id").getValue()).toString().equals(_id)){
+                        objects.add(data.getValue(data_.getClass()));
                         break;
                     }
                 }

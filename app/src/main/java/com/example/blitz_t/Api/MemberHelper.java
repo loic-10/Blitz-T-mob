@@ -17,33 +17,37 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
 
-public class MemberHelper {
+public class MemberHelper extends DB<Member> {
+
+    public MemberHelper ( Member data ) {
+        super(data);
+    }
 
     // --- CREATE AND SET ---
 
-    public static void setMember( Member member){
-        new DB<Member>(member).setObject(member, member.get_id());
+    public void setMember( Member member){
+        setObject(member, member.get_id());
     }
 
     // --- GET ---
 
-    public static DatabaseReference getMembers(){
-        return new DB<Member>(new Member()).getReference();
+    public DatabaseReference getMembers(){
+        return getReference();
     }
 
     // --- UPLOAD ---
 
-    public static UploadTask uploadImage( Uri imageUri, String child ){
-        return new DB<Member>(new Member()).uploadImage(imageUri, child);
+    public UploadTask uploadImage( Uri imageUri, String child ){
+        return super.uploadImage(imageUri, child);
     }
 
-    public static void deleteImage( String fullUrl ){
-        new DB<Member>(new Member()).deleteImage(fullUrl);
+    public void deleteImage( String fullUrl ){
+        super.deleteImage(fullUrl);
     }
 
     // --- DELETE ---
 
-    public static void deleteMember( String _id ){
-        new DB<Member>(new Member()).removeObject(_id);
+    public void deleteMember( String _id ){
+        removeObject(_id);
     }
 }

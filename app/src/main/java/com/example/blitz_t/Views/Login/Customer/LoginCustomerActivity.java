@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.blitz_t.Api.CustomerHelper;
 import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.HomeCustomerActivity;
 import com.example.blitz_t.HomeMemberActivity;
@@ -32,28 +33,31 @@ import androidx.appcompat.widget.Toolbar;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
-import static com.example.blitz_t.Api.CustomerHelper.getCustomers;
-
 public class LoginCustomerActivity extends AppCompatActivity {
 
     private Member mMember;
     private Toolbar app_bar;
     private CollapsingToolbarLayout collapsing;
     private Microfinance mMicrofinance;
-    private ImageView image_item_micro_finance;
     private TextView text_microfinance_name;
     private TextView text_microfinance_slogan;
     private ExtendedEditText text_password_login;
     private TextFieldBoxes text_password_login_group;
+    private ImageView image_item_micro_finance;
     private Button btn_login_customer;
     private MenuItem buttonItem;
     private Activity mActivity;
+
     private LoginCustomerActivity mLoginCustomerActivity;
+
+    static CustomerHelper sCustomerHelper = new CustomerHelper(new Customer());
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_customer);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         mActivity = this;
 
@@ -133,7 +137,7 @@ public class LoginCustomerActivity extends AppCompatActivity {
     }
 
     private void startLoginCustomer() {
-        getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCustomerHelper.getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 final ArrayList<Customer> customers = new ArrayList<>();
@@ -187,7 +191,7 @@ public class LoginCustomerActivity extends AppCompatActivity {
 
     private void isCustomerMicrofinance () {
         final ArrayList<Microfinance> microfinances = new ArrayList<>();
-        getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCustomerHelper.getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {

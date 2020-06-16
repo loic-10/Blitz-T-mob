@@ -1,26 +1,16 @@
 package com.example.blitz_t.Api;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-
-import com.example.blitz_t.Controllers.MicrofinanceRecyclerAdapter;
 import com.example.blitz_t.Models.Customer.Customer;
-import com.example.blitz_t.Models.Member.Member;
-import com.example.blitz_t.Models.Microfinance.Microfinance;
-import com.example.blitz_t.R;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+public class CustomerHelper extends DB<Customer> {
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+    private Customer mCustomer;
 
-public class CustomerHelper {
+    public CustomerHelper ( Customer data ) {
+        super(data);
+        mCustomer = data;
+    }
 
     // --- CREATE AND SET ---
 
@@ -30,8 +20,8 @@ public class CustomerHelper {
 
     // --- GET ---
 
-    public static DatabaseReference getCustomers(){
-        return new DB<Customer>(new Customer()).getReference();
+    public DatabaseReference getCustomers(){
+        return getReference();
     }
 
     // --- DELETE ---

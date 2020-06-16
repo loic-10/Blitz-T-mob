@@ -1,66 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".AccountCustomerActivity">
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".Views.Transaction.Activity.MakeTransactionActivity">
 
-    <RelativeLayout
-        android:id="@+id/text_title_transaction"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="@drawable/transparence_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:fitsSystemWindows="true"
+        android:background="?colorPrimary"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                app:collapsedTitleGravity="start"
+                app:expandedTitleGravity="bottom"
+                app:title="@string/app_name"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/image_type_transaction"
+                    android:src="@drawable/background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
+                    app:layout_collapseMode="parallax"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/transparence_image"/>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    app:layout_collapseMode="pin"
+                    app:menu="@menu/return_menu"
+                    app:navigationIcon="@drawable/ic_bank_building_my"
+                    android:paddingTop="18dp"/>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Now we are going to add content for app good look below collapsing toolbar -->
+
+        <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
-
-        <ImageView
-            android:id="@+id/image_transaction"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_transaction"
-            android:tint="@color/defaultColorWhite"
-            android:layout_margin="5dp"/>
-
-
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="type_transaction"
-            android:textColor="@color/defaultColorWhite"
-            android:textSize="18sp"
-            android:padding="10dp"
-            android:layout_toEndOf="@+id/image_transaction"
-            android:layout_centerInParent="true"
-            android:textAllCaps="true"/>
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@drawable/transparence_button"
-            android:text="@string/text_save"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_margin="5dp"/>
-
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/transaction_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_title_transaction"
-        android:paddingBottom="30dp">
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp">
+
+            <RelativeLayout
+                android:id="@+id/view_account"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginTop="10dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:clipToPadding="false"
+                    android:foregroundGravity="center"
+                    android:overScrollMode="never"
+                    android:saveEnabled="false"
+                    android:clickable="false"/>
+
+            </RelativeLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -83,9 +114,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:labelText="@string/text_enter_amount"
                     app:iconSignifier="@drawable/ic_banknotes"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark">
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorGray"
+                    app:primaryColor="@color/defaultColorWhite">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/text_amount"
@@ -93,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:enabled="false"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -110,9 +141,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_amount_group"
                     app:labelText="@string/text_enter_password"
                     app:iconSignifier="@drawable/ic_password"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark"
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorGray"
+                    app:primaryColor="@color/defaultColorWhite"
                     android:soundEffectsEnabled="true">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
@@ -121,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:enabled="false"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -144,7 +175,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_landlord"
-                        android:backgroundTint="@color/colorPrimaryDark"/>
+                        android:backgroundTint="@color/defaultColorWhite"/>
 
                     <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                         android:id="@+id/spinner_status_recipient"
@@ -153,21 +184,22 @@
                         android:layout_toEndOf="@+id/img0"
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="10dp"
-                        android:spinnerMode="dropdown"
+                        android:spinnerMode="dialog"
                         android:theme="@style/AppTheme"
-                        app:smsp_arrowColor="@color/colorPrimaryDark"
-                        app:smsp_floatingLabelColor="@color/colorPrimaryDark"
-                        app:smsp_hintColor="@color/colorPrimaryDark"
-                        app:smsp_itemColor="@color/colorPrimaryDark"
+                        app:smsp_arrowColor="@color/defaultColorWhite"
+                        app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                        app:smsp_hintColor="@color/defaultColorWhite"
+                        app:smsp_itemColor="@color/defaultColorWhite"
                         app:smsp_itemListColor="@color/defaultColorBlack"
                         app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
-                        app:smsp_itemListHintColor="@color/colorPrimaryDark"
+                        app:smsp_itemListHintColor="@color/defaultColorWhite"
                         app:smsp_selectedItemListColor="@color/colorPrimaryDark"
-                        app:smsp_underlineColor="@color/colorPrimaryDark"
+                        app:smsp_underlineColor="@color/defaultColorWhite"
                         app:smsp_floatingLabelText="@string/text_title_status_recipient"
                         app:smsp_multilineError="false"
                         app:smsp_hint="@string/text_choose_status_recipient"
-                        app:smsp_underlineSize="1dp" />
+                        app:smsp_underlineSize="1dp"
+                        />
 
                 </RelativeLayout>
 
@@ -190,7 +222,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_account_box_black_24dp"
-                        android:backgroundTint="@color/colorPrimaryDark"/>
+                        android:backgroundTint="@color/defaultColorWhite"/>
 
                     <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                         android:id="@+id/spinner_account"
@@ -201,15 +233,15 @@
                         android:layout_marginLeft="10dp"
                         android:spinnerMode="dropdown"
                         android:theme="@style/AppTheme"
-                        app:smsp_arrowColor="@color/colorPrimaryDark"
-                        app:smsp_floatingLabelColor="@color/colorPrimaryDark"
-                        app:smsp_hintColor="@color/colorPrimaryDark"
-                        app:smsp_itemColor="@color/colorPrimaryDark"
+                        app:smsp_arrowColor="@color/defaultColorWhite"
+                        app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                        app:smsp_hintColor="@color/defaultColorWhite"
+                        app:smsp_itemColor="@color/defaultColorWhite"
                         app:smsp_itemListColor="@color/defaultColorBlack"
                         app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
-                        app:smsp_itemListHintColor="@color/colorPrimaryDark"
+                        app:smsp_itemListHintColor="@color/defaultColorWhite"
                         app:smsp_selectedItemListColor="@color/colorPrimaryDark"
-                        app:smsp_underlineColor="@color/colorPrimaryDark"
+                        app:smsp_underlineColor="@color/defaultColorWhite"
                         app:smsp_floatingLabelText="@string/text_title_account"
                         app:smsp_multilineError="false"
                         app:smsp_hint="@string/text_choose_account"
@@ -226,9 +258,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     app:iconSignifier="@drawable/ic_user"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark"
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorGray"
+                    app:primaryColor="@color/defaultColorWhite"
                     app:labelText="@string/text_enter_recipient_name"
                     app:layout_constraintEnd_toEndOf="@+id/spinner_status_recipient_group"
                     app:layout_constraintStart_toStartOf="@+id/spinner_status_recipient_group"
@@ -239,7 +271,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -262,7 +294,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/ic_voip_gateway"
-                        android:backgroundTint="@color/colorPrimaryDark"/>
+                        android:backgroundTint="@color/defaultColorWhite"/>
 
                     <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
                         android:id="@+id/spinner_code_phone_recipient"
@@ -273,15 +305,15 @@
                         android:layout_marginLeft="10dp"
                         android:spinnerMode="dropdown"
                         android:theme="@style/AppTheme"
-                        app:smsp_arrowColor="@color/colorPrimaryDark"
-                        app:smsp_floatingLabelColor="@color/colorPrimaryDark"
-                        app:smsp_hintColor="@color/colorPrimaryDark"
-                        app:smsp_itemColor="@color/colorPrimaryDark"
+                        app:smsp_arrowColor="@color/defaultColorWhite"
+                        app:smsp_floatingLabelColor="@color/defaultColorWhite"
+                        app:smsp_hintColor="@color/defaultColorWhite"
+                        app:smsp_itemColor="@color/defaultColorWhite"
                         app:smsp_itemListColor="@color/defaultColorBlack"
                         app:smsp_itemListHintBackgroundColor="@color/colorPrimaryDark"
-                        app:smsp_itemListHintColor="@color/colorPrimaryDark"
+                        app:smsp_itemListHintColor="@color/defaultColorWhite"
                         app:smsp_selectedItemListColor="@color/colorPrimaryDark"
-                        app:smsp_underlineColor="@color/colorPrimaryDark"
+                        app:smsp_underlineColor="@color/defaultColorWhite"
                         app:smsp_floatingLabelText="@string/text_title_code_phone_recipient"
                         app:smsp_multilineError="false"
                         app:smsp_hint="@string/text_choose_code_phone_recipient"
@@ -303,9 +335,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/spinner_code_phone_recipient_group"
                     app:labelText="@string/text_enter_phone_number_recipient"
                     app:iconSignifier="@drawable/ic_phone2"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark">
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorWhite"
+                    app:primaryColor="@color/defaultColorWhite">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/text_phone_number_recipient"
@@ -313,7 +345,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:enabled="false"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -330,9 +362,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_phone_number_recipient_group"
                     app:labelText="@string/text_enter_cni_number_recipient"
                     app:iconSignifier="@drawable/ic_identification_documents"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark">
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorGray"
+                    app:primaryColor="@color/defaultColorWhite">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/text_cni_number_recipient"
@@ -340,7 +372,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:enabled="false"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -357,9 +389,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_cni_number_recipient_group"
                     app:labelText="@string/text_enter_key_code"
                     app:iconSignifier="@drawable/ic_key"
-                    android:foregroundTint="@color/colorPrimaryDark"
-                    app:secondaryColor="@color/colorPrimaryDark"
-                    app:primaryColor="@color/colorPrimaryDark">
+                    android:foregroundTint="@color/defaultColorWhite"
+                    app:secondaryColor="@color/defaultColorWhite"
+                    app:primaryColor="@color/defaultColorWhite">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/text_key_code"
@@ -367,13 +399,34 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:enabled="false"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/defaultColorWhite"/>
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-    </ScrollView>
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_gradient_style"
+                android:text="@string/text_save"
+                android:textColor="@color/defaultColorWhite"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_margin="15dp"
+                android:drawableEnd="@drawable/icons8_circled_right_24px"
+                android:drawableRight="@drawable/icons8_circled_right_24px"
+                android:padding="@dimen/size_padding_button_text"
+                android:drawableTint="@color/defaultColorWhite"
+                android:paddingRight="10dp"/>
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

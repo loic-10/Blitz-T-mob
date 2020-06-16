@@ -12,8 +12,10 @@ import android.widget.EditText;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.CityHelper;
 import com.example.blitz_t.Api.CountryHelper;
+import com.example.blitz_t.Api.MicrofinanceHelper;
 import com.example.blitz_t.Models.City.City;
 import com.example.blitz_t.Models.Country.Country;
+import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.Country.CountryActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,6 +32,10 @@ public class CityActivity extends AppCompatActivity {
     private EditText name;
     private Button mButton;
     private View countries;
+
+    static CityHelper sCityHelper = new CityHelper(new City());
+
+    static CountryHelper sCountryHelper = new CountryHelper(new Country());
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -48,7 +54,7 @@ public class CityActivity extends AppCompatActivity {
             @Override
             public void onClick ( View v ) {
                 City city = new City(UUID.randomUUID().toString(), (Country) country.getSelectedItem(), name.getText().toString());
-                CityHelper.setCity(city);
+                sCityHelper.setCity(city);
                 Snackbar.make(v, name.getText().toString(), Snackbar.LENGTH_LONG).show();
             }
         });
@@ -65,7 +71,7 @@ public class CityActivity extends AppCompatActivity {
 
     private void checkCountries(){
         final List<Country> countries = new ArrayList<>();
-        CountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
+        sCountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {

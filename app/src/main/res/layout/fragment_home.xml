@@ -92,13 +92,22 @@
                 android:padding="10dp"
                 android:textAllCaps="true"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_transaction"
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_recycler_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_below="@+id/text_stories_transaction"
-                android:layout_alignParentBottom="true"
-                tools:listitem="@layout/item_transaction" />
+                android:layout_alignParentBottom="true">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_transaction" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </RelativeLayout>
     </LinearLayout>

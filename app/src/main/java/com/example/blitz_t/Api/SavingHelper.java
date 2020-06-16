@@ -11,17 +11,21 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 
-public class SavingHelper {
+public class SavingHelper extends DB<Saving> {
+
+    public SavingHelper ( Saving data ) {
+        super(data);
+    }
 
     // --- CREATE AND SET ---
 
-    public static void setSaving( Saving saving){
-        new DB<Saving>(saving).setObject(saving, saving.get_id());
+    public void setSaving( Saving saving){
+        setObject(saving, saving.get_id());
     }
 
     //
 
-    public static void debitedSaving(Saving saving, double amount) throws Exception {
+    public void debitedSaving(Saving saving, double amount) throws Exception {
         saving.setBalance(saving.getBalance() - amount);
 
         if(saving.getBalance() >= 0)
@@ -35,7 +39,7 @@ public class SavingHelper {
         }
     }
 
-    public static void creditedSaving(Saving saving, double amount)
+    public void creditedSaving(Saving saving, double amount)
     {
         saving.setBalance(saving.getBalance() + amount);
         setSaving(saving);
@@ -43,40 +47,33 @@ public class SavingHelper {
 
     // --- GET ---
 
-    public static DatabaseReference getSavings(){
-        return new DB<Saving>(new Saving()).getReference();
+    public DatabaseReference getSavings(){
+        return getReference();
     }
 
-    public static Saving getSaving( String _id)  {
+    public Saving getSaving( String _id)  {
         ArrayList<Saving> savings = new ArrayList<>();
-        new DB<Saving>(new Saving()).getReferenceObject(_id, savings , new Object());
+        getReferenceObject(_id, savings , new Object());
         return savings.get(0);
     }
 
-    public static void getSavingInProgress( final String id_account, final ArrayList<Saving> savings){
-        getSavings().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Saving saving = data.getValue(Saving.class);
-                    if(saving.getSaving_status().equals(Status.SavingStatus.in_progress) &&
-                        saving.getAccount().get_id().equals(id_account)){
-                        savings.add(saving);
-                        break;
-                    }
-                }
+    public Saving getSavingInProgress( String id_account, ArrayList<Saving> savings){
+        for (Saving saving : savings) {
+            if(saving.getSaving_status().equals(Status.SavingStatus.in_progress) &&
+                saving.getAccount().get_id().equals(id_account)){
+                return saving;
             }
+        }
+        return null;
+    }
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-
-            }
-        });
+    public void completedSavings(ArrayList<Saving> savings){
+        getObjects(savings);
     }
 
     // --- DELETE ---
 
-    public static void deleteSaving( String _id ){
-        new DB<Saving>(new Saving()).removeObject(_id);
+    public void deleteSaving( String _id ){
+        removeObject(_id);
     }
 }

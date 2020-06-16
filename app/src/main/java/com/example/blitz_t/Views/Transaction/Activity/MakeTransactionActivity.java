@@ -1,18 +1,27 @@
-package com.example.blitz_t.Controllers;
+package com.example.blitz_t.Views.Transaction.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.viewpager.widget.ViewPager;
+import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.*;
+
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.AccountCustomerActivity;
-import com.example.blitz_t.Api.CustomerHelper;
 import com.example.blitz_t.Api.MicrofinanceHelper;
 import com.example.blitz_t.Api.SavingHelper;
 import com.example.blitz_t.Api.TransactionHelper;
+import com.example.blitz_t.Controllers.DialogPersonal;
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Member.Member;
@@ -22,19 +31,17 @@ import com.example.blitz_t.Models.Saving.Saving;
 import com.example.blitz_t.Models.Status.Status;
 import com.example.blitz_t.Models.Transaction.Transaction;
 import com.example.blitz_t.R;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
-import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
+import static com.example.blitz_t.Models.Model.checkAccountCustomer;
 import static com.example.blitz_t.Models.Model.currentDateString;
 import static com.example.blitz_t.Models.Model.getNewId;
 
-public class MakeTransactionDialog {
+public class MakeTransactionActivity extends AppCompatActivity {
 
     private TextFieldBoxes text_full_name_recipient_group,
             text_cni_number_recipient_group,
@@ -51,8 +58,6 @@ public class MakeTransactionDialog {
     private SmartMaterialSpinner spinner_status_recipient,
             spinner_account,
             spinner_code_phone_recipient;
-    private ImageView image_transaction;
-    private TextView text_title;
     private Button btn_save;
     private View spinner_status_recipient_group,
             spinner_account_group,
@@ -63,7 +68,7 @@ public class MakeTransactionDialog {
     private Account mAccount;
     private ConstraintLayout.LayoutParams mLayoutParams =
             new ConstraintLayout.LayoutParams(ConstraintLayout.LAYOUT_DIRECTION_INHERIT,
-            ConstraintLayout.LAYOUT_DIRECTION_INHERIT);
+                    ConstraintLayout.LAYOUT_DIRECTION_INHERIT);
     private ViewGroup.LayoutParams text_full_name_recipient_group_layout_params;
     private ViewGroup.LayoutParams text_cni_number_recipient_group_layout_params;
     private ViewGroup.LayoutParams text_key_code_group_layout_params;
@@ -72,9 +77,15 @@ public class MakeTransactionDialog {
     private ViewGroup.LayoutParams spinner_code_phone_recipient_group_layout_params;
     private Status.RecipientStatus mRecipientStatus;
     private Status.TransactionType mTransactionType;
-    private Dialog dialog;
-    private AccountCustomerActivity mAccountCustomerActivity;
     private Activity mActivity;
+    private MenuItem buttonItem;
+    private ImageView image_type_transaction;
+    private Button btn_login_customer;
+    private Toolbar app_bar;
+    private CollapsingToolbarLayout collapsing;
+    private ViewPager viewPager_account;
+
+    private MakeTransactionActivity mMakeTransactionActivity;
 
     static TransactionHelper sTransactionHelper = new TransactionHelper(new Transaction());
 
@@ -84,24 +95,66 @@ public class MakeTransactionDialog {
 
     private static ArrayList<Saving> sSavings = new ArrayList<>();
 
+    private static ArrayList<Account> sAccounts = new ArrayList<>();
+
     private static ArrayList<Microfinance> sMicrofinances = new ArrayList<>();
 
-    public void showDialog ( AccountCustomerActivity accountCustomerActivity , Status.TransactionType transactionType , Member member , Microfinance microfinance , Account account , Customer customer , Activity activity ){
-        dialog = new Dialog(accountCustomerActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.pop_make_transaction);
+    @Override
+    protected void onCreate ( Bundle savedInstanceState ) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_make_transaction);
 
-        mAccountCustomerActivity = accountCustomerActivity;
-        mActivity = activity;
-        mMember = member;
-        mMicrofinance = microfinance;
-        mAccount = account;
-        mCustomer = customer;
-        mTransactionType = transactionType;
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
-        initView(dialog);
+        mActivity = this;
+
+        mMakeTransactionActivity = this;
+
+        mAccount = (Account) Model.contentPreference(
+                new Account(),
+                getString(R.string.SHARED_PREF_ACCOUNT_SELECT),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
+        mMember = (Member) Model.contentPreference(
+                new Member(),
+                getString(R.string.SHARED_PREF_MEMBER_LOGIN),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
+        mCustomer = (Customer) Model.contentPreference(
+                new Customer(),
+                getString(R.string.SHARED_PREF_CUSTOMER_LOGIN),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
+        mMicrofinance = (Microfinance) Model.contentPreference(
+                new Microfinance(),
+                getString(R.string.SHARED_PREF_MICROFINANCE_SELECT),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this);
+
+        mTransactionType = Status.TransactionType.valueOf((String) Model.contentPreference(
+                new Object() ,
+                getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT),
+                getString(R.string.PREFERENCE_FILE_KEY),
+                this));
+
+        initView();
 
         initList();
+
+        if(buttonItem != null){
+            buttonItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick ( MenuItem item ) {
+                    finish();
+                    return true;
+                }
+            });
+        }
+
+        initInfo(mTransactionType);
 
         saveLayoutParams();
 
@@ -115,9 +168,21 @@ public class MakeTransactionDialog {
 
         fillForm(mTransactionType);
 
-        dialog.show();
+        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, sAccounts);
 
     }
+
+    private void initInfo ( Status.TransactionType transactionType ) {
+        image_type_transaction.setImageResource(transactionType.equals(Status.TransactionType.deposit) ?
+                R.drawable.deposit :
+                (transactionType.equals(Status.TransactionType.withdrawal) ?
+                        R.drawable.withdrawal :
+                        R.drawable.transfer));
+
+        collapsing.setTitle(transactionType.toString().toUpperCase());
+        collapsing.setCollapsedTitleTextColor(getColor(R.color.defaultColorWhite));
+    }
+
 
     private void initList () {
         sMicrofinanceHelper.getMicrofinance(mMicrofinance.get_id(), sMicrofinances);
@@ -210,13 +275,11 @@ public class MakeTransactionDialog {
     }
 
     private void fillForm ( Status.TransactionType transactionType ) {
-        image_transaction.setImageResource(transactionType.equals(Status.TransactionType.deposit) ?
+        app_bar.setNavigationIcon(transactionType.equals(Status.TransactionType.deposit) ?
                 R.drawable.ic_deposit :
                 (transactionType.equals(Status.TransactionType.withdrawal) ?
                         R.drawable.ic_withdrawal :
                         R.drawable.ic_initiate_money_transfer));
-
-        text_title.setText(transactionType.toString());
 
         assignLayoutParams();
     }
@@ -263,28 +326,36 @@ public class MakeTransactionDialog {
         assignLayoutParams();
     }
 
-    private void initView ( Dialog dialog ) {
-        image_transaction = dialog.findViewById(R.id.image_transaction);
-        text_title = dialog.findViewById(R.id.text_title);
-        btn_save = dialog.findViewById(R.id.btn_save);
-        spinner_status_recipient_group = dialog.findViewById(R.id.spinner_status_recipient_group);
-        spinner_status_recipient = dialog.findViewById(R.id.spinner_status_recipient);
-        spinner_account_group = dialog.findViewById(R.id.spinner_account_group);
-        spinner_account = dialog.findViewById(R.id.spinner_account);
-        text_full_name_recipient_group = dialog.findViewById(R.id.text_full_name_recipient_group);
-        text_full_name_recipient = dialog.findViewById(R.id.text_full_name_recipient);
-        spinner_code_phone_recipient_group = dialog.findViewById(R.id.spinner_code_phone_recipient_group);
-        spinner_code_phone_recipient = dialog.findViewById(R.id.spinner_code_phone_recipient);
-        text_phone_number_recipient_group = dialog.findViewById(R.id.text_phone_number_recipient_group);
-        text_phone_number_recipient = dialog.findViewById(R.id.text_phone_number_recipient);
-        text_cni_number_recipient_group = dialog.findViewById(R.id.text_cni_number_recipient_group);
-        text_cni_number_recipient = dialog.findViewById(R.id.text_cni_number_recipient);
-        text_key_code_group = dialog.findViewById(R.id.text_key_code_group);
-        text_key_code = dialog.findViewById(R.id.text_key_code);
-        text_amount_group = dialog.findViewById(R.id.text_amount_group);
-        text_amount = dialog.findViewById(R.id.text_amount);
-        text_password_group = dialog.findViewById(R.id.text_password_group);
-        text_password = dialog.findViewById(R.id.text_password);
+    private void initView () {
+        btn_save = findViewById(R.id.btn_save);
+        spinner_status_recipient_group = findViewById(R.id.spinner_status_recipient_group);
+        spinner_status_recipient = findViewById(R.id.spinner_status_recipient);
+        spinner_account_group = findViewById(R.id.spinner_account_group);
+        spinner_account = findViewById(R.id.spinner_account);
+        text_full_name_recipient_group = findViewById(R.id.text_full_name_recipient_group);
+        text_full_name_recipient = findViewById(R.id.text_full_name_recipient);
+        spinner_code_phone_recipient_group = findViewById(R.id.spinner_code_phone_recipient_group);
+        spinner_code_phone_recipient = findViewById(R.id.spinner_code_phone_recipient);
+        text_phone_number_recipient_group = findViewById(R.id.text_phone_number_recipient_group);
+        text_phone_number_recipient = findViewById(R.id.text_phone_number_recipient);
+        text_cni_number_recipient_group = findViewById(R.id.text_cni_number_recipient_group);
+        text_cni_number_recipient = findViewById(R.id.text_cni_number_recipient);
+        text_key_code_group = findViewById(R.id.text_key_code_group);
+        text_key_code = findViewById(R.id.text_key_code);
+        text_amount_group = findViewById(R.id.text_amount_group);
+        text_amount = findViewById(R.id.text_amount);
+        text_password_group = findViewById(R.id.text_password_group);
+        text_password = findViewById(R.id.text_password);
+
+        viewPager_account = findViewById(R.id.viewPager_account);
+        
+        app_bar = findViewById(R.id.app_bar);
+        
+        collapsing = findViewById(R.id.collapsing);
+        
+        image_type_transaction = findViewById(R.id.image_type_transaction);
+        
+        buttonItem = app_bar.getMenu().findItem(R.id.menu_return);
 
         text_amount_group.setLabelText(text_amount_group.getLabelText() +
                 " ( min: " +
@@ -308,26 +379,27 @@ public class MakeTransactionDialog {
 
     private boolean isCompleted() throws Exception {
         if(!text_amount.getText().toString().isEmpty() &&
-            Double.parseDouble(text_amount.getText().toString()) >= mMicrofinance.getMontant_minimum_transaction() &&
-            !text_password.getText().toString().isEmpty() &&
-            text_password.getText().toString().equals(mCustomer.getPassword()) &&
-            sMicrofinances.size() > 0 &&
-            (!mTransactionType.equals(Status.TransactionType.transfer) ||
-                (mRecipientStatus.equals(Status.RecipientStatus.customer) ?
-                    spinner_account.getSelectedItemPosition() > -1 :
-                    (!text_key_code.getText().toString().isEmpty() &&
-                        !text_cni_number_recipient.getText().toString().isEmpty() &&
-                        !text_full_name_recipient.getText().toString().isEmpty() &&
-                        spinner_code_phone_recipient.getSelectedItemPosition() > -1 &&
-                        !text_phone_number_recipient.getText().toString().isEmpty()
-                    )
+                Double.parseDouble(text_amount.getText().toString()) >= mMicrofinance.getMontant_minimum_transaction() &&
+                !text_password.getText().toString().isEmpty() &&
+                text_password.getText().toString().equals(mCustomer.getPassword()) &&
+                sMicrofinances.size() > 0 &&
+                sAccounts.size() > 0 &&
+                (!mTransactionType.equals(Status.TransactionType.transfer) ||
+                        (mRecipientStatus.equals(Status.RecipientStatus.customer) ?
+                                spinner_account.getSelectedItemPosition() > -1 :
+                                (!text_key_code.getText().toString().isEmpty() &&
+                                        !text_cni_number_recipient.getText().toString().isEmpty() &&
+                                        !text_full_name_recipient.getText().toString().isEmpty() &&
+                                        spinner_code_phone_recipient.getSelectedItemPosition() > -1 &&
+                                        !text_phone_number_recipient.getText().toString().isEmpty()
+                                )
+                        )
                 )
-            )
         ){
             return true;
         }
         else {
-            throw new Exception(mAccountCustomerActivity.getString(R.string.text_error_complete_field));
+            throw new Exception(getString(R.string.text_error_complete_field));
         }
     }
 
@@ -336,7 +408,7 @@ public class MakeTransactionDialog {
             boolean completed = isCompleted();
             Transaction transaction = new Transaction();
             transaction.set_id(getNewId());
-            transaction.setSending_account(mAccount);
+            transaction.setSending_account(sAccounts.get(0));
             transaction.setTransaction_date(currentDateString());
             transaction.setAmount(Double.parseDouble(text_amount.getText().toString()));
             transaction.setNumber_day_waiting(0);
@@ -360,19 +432,18 @@ public class MakeTransactionDialog {
                 sTransactionHelper.validedTransaction(transaction, null, sMicrofinances.get(0), sSavings);
 
                 new DialogPersonal().showDialog(
-                        mAccountCustomerActivity,
+                        mMakeTransactionActivity,
                         mTransactionType.toString(),
-                        mAccountCustomerActivity.getString(R.string.request_success_transaction),
+                        getString(R.string.request_success_transaction),
                         Status.AlertStatus.success ,
                         null ,
                         true ,
                         mActivity);
 
-                dialog.dismiss();
             }
             else {
-                transaction.setRecipient_account(mAccount);
-                if(mAccount.getAccount_type().equals(Status.AccountType.saving)){
+                transaction.setRecipient_account(sAccounts.get(0));
+                if(sAccounts.get(0).getAccount_type().equals(Status.AccountType.saving)){
                     transaction.setNumber_day_waiting(sMicrofinances.get(0).getNombre_jour_avis_retrait_epargne());
                     transaction.setTransaction_status(Status.TransactionStatus.advised);
                 }
@@ -383,26 +454,25 @@ public class MakeTransactionDialog {
                 sTransactionHelper.setTransaction(transaction);
 
                 new DialogPersonal().showDialog(
-                        mAccountCustomerActivity,
+                        mMakeTransactionActivity,
                         mTransactionType.toString(),
-                        mAccountCustomerActivity.getString(R.string.request_go_confirmation_transaction),
+                        getString(R.string.request_go_confirmation_transaction),
                         Status.AlertStatus.success ,
                         null ,
                         true ,
                         mActivity);
 
-                dialog.dismiss();
             }
 
         }
         catch (Exception ex){
             new DialogPersonal().showDialog(
-                    mAccountCustomerActivity,
+                    mMakeTransactionActivity,
                     mTransactionType.toString(),
                     ex.getMessage(),
                     Status.AlertStatus.error ,
                     null ,
-                    true ,
+                    false ,
                     mActivity);
 
         }

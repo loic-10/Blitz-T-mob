@@ -48,10 +48,12 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
+                    android:layout_height="85dp"
                     app:layout_collapseMode="pin"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:menu="@menu/return_menu"
-                    app:navigationIcon="@drawable/ic_bank_building_my"/>
+                    app:navigationIcon="@drawable/ic_bank_building_my"
+                    android:paddingTop="18dp"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

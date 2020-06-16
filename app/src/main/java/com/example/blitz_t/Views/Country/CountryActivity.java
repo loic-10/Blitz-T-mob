@@ -18,6 +18,8 @@ public class CountryActivity extends AppCompatActivity {
     private Button mButton;
     private View city;
 
+    static CountryHelper sCountryHelper = new CountryHelper(new Country());
+
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,7 @@ public class CountryActivity extends AppCompatActivity {
             @Override
             public void onClick ( View v ) {
                 Country country = new Country(UUID.randomUUID().toString(), name.getText().toString(), code_phone.getText().toString());
-                CountryHelper.setCountry( country );
+                sCountryHelper.setCountry( country );
                 Snackbar.make(v, name.getText().toString(), Snackbar.LENGTH_LONG).show();
             }
 

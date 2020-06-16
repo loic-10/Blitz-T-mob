@@ -15,7 +15,6 @@ import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 
 import static com.example.blitz_t.Models.Model.checkAccountCustomer;
-import static com.example.blitz_t.Models.Model.checkTransactionCustomer;
 
 public class AllAccountFragment extends Fragment {
 

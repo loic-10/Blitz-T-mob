@@ -16,49 +16,27 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AgencyHelper {
-    
+public class AgencyHelper extends DB<Agency> {
+
+    public AgencyHelper ( Agency data ) {
+        super(data);
+    }
+
     // --- CREATE AND SET ---
 
-    public static void setAgency( Agency agency){
-        new DB<Agency>(agency).setObject(agency, agency.get_id());
+    public void setAgency( Agency agency){
+        setObject(agency, agency.get_id());
     }
 
     // --- GET ---
 
-    public static DatabaseReference getAgencies(){
-        return new DB<Agency>(new Agency()).getReference();
-    }
-
-    public static void checkAgenciesMicrofinance( final RecyclerView recyclerView, final Context context, final String name, final Microfinance microfinance, final Activity activity){
-        final ArrayList<Agency> agencies = new ArrayList<>();
-        getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Agency agency = data.getValue(Agency.class);
-                    if(agency != null &&
-                            (agency.getQuartier().toLowerCase().contains(name.toLowerCase()) ||
-                                    agency.getCity().getName().toLowerCase().contains(name.toLowerCase())
-                            ) &&
-                            agency.getMicrofinance().get_id().equals(microfinance.get_id())){
-                        agencies.add(agency);
-                    }
-                }
-                AgencyMicrofinanceRecyclerAdapter adapter = new AgencyMicrofinanceRecyclerAdapter(agencies , context, activity);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
+    public DatabaseReference getAgencies(){
+        return getReference();
     }
 
     // --- DELETE ---
 
-    public static void deleteAgency( String _id ){
-        new DB<Agency>(new Agency()).removeObject(_id);
+    public void deleteAgency( String _id ){
+        removeObject(_id);
     }
 }

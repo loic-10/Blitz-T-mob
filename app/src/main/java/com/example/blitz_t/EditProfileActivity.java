@@ -68,6 +68,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener setListener;
     private EditProfileActivity mEditProfileActivity;
 
+    static MemberHelper sMemberHelper = new MemberHelper(new Member());
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -261,7 +263,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImageCNI(){
-        MemberHelper.uploadImage(selectedImageCNIUri, String.valueOf(DirectoryUpload.CNI))
+        sMemberHelper.uploadImage(selectedImageCNIUri, String.valueOf(DirectoryUpload.CNI))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
@@ -270,7 +272,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess ( Uri uri ) {
-                                        MemberHelper.deleteImage(mMember.getCni_copy());
+                                        sMemberHelper.deleteImage(mMember.getCni_copy());
                                         mMember.setCni_copy(uri.toString());
 
                                         updatedMember(mMember, R.string.text_modified_cni);
@@ -309,7 +311,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void uploadImageProfile(){
-        MemberHelper.uploadImage(selectedImageProfilUri, String.valueOf(DirectoryUpload.Profile))
+        sMemberHelper.uploadImage(selectedImageProfilUri, String.valueOf(DirectoryUpload.Profile))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
@@ -318,7 +320,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess ( Uri uri ) {
-                                        MemberHelper.deleteImage(mMember.getProfile_picture());
+                                        sMemberHelper.deleteImage(mMember.getProfile_picture());
                                         mMember.setProfile_picture(uri.toString());
 
                                         updatedMember(mMember,  R.string.text_modified_profile);
@@ -359,7 +361,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void updatedMember( final Member member, final int messageSuccess){
-        MemberHelper.setMember(member);
+        sMemberHelper.setMember(member);
         Model.saveFormPreference(member, getString(R.string.SHARED_PREF_MEMBER_LOGIN), getString(R.string.PREFERENCE_FILE_KEY), mContextWrapper );
 
         new DialogPersonal().showDialog(

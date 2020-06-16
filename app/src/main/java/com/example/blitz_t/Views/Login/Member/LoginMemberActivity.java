@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.blitz_t.Api.MemberHelper;
@@ -43,10 +44,14 @@ public class LoginMemberActivity extends AppCompatActivity {
     private LoginMemberActivity mLoginMemberActivity;
     private Activity mActivity;
 
+    static MemberHelper sMemberHelper = new MemberHelper(new Member());
+
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_member);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         mContextWrapper = this;
 
@@ -111,7 +116,7 @@ public class LoginMemberActivity extends AppCompatActivity {
     }
 
     private void startLoginMember () {
-        MemberHelper.getMembers().addListenerForSingleValueEvent(new ValueEventListener() {
+        sMemberHelper.getMembers().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
                 final ArrayList<Member> members = new ArrayList();

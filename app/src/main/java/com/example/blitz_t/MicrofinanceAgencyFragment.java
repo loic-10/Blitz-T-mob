@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.example.blitz_t.Api.AgencyHelper;
+import com.example.blitz_t.Models.Agency.Agency;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Views.DesignApp;
@@ -70,13 +71,13 @@ public class MicrofinanceAgencyFragment extends Fragment {
 
                 @Override
                 public boolean onQueryTextChange ( String newText ) {
-                    AgencyHelper.checkAgenciesMicrofinance(mRecyclerView, v.getContext(), newText, mMicrofinance, mActivity);
+                    Model.checkAgenciesMicrofinance(mRecyclerView, v.getContext(), newText, mMicrofinance, mActivity);
                     return true;
                 }
             });
         }
 
-        AgencyHelper.checkAgenciesMicrofinance(mRecyclerView, v.getContext(), "", mMicrofinance, mActivity);
+        Model.checkAgenciesMicrofinance(mRecyclerView, v.getContext(), "", mMicrofinance, mActivity);
 
         return v;
 

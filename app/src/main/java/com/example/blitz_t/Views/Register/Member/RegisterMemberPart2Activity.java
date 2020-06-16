@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
@@ -58,11 +59,15 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsing;
     private RegisterMemberPart2Activity mRegisterMemberPart2Activity;
 
+    static MemberHelper sMemberHelper = new MemberHelper(new Member());
+
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_member_part2);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         mContextWrapper = this;
 
@@ -132,7 +137,7 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
     }
 
     private void uploadImageCNI(){
-        MemberHelper.uploadImage(selectedImageCNIUri , String.valueOf(DirectoryUpload.CNI))
+        sMemberHelper.uploadImage(selectedImageCNIUri , String.valueOf(DirectoryUpload.CNI))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
@@ -162,7 +167,7 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
     }
 
     private void uploadImageProfile( final String imageCNIUrl){
-        MemberHelper.uploadImage(selectedImageProfileUri, String.valueOf(DirectoryUpload.Profile))
+        sMemberHelper.uploadImage(selectedImageProfileUri, String.valueOf(DirectoryUpload.Profile))
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
@@ -210,7 +215,7 @@ public class RegisterMemberPart2Activity extends AppCompatActivity {
         mMember.set_id(getNewId());
         mMember.setCni_number(text_cni_number_register.getText().toString());
         mMember.setRegistration_date(Model.currentDateString());
-        MemberHelper.setMember(mMember);
+        sMemberHelper.setMember(mMember);
         Model.clearFormPreference(mMember, getString(R.string.SHARED_PREF_MEMBER_REGISTER), getString(R.string.PREFERENCE_FILE_KEY), mContextWrapper );
 
         new DialogPersonal().showDialog(

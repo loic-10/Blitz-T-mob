@@ -4,14 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SearchView;
-
 import com.example.blitz_t.Api.AgencyHelper;
+import com.example.blitz_t.Models.Agency.Agency;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Views.DesignApp;
@@ -25,6 +24,8 @@ public class MicrofinanceAgencyActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsing;
     private ImageView image_item_micro_finance;
     private Activity mActivity;
+
+    static AgencyHelper sAgencyHelper = new AgencyHelper(new Agency());
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -62,12 +63,12 @@ public class MicrofinanceAgencyActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange ( String newText ) {
-                    AgencyHelper.checkAgenciesMicrofinance(mRecyclerView, getApplicationContext(), newText, mMicrofinance, mActivity);
+                    Model.checkAgenciesMicrofinance(mRecyclerView, getApplicationContext(), newText, mMicrofinance, mActivity);
                     return true;
                 }
             });
         }
 
-        AgencyHelper.checkAgenciesMicrofinance(mRecyclerView, getApplicationContext(), "", mMicrofinance, mActivity);
+        Model.checkAgenciesMicrofinance(mRecyclerView, getApplicationContext(), "", mMicrofinance, mActivity);
     }
 }

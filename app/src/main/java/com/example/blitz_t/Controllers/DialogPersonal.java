@@ -100,9 +100,9 @@ public class DialogPersonal {
         if ( mIntent != null )
         {
             mContext.startActivity(mIntent);
-            if(mustFinnish){
-                mActivity.finish();
-            }
+        }
+        if(mustFinnish){
+            mActivity.finish();
         }
     }
 }

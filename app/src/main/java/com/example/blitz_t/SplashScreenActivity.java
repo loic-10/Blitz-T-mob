@@ -27,9 +27,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        getWindow().setStatusBarColor(R.color.colorPart2);
+//        getWindow().setStatusBarColor(R.color.colorPart2);
 //        getWindow().setStatusBarColor(Color.TRANSPARENT);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         button_start = findViewById(R.id.button_start);
         constraintLayout2 = findViewById(R.id.constraintLayout2);
