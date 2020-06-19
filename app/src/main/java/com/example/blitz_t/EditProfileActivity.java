@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.DirectoryUpload;
@@ -75,6 +76,8 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         listNumberCode = new ArrayList<>();
 
@@ -288,7 +291,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                                 getString(R.string.text_operation_failed),
                                                 Status.AlertStatus.error ,
                                                 null ,
-                                                true ,
+                                                false ,
                                                 mActivity);
                                     }
                                 });
@@ -304,7 +307,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 getString(R.string.text_operation_failed),
                                 Status.AlertStatus.error ,
                                 null ,
-                                true ,
+                                false ,
                                 mActivity);
                     }
                 });
@@ -336,7 +339,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                                 getString(R.string.text_operation_failed),
                                                 Status.AlertStatus.error ,
                                                 null ,
-                                                true ,
+                                                false ,
                                                 mActivity);
 
                                     }
@@ -353,7 +356,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 getString(R.string.text_operation_failed),
                                 Status.AlertStatus.error ,
                                 null ,
-                                true ,
+                                false ,
                                 mActivity);
 
                     }
@@ -370,7 +373,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 getString(messageSuccess),
                 Status.AlertStatus.success ,
                 null ,
-                true ,
+                false ,
                 mActivity);
     }
 

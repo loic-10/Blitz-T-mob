@@ -1,6 +1,7 @@
 package com.example.blitz_t;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
@@ -15,6 +16,8 @@ public class HomeMemberActivity extends AppCompatActivity{
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_member);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         bottom_nav = findViewById(R.id.bottom_nav);
         bottom_nav.setOnItemSelectedListener(navListener);

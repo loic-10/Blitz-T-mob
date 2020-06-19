@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.AccountHelper;
@@ -37,12 +38,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
+import java.util.function.Consumer;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
+import durdinapps.rxfirebase2.RxFirebaseDatabase;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class Model {
 
@@ -119,11 +130,19 @@ public class Model {
         return null;
     }
 
+//    public static String currentDateString(){
+//        String format = "YYYY-MM-dd H:mm:ss";
+//        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat( format );
+//        Date date = new Date();
+//        return formatter.format(date);
+//    }
+
     public static String currentDateString(){
-        String format = "YYYY-MM-dd H:mm:ss";
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat( format );
         Date date = new Date();
-        return formatter.format(date);
+        String format = "YYYY-MM-dd H:mm:ss";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dateFormat.format(date);
     }
 
     public static Date currentDate() throws ParseException {
@@ -150,13 +169,26 @@ public class Model {
 //    }
 
 
-
+    @SuppressLint("CheckResult")
     public static void checkAgenciesMicrofinance( final RecyclerView recyclerView, final Context context, final String name, final Microfinance microfinance, final Activity activity){
+
+        RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayAgenciesMicrofinance(dataSnapshot , recyclerView , context , name , microfinance , activity),
+                        throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+
+    }
+
+
+    private static void displayAgenciesMicrofinance ( DataSnapshot dataSnapshot, final RecyclerView recyclerView, final Context context, final String name, final Microfinance microfinance, final Activity activity ) {
+
         final ArrayList<Agency> agencies = new ArrayList<>();
-        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Agency agency = data.getValue(Agency.class);
                     if(agency != null &&
                             (agency.getQuartier().toLowerCase().contains(name.toLowerCase()) ||
@@ -166,106 +198,136 @@ public class Model {
                         agencies.add(agency);
                     }
                 }
-                AgencyMicrofinanceRecyclerAdapter adapter = new AgencyMicrofinanceRecyclerAdapter(agencies , context, activity);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
+            );
+            AgencyMicrofinanceRecyclerAdapter adapter = new AgencyMicrofinanceRecyclerAdapter(agencies , context, activity);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkAccountCustomer( final ViewPager viewPager, final Context context, final Activity activity, final Customer customer, final Microfinance microfinance, final Account account_, final ArrayList<Account> accounts_){
+
+        RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayAccountCustomer(dataSnapshot , viewPager, context, activity, customer, microfinance, account_, accounts_),
+                        throwable -> Snackbar.make(viewPager, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+    }
+
+
+    private static void displayAccountCustomer( DataSnapshot dataSnapshot, final ViewPager viewPager, final Context context, final Activity activity, final Customer customer, final Microfinance microfinance, final Account account_, final ArrayList<Account> accounts_){
         final ArrayList<Account> accounts = new ArrayList<>();
-        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Account account = data.getValue(Account.class);
                     if((account_ == null &&
                             account != null &&
                             account.getCustomer().get_id().equals(customer.get_id()) &&
                             account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())
-                        ) ||
-                        (account_ != null &&
-                            account_.get_id().equals(account.get_id()))
-                        ){
+                    ) ||
+                            (account_ != null &&
+                                    account_.get_id().equals(account.get_id()))
+                    ){
                         accounts.add(account);
-                        if(account_ != null)
-                            break;
+                        if(account_ != null) {
+                            AccountPagerAdapter mAdapter = new AccountPagerAdapter(accounts, context, activity);
+                            viewPager.setAdapter(mAdapter);
+                            viewPager.setPadding(50, 0, 50, 0);
+                            accounts_.clear();
+                            accounts_.addAll(accounts);
+                            return;
+                        }
                     }
                 }
-
-                AccountPagerAdapter mAdapter = new AccountPagerAdapter(accounts, context, activity);
-                viewPager.setAdapter(mAdapter);
-                viewPager.setPadding(50, 0, 50, 0);
-                accounts_.clear();
-                accounts_.addAll(accounts);
-
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(viewPager, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
+            );
+        }
+        AccountPagerAdapter mAdapter = new AccountPagerAdapter(accounts, context, activity);
+        viewPager.setAdapter(mAdapter);
+        viewPager.setPadding(50, 0, 50, 0);
+        accounts_.clear();
+        accounts_.addAll(accounts);
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkMicrofinances( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
         if(member != null){
             if(member.get_id() != null)
                 checkMicrofinancesMember(recyclerView, context, name, member, activity);
             return;
         }
-        final ArrayList<Microfinance> microfinances = new ArrayList<>();
 
-        sMicrofinanceHelper.getMicrofinances().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Microfinance microfinance = data.getValue(Microfinance.class);
-                    if(microfinance != null && microfinance.getNom().toLowerCase().contains(name.toLowerCase())){
-                        microfinances.add(microfinance);
-                    }
-                }
-                MicrofinanceRecyclerAdapter adapter = new MicrofinanceRecyclerAdapter(microfinances , context, activity);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
+        RxFirebaseDatabase.observeValueEvent(sMicrofinanceHelper.getMicrofinances())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayMicrofinances(dataSnapshot , recyclerView, context, name, member, activity),
+                        throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
     }
 
-    public static void checkMicrofinancesMember( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
+
+    private static void displayMicrofinances( DataSnapshot dataSnapshot, final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
+
         final ArrayList<Microfinance> microfinances = new ArrayList<>();
-        sCustomerHelper.getCustomers().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Log.w("Info", data.toString());
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                    data -> {
+                        Microfinance microfinance = data.getValue(Microfinance.class);
+                        if ( microfinance != null && microfinance.getNom().toLowerCase().contains(name.toLowerCase()) ) {
+                            microfinances.add(microfinance);
+                        }
+                    }
+            );
+            MicrofinanceRecyclerAdapter adapter = new MicrofinanceRecyclerAdapter(microfinances , context, activity);
+            recyclerView.setAdapter(adapter);
+        }
+    }
+
+
+    @SuppressLint("CheckResult")
+    private static void checkMicrofinancesMember( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
+
+        RxFirebaseDatabase.observeValueEvent(sCustomerHelper.getCustomers())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    dataSnapshot -> displayMicrofinancesMember(dataSnapshot , recyclerView, context, name, member, activity),
+                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+            );
+
+    }
+
+
+    private static void displayMicrofinancesMember( DataSnapshot dataSnapshot, final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
+
+        final ArrayList<Microfinance> microfinances = new ArrayList<>();
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Customer customer = data.getValue(Customer.class);
-                    if(customer != null && customer.getMicrofinance().getNom().toLowerCase().contains(name.toLowerCase()) && customer.getMember().get_id().equals(member.get_id())){
+                    if(customer != null &&
+                        customer.getMicrofinance().getNom().toLowerCase().contains(name.toLowerCase()) &&
+                        customer.getMember().get_id().equals(member.get_id())){
                         microfinances.add(customer.getMicrofinance());
                     }
                 }
-                MicrofinanceRecyclerAdapter adapter = new MicrofinanceRecyclerAdapter(microfinances , context, activity);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
+            );
+            MicrofinanceRecyclerAdapter adapter = new MicrofinanceRecyclerAdapter(microfinances , context, activity);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkTransactionCustomer ( final RecyclerView recyclerView , final Context context , final Customer customer , final Microfinance microfinance , final Activity activity , final String value , final int limit , final Account account , final SwipeRefreshLayout swipe_refresh_recycler_transaction ){
-        final ArrayList<Transaction> transactions = new ArrayList<>();
+
         if(swipe_refresh_recycler_transaction != null)
         {
             swipe_refresh_recycler_transaction.setColorSchemeResources(
@@ -275,106 +337,136 @@ public class Model {
                     android.R.color.holo_red_light);
         }
 
-//        Query queryTransaction = sTransactionHelper.getTransactions().orderByChild("transaction_date");
+        RxFirebaseDatabase.observeValueEvent(sTransactionHelper.getTransactions().orderByChild("transaction_date"))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    dataSnapshot -> displayTransactionCustomer(dataSnapshot , recyclerView , context , customer , microfinance , activity , value , limit , account , swipe_refresh_recycler_transaction),
+                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+            );
 
-        sTransactionHelper.getTransactions().orderByChild("transaction_date").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+    }
+
+
+    private static void displayTransactionCustomer ( DataSnapshot dataSnapshot, final RecyclerView recyclerView , final Context context , final Customer customer , final Microfinance microfinance , final Activity activity , final String value , final int limit , final Account account , final SwipeRefreshLayout swipe_refresh_recycler_transaction ){
+        final ArrayList<Transaction> transactions = new ArrayList<>();
+
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Transaction transaction = data.getValue(Transaction.class);
                     if(transaction != null &&
-                        ((transaction.getRecipient_account() != null &&
-                            transaction.getRecipient_account().getCustomer().get_id().equals(customer.get_id())
+                            ((transaction.getRecipient_account() != null &&
+                                    transaction.getRecipient_account().getCustomer().get_id().equals(customer.get_id())
                             ) ||
-                            transaction.getSending_account().getCustomer().get_id().equals(customer.get_id())
-                        ) &&
-                        transaction.getSending_account().getCustomer().getMicrofinance().get_id().equals(microfinance.get_id()) &&
-                        ((String.valueOf(transaction.getAmount()).toLowerCase().contains(value.toLowerCase())) ||
-                            transaction.getTransaction_type().toString().toLowerCase().contains(value.toLowerCase()) ||
-                            transaction.getTransaction_date().toLowerCase().contains(value.toLowerCase()) ||
-                            transaction.getTransaction_status().toString().toLowerCase().contains(value.toLowerCase()) ||
-                            transaction.get_id().toLowerCase().contains(value.toLowerCase())
-                        ) &&
-                        (account == null ||
-                            (transaction.getSending_account().get_id().equals(account.get_id()) ||
-                                (transaction.getRecipient_account() != null &&
-                                    transaction.getRecipient_account().get_id().equals(account.get_id())
-                                )
+                                    transaction.getSending_account().getCustomer().get_id().equals(customer.get_id())
+                            ) &&
+                            transaction.getSending_account().getCustomer().getMicrofinance().get_id().equals(microfinance.get_id()) &&
+                            ((String.valueOf(transaction.getAmount()).toLowerCase().contains(value.toLowerCase())) ||
+                                    transaction.getTransaction_type().toString().toLowerCase().contains(value.toLowerCase()) ||
+                                    transaction.getTransaction_date().toLowerCase().contains(value.toLowerCase()) ||
+                                    transaction.getTransaction_status().toString().toLowerCase().contains(value.toLowerCase()) ||
+                                    transaction.get_id().toLowerCase().contains(value.toLowerCase())
+                            ) &&
+                            (account == null ||
+                                    (transaction.getSending_account().get_id().equals(account.get_id()) ||
+                                            (transaction.getRecipient_account() != null &&
+                                                    transaction.getRecipient_account().get_id().equals(account.get_id())
+                                            )
+                                    )
                             )
-                        )
                     ){
                         transactions.add(transaction);
                     }
                 }
+            );
 
-                reverseList(transactions);
+            reverseList(transactions);
 
-                if(limit > 0 && transactions.size() > 0){
-                    final ArrayList<Transaction> results = new ArrayList<>();
-                    for (int i = 0; i < limit; i++){
-                        results.add(transactions.get(i));
-                        if((i + 1) >= transactions.size())
-                            break;
-                    }
-                    transactions.clear();
-                    transactions.addAll(results);
+            if(limit > 0 && transactions.size() > 0){
+                final ArrayList<Transaction> results = new ArrayList<>();
+                for (int i = 0; i < limit; i++){
+                    results.add(transactions.get(i));
+                    if((i + 1) >= transactions.size())
+                        break;
                 }
-
-                TransactionRecyclerAdapter mAdapter = new TransactionRecyclerAdapter(transactions, context, activity);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                recyclerView.setAdapter(mAdapter);
-
-                if(swipe_refresh_recycler_transaction != null){
-                    swipe_refresh_recycler_transaction.setRefreshing(false);
-                }
-
+                transactions.clear();
+                transactions.addAll(results);
             }
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
+            TransactionRecyclerAdapter mAdapter = new TransactionRecyclerAdapter(transactions, context, activity);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(mAdapter);
+
+            if(swipe_refresh_recycler_transaction != null){
+                swipe_refresh_recycler_transaction.setRefreshing(false);
             }
-        });
+        }
+
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkAccountCustomer( final RecyclerView recyclerView, final Context context, final Customer customer, final Microfinance microfinance, final Activity activity){
-        final ArrayList<Account> accounts = new ArrayList<>();
-        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Account account = data.getValue(Account.class);
-                    if(account != null &&
-                        account.getCustomer().get_id().equals(customer.get_id()) &&
-                        account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())){
-                        accounts.add(account);
-                    }
-                }
-                reverseList(accounts);
 
-                AccountRecyclerAdapter mAdapter = new AccountRecyclerAdapter(accounts, context, activity);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                recyclerView.setAdapter(mAdapter);
+        RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    dataSnapshot -> displayAccountCustomer(dataSnapshot , recyclerView, context, customer, microfinance, activity),
+                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+            );
 
-            }
-
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG);
-            }
-        });
     }
 
+
+    private static void displayAccountCustomer( DataSnapshot dataSnapshot, final RecyclerView recyclerView, final Context context, final Customer customer, final Microfinance microfinance, final Activity activity){
+        final ArrayList<Account> accounts = new ArrayList<>();
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                    data -> {
+                        Account account = data.getValue(Account.class);
+                        if(account != null &&
+                                account.getCustomer().get_id().equals(customer.get_id()) &&
+                                account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())){
+                            accounts.add(account);
+                        }
+                    }
+            );
+            reverseList(accounts);
+            AccountRecyclerAdapter mAdapter = new AccountRecyclerAdapter(accounts, context, activity);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(mAdapter);
+        }
+
+    }
+
+
+    @SuppressLint("CheckResult")
     public static void checkCitiesForCountries( final SmartMaterialSpinner smartMaterialSpinner, final Country country, final Member member) {
+
+        RxFirebaseDatabase.observeValueEvent(sCityHelper.getCities())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayCitiesForCountries(dataSnapshot , smartMaterialSpinner, country, member),
+                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+
+    }
+
+
+    private static void displayCitiesForCountries( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinner, final Country country, final Member member) {
         final ArrayList<City> cities = new ArrayList<>();
         final City[] citySearch = {new City()};
 
-        sCityHelper.getCities().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     City city = data.getValue(City.class);
                     if(city != null){
                         if ( city.getCountry().get_id().equals(country.get_id()) ) {
@@ -387,26 +479,36 @@ public class Model {
                         }
                     }
                 }
-                smartMaterialSpinner.setItem(cities);
-                smartMaterialSpinner.setSelection(cities.indexOf(citySearch[0]));
+            );
 
-            }
+            smartMaterialSpinner.setItem(cities);
+            smartMaterialSpinner.setSelection(cities.indexOf(citySearch[0]));
+        }
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkCountries( final SmartMaterialSpinner smartMaterialSpinnerCountry, final SmartMaterialSpinner smartMaterialSpinnerCity, final Member member){
+
+        RxFirebaseDatabase.observeValueEvent(sCountryHelper.getCountries())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayCountries(dataSnapshot , smartMaterialSpinnerCountry, smartMaterialSpinnerCity, member),
+                        throwable -> Snackbar.make(smartMaterialSpinnerCountry, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+
+    }
+
+
+    private static void displayCountries( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinnerCountry, final SmartMaterialSpinner smartMaterialSpinnerCity, final Member member){
         final ArrayList<Country> countries = new ArrayList<>();
         final Country[] countrySearch = {new Country()};
 
-        sCountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Country country = data.getValue(Country.class);
                     if(country != null){
                         countries.add(country);
@@ -417,118 +519,161 @@ public class Model {
                         }
                     }
                 }
-                smartMaterialSpinnerCountry.setItem(countries);
-                if( countries.size() > 0 ) {
-                    smartMaterialSpinnerCountry.setSelection(countries.indexOf(countrySearch[0]));
-                    if(smartMaterialSpinnerCity != null){
-                        checkCitiesForCountries(smartMaterialSpinnerCity, countrySearch[0], member);
-                    }
+            );
 
+            smartMaterialSpinnerCountry.setItem(countries);
+            if( countries.size() > 0 ) {
+                smartMaterialSpinnerCountry.setSelection(countries.indexOf(countrySearch[0]));
+                if(smartMaterialSpinnerCity != null){
+                    checkCitiesForCountries(smartMaterialSpinnerCity, countrySearch[0], member);
                 }
-            }
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
             }
-        });
+        }
+
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkListNumberCode( final SmartMaterialSpinner smartMaterialSpinner, final Member member){
+
+        RxFirebaseDatabase.observeValueEvent(sCountryHelper.getCountries())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    dataSnapshot -> displayListNumberCode(dataSnapshot , smartMaterialSpinner, member),
+                    throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+            );
+
+    }
+
+
+    private static void displayListNumberCode( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinner, final Member member){
 
         final ArrayList<String> listNumberCode = new ArrayList<>();
 
-        sCountryHelper.getCountries().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                data -> {
                     Country country = data.getValue(Country.class);
                     if(country != null){
                         listNumberCode.add(country.getCode_phone());
                     }
                 }
-                smartMaterialSpinner.setItem(listNumberCode);
-                if(member.getPhone_number() != null) {
-                    smartMaterialSpinner.setSelection(listNumberCode.indexOf(member.getPhone_number().split(" ")[0]));
-                }
-            }
+            );
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
+            smartMaterialSpinner.setItem(listNumberCode);
+            if(member.getPhone_number() != null) {
+                smartMaterialSpinner.setSelection(listNumberCode.indexOf(member.getPhone_number().split(" ")[0]));
             }
-        });
+        }
+
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkCitiesForAgencyMicrofinance( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance) {
+
+        RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                    dataSnapshot -> displayCitiesForAgencyMicrofinance(dataSnapshot , smartMaterialSpinner, microfinance),
+                    throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+            );
+
+    }
+
+
+    private static void displayCitiesForAgencyMicrofinance( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance) {
         final ArrayList<City> cities = new ArrayList<>();
-        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Agency agency = data.getValue(Agency.class);
-                    if(agency != null){
-                        if ( !cities.contains(agency.getCity()) && agency.getMicrofinance().get_id().equals(microfinance.get_id())) {
-                            cities.add(agency.getCity());
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                    data -> {
+                        Agency agency = data.getValue(Agency.class);
+                        if(agency != null){
+                            if ( !cities.contains(agency.getCity()) && agency.getMicrofinance().get_id().equals(microfinance.get_id())) {
+                                cities.add(agency.getCity());
+                            }
                         }
                     }
-                }
-                smartMaterialSpinner.setItem(cities);
-            }
+            );
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
+            smartMaterialSpinner.setItem(cities);
+        }
+
     }
 
+
+    @SuppressLint("CheckResult")
     public static void checkAgencyCity ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final City city ) {
-        final ArrayList<Agency> agencies = new ArrayList<>();
-        sAgencyHelper.getAgencies().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Agency agency = data.getValue(Agency.class);
-                    if(agency != null){
-                        if ( agency.getCity().get_id().equals(city.get_id()) &&
-                                agency.getMicrofinance().get_id().equals(microfinance.get_id())) {
-                            agencies.add(agency);
-                        }
-                    }
-                }
-                smartMaterialSpinner.setItem(agencies);
-            }
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
+        RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayAgencyCity(dataSnapshot , smartMaterialSpinner, microfinance, city),
+                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+
     }
 
-    public static void checkAccountMicrofinance ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final Account account ) {
-        final ArrayList<Account> accounts = new ArrayList<>();
-        sAccountHelper.getAccounts().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange ( @NonNull DataSnapshot dataSnapshot ) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Account account1 = data.getValue(Account.class);
-                    if(account1 != null){
-                        if ( !account1.get_id().equals(account.get_id()) &&
-                            account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())) {
-                            accounts.add(account1);
+
+    private static void displayAgencyCity ( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final City city ) {
+        final ArrayList<Agency> agencies = new ArrayList<>();
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                    data -> {
+                        Agency agency = data.getValue(Agency.class);
+                        if(agency != null){
+                            if ( agency.getCity().get_id().equals(city.get_id()) &&
+                                    agency.getMicrofinance().get_id().equals(microfinance.get_id())) {
+                                agencies.add(agency);
+                            }
                         }
                     }
-                }
-                smartMaterialSpinner.setItem(accounts);
-            }
+            );
 
-            @Override
-            public void onCancelled ( @NonNull DatabaseError databaseError ) {
-                Log.w("TAG", "Failed to read value.", databaseError.toException());
-            }
-        });
+            smartMaterialSpinner.setItem(agencies);
+        }
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    public static void checkAccountMicrofinance ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final Account account ) {
+
+        RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        dataSnapshot -> displayAccountMicrofinance(dataSnapshot , smartMaterialSpinner, microfinance, account),
+                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                );
+
+    }
+
+
+    private static void displayAccountMicrofinance ( DataSnapshot dataSnapshot, final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final Account account ) {
+        final ArrayList<Account> accounts = new ArrayList<>();
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
+            dataSnapshot.getChildren().forEach(
+                    data -> {
+                        Account account1 = data.getValue(Account.class);
+                        if(account1 != null){
+                            if ( !account1.get_id().equals(account.get_id()) &&
+                                    account.getCustomer().getMicrofinance().get_id().equals(microfinance.get_id())) {
+                                accounts.add(account1);
+                            }
+                        }
+                    }
+            );
+
+            smartMaterialSpinner.setItem(accounts);
+        }
     }
 
 }

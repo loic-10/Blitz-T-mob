@@ -13,12 +13,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/logo"
+        android:roundIcon="@mipmap/logo_b"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Views.Transaction.Activity.MakeTransactionActivity"></activity>
         <activity android:name=".Views.Transaction.Activity.TransactionAccountActivity" />
-        <activity android:name=".AccountCustomerActivity">
+        <activity android:name=".Views.Account.Activity.AccountCustomerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeCustomerActivity" />
@@ -54,7 +54,7 @@
         <activity android:name=".MicrofinanceAgencyActivity" />
         <activity android:name=".HomeCustomerActivity" />
         <activity android:name=".HomeMemberActivity" />
-        <activity android:name=".AllAccountFragment" />
+        <activity android:name=".Views.Account.Fragment.AccountCustomerFragment" />
         <activity android:name=".OthersMicrofinancesFragment" />
         <activity
             android:name=".ChoiceLogActivity"

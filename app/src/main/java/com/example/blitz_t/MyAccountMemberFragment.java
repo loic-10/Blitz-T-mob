@@ -28,7 +28,6 @@ public class MyAccountMemberFragment extends Fragment {
     @Override
     public View onCreateView ( @NonNull LayoutInflater inflater , @Nullable ViewGroup container , @Nullable Bundle savedInstanceState ) {
         view = inflater.inflate(R.layout.fragment_account_member , container, false);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mContextWrapper = (ContextWrapper) view.getContext();
 

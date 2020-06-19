@@ -10,19 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.blitz_t.AccountCustomerActivity;
+import com.example.blitz_t.Views.Account.Activity.AccountCustomerActivity;
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Status.Status;
-import com.example.blitz_t.Models.Transaction.Transaction;
 import com.example.blitz_t.R;
 import com.example.blitz_t.Views.DesignApp;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 

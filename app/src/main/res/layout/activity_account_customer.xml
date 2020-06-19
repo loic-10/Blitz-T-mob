@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="com.example.blitz_t.AccountCustomerActivity">
+        tools:context="com.example.blitz_t.Views.Account.Activity.AccountCustomerActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

@@ -35,9 +35,13 @@ public class DesignApp {
         if ( uri != null ) Picasso.with(context)
                 .load(uri)
                 .into(imageView);
-        else Picasso.with(context)
+        else{
+            if(linkImage == null || linkImage.isEmpty())
+                return;
+            Picasso.with(context)
                 .load(linkImage)
                 .into(imageView);
+        }
     }
 
     public static void chooseImage( Activity activity, int requestCode ){

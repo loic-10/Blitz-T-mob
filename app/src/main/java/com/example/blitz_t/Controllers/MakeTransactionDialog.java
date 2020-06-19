@@ -8,8 +8,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.*;
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
-import com.example.blitz_t.AccountCustomerActivity;
-import com.example.blitz_t.Api.CustomerHelper;
+import com.example.blitz_t.Views.Account.Activity.AccountCustomerActivity;
 import com.example.blitz_t.Api.MicrofinanceHelper;
 import com.example.blitz_t.Api.SavingHelper;
 import com.example.blitz_t.Api.TransactionHelper;
@@ -26,7 +25,6 @@ import com.example.blitz_t.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;

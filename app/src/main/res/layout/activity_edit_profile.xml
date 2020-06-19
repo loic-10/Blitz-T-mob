@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:fitsSystemWindows="true"
-            android:background="?colorPrimary"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:background="@color/transparent">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing"
@@ -83,12 +82,13 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/app_bar"
                     android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
+                    android:layout_height="85dp"
                     app:contentInsetStart="10dp"
                     app:menu="@menu/return_menu"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_edit_user_male"
-                    android:isScrollContainer="true"/>
+                    android:isScrollContainer="true"
+                    android:paddingTop="18dp"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -101,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_vertical"
+            android:layout_marginBottom="38dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

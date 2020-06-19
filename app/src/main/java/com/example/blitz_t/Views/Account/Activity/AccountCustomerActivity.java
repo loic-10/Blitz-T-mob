@@ -1,4 +1,4 @@
-package com.example.blitz_t;
+package com.example.blitz_t.Views.Account.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +20,7 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.Models.Status.Status;
+import com.example.blitz_t.R;
 import com.example.blitz_t.Views.Transaction.Activity.MakeTransactionActivity;
 import com.example.blitz_t.Views.Transaction.Activity.TransactionAccountActivity;
 
@@ -43,6 +44,8 @@ public class AccountCustomerActivity extends AppCompatActivity {
     private Member mMember;
     private Activity mActivity;
 
+    private ArrayList<Account> mAccounts;
+
     private MenuItem buttonItem;
     private Toolbar app_bar;
 
@@ -52,11 +55,14 @@ public class AccountCustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_customer);
 
+        mAccounts = new ArrayList<>();
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         this.setTitle(R.string.text_menu_account);
 
         mAccountCustomerActivity = this;
+
         mActivity = this;
 
         getWindow().setStatusBarColor(Color.TRANSPARENT);
@@ -102,7 +108,7 @@ public class AccountCustomerActivity extends AppCompatActivity {
                 getString(R.string.PREFERENCE_FILE_KEY),
                 this);
 
-        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, new ArrayList<Account>());
+        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, mAccounts);
     }
 
     private void initEvent () {

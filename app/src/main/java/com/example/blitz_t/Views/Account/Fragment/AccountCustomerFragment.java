@@ -1,4 +1,4 @@
-package com.example.blitz_t;
+package com.example.blitz_t.Views.Account.Fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,22 +13,24 @@ import android.view.ViewGroup;
 import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
+import com.example.blitz_t.R;
 
 import static com.example.blitz_t.Models.Model.checkAccountCustomer;
 
-public class AllAccountFragment extends Fragment {
+public class AccountCustomerFragment extends Fragment {
 
     private RecyclerView recycler_view_account;
     private View btn_new_account;
     private Customer mCustomer;
     private Microfinance mMicrofinance;
+    private View view;
 
 
     @Nullable
     @Override
     public View onCreateView ( @NonNull LayoutInflater inflater , @Nullable ViewGroup container , @Nullable Bundle savedInstanceState ) {
 
-        View view = inflater.inflate(R.layout.fragment_all_account , container , false);
+        view = inflater.inflate(R.layout.fragment_all_account , container , false);
 
         mCustomer = (Customer) Model.contentPreference(
                 new Customer(),

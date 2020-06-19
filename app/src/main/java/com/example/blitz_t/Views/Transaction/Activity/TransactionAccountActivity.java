@@ -38,6 +38,7 @@ public class TransactionAccountActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipe_refresh_recycler_transaction;
     private MenuItem buttonItem;
     private Toolbar app_bar;
+    private ArrayList<Account> mAccounts;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -47,6 +48,8 @@ public class TransactionAccountActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         mActivity = this;
+
+        mAccounts = new ArrayList<>();
 
         this.setTitle(R.string.text_menu_transaction);
 
@@ -90,7 +93,7 @@ public class TransactionAccountActivity extends AppCompatActivity {
 
         checkTransactionCustomer( recycler_view_transaction, getApplicationContext(), mCustomer, mMicrofinance, this, "", 0, mAccount , swipe_refresh_recycler_transaction);
 
-        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, new ArrayList<Account>());
+        checkAccountCustomer( viewPager_account, this, this, mCustomer, mMicrofinance, mAccount, mAccounts);
     }
 
     private void initView () {
