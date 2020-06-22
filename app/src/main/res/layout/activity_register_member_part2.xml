@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Views.Register.Member.RegisterMemberPart2Activity">
+    tools:context=".Views.Member.Activity.RegisterMemberPart2Activity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:background="@drawable/transparence_image"

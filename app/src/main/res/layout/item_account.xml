@@ -56,14 +56,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    android:text="code account"
+                    android:text="code accounts"
                     android:textColor="@color/defaultColorWhite"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:shadowColor = "@color/colorPrimaryDark"
                     android:shadowDx = "2"
                     android:shadowDy = "2"
-                    android:shadowRadius = "1"/>
+                    android:shadowRadius = "1"
+                    android:maxLines="1"
+                    />
 
             </LinearLayout>
 

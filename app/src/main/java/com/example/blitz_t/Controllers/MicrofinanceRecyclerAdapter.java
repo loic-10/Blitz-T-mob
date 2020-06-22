@@ -9,12 +9,12 @@ import android.view.*;
 import android.widget.*;
 
 import com.chaek.android.RatingBar;
-import com.example.blitz_t.MicrofinanceAgencyActivity;
+import com.example.blitz_t.Views.Agency.Activity.AgencyMicrofinanceActivity;
 import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
-import com.example.blitz_t.Views.Login.Customer.LoginCustomerActivity;
+import com.example.blitz_t.Views.Customer.Activity.LoginCustomerActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,8 +77,8 @@ public class MicrofinanceRecyclerAdapter extends RecyclerView.Adapter<Microfinan
         holder.button_item_more_agency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MicrofinanceAgencyActivity.class);
-                Model.saveFormPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
+                Intent intent = new Intent(context, AgencyMicrofinanceActivity.class);
+                Model.saveFromPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
                         context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
                 context.startActivity(intent);
             }
@@ -89,7 +89,7 @@ public class MicrofinanceRecyclerAdapter extends RecyclerView.Adapter<Microfinan
             public void onClick ( View v ) {
                 if(mMember != null) {
                     Intent intent = new Intent(context , LoginCustomerActivity.class);
-                    Model.saveFormPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
+                    Model.saveFromPreference(microfinance , context.getString(R.string.SHARED_PREF_MICROFINANCE_SELECT) ,
                             context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
                     context.startActivity(intent);
                 }

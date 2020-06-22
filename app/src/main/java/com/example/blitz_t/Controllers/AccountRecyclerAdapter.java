@@ -69,7 +69,7 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
             @Override
             public void onClick ( View v ) {
                 Intent intent = new Intent(context , AccountCustomerActivity.class);
-                Model.saveFormPreference(account , context.getString(R.string.SHARED_PREF_ACCOUNT_SELECT) ,
+                Model.saveFromPreference(account , context.getString(R.string.SHARED_PREF_ACCOUNT_SELECT) ,
                         context.getString(R.string.PREFERENCE_FILE_KEY) , activity);
                 context.startActivity(intent);
             }

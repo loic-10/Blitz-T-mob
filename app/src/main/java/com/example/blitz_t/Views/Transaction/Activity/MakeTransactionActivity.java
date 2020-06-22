@@ -199,24 +199,6 @@ public class MakeTransactionActivity extends AppCompatActivity {
     }
 
     private void assignLayoutParams(){
-        text_full_name_recipient_group.setLayoutParams(text_full_name_recipient_group.getVisibility() == View.VISIBLE ?
-                text_full_name_recipient_group_layout_params :
-                mLayoutParams);
-        text_cni_number_recipient_group.setLayoutParams(text_cni_number_recipient_group.getVisibility() == View.VISIBLE ?
-                text_cni_number_recipient_group_layout_params :
-                mLayoutParams);
-        text_key_code_group.setLayoutParams(text_key_code_group.getVisibility() == View.VISIBLE ?
-                text_key_code_group_layout_params :
-                mLayoutParams);
-        spinner_status_recipient_group.setLayoutParams(spinner_status_recipient_group.getVisibility() == View.VISIBLE ?
-                spinner_status_recipient_group_layout_params :
-                mLayoutParams);
-        spinner_account_group.setLayoutParams(spinner_account_group.getVisibility() == View.VISIBLE ?
-                spinner_account_group_layout_params :
-                mLayoutParams);
-        spinner_code_phone_recipient_group.setLayoutParams(spinner_code_phone_recipient_group.getVisibility() == View.VISIBLE ?
-                spinner_code_phone_recipient_group_layout_params :
-                mLayoutParams);
     }
 
     private void initEvent () {
@@ -240,22 +222,22 @@ public class MakeTransactionActivity extends AppCompatActivity {
 
         spinner_account_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
                 View.VISIBLE :
-                View.INVISIBLE);
+                View.GONE);
 
         text_full_name_recipient_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         spinner_code_phone_recipient_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_phone_number_recipient_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_cni_number_recipient_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_key_code_group.setVisibility(recipientStatus.equals(Status.RecipientStatus.customer) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
 
         assignLayoutParams();
@@ -287,40 +269,40 @@ public class MakeTransactionActivity extends AppCompatActivity {
     private void eliminatedView ( Status.TransactionType transactionType ) {
         spinner_status_recipient_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         spinner_account_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_full_name_recipient_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         spinner_code_phone_recipient_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_phone_number_recipient_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_cni_number_recipient_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
         text_key_code_group.setVisibility((transactionType.equals(Status.TransactionType.deposit) ||
                 transactionType.equals(Status.TransactionType.withdrawal)) ?
-                View.INVISIBLE :
+                View.GONE :
                 View.VISIBLE);
 
         if(transactionType.equals(Status.TransactionType.transfer)){
-            spinner_account_group.setVisibility(View.INVISIBLE);
-            text_full_name_recipient_group.setVisibility(View.INVISIBLE);
-            spinner_code_phone_recipient_group.setVisibility(View.INVISIBLE);
-            text_phone_number_recipient_group.setVisibility(View.INVISIBLE);
-            text_cni_number_recipient_group.setVisibility(View.INVISIBLE);
-            text_key_code_group.setVisibility(View.INVISIBLE);
+            spinner_account_group.setVisibility(View.GONE);
+            text_full_name_recipient_group.setVisibility(View.GONE);
+            spinner_code_phone_recipient_group.setVisibility(View.GONE);
+            text_phone_number_recipient_group.setVisibility(View.GONE);
+            text_cni_number_recipient_group.setVisibility(View.GONE);
+            text_key_code_group.setVisibility(View.GONE);
         }
 
         assignLayoutParams();
@@ -405,7 +387,7 @@ public class MakeTransactionActivity extends AppCompatActivity {
 
     private void saveTransaction(){
         try {
-            boolean completed = isCompleted();
+            isCompleted();
             Transaction transaction = new Transaction();
             transaction.set_id(getNewId());
             transaction.setSending_account(sAccounts.get(0));
@@ -413,10 +395,13 @@ public class MakeTransactionActivity extends AppCompatActivity {
             transaction.setAmount(Double.parseDouble(text_amount.getText().toString()));
             transaction.setNumber_day_waiting(0);
             transaction.setTransaction_type(mTransactionType);
+            transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
             transaction.setSending_employee(null);
             if(mTransactionType.equals(Status.TransactionType.transfer)){
                 if(mRecipientStatus.equals(Status.RecipientStatus.customer)){
                     transaction.setRecipient_account((Account) spinner_account.getSelectedItem());
+
+                    sTransactionHelper.validedTransaction(transaction, null, sMicrofinances.get(0), sSavings);
                 }
                 else {
                     transaction.setKey_code(text_key_code.getText().toString());
@@ -425,11 +410,9 @@ public class MakeTransactionActivity extends AppCompatActivity {
                     transaction.setRecipient_phone_number(spinner_code_phone_recipient.getSelectedItem().toString() +
                             " " +
                             text_phone_number_recipient.getText().toString());
-                }
-                transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
 
-//                sTransactionHelper.setTransaction(transaction);
-                sTransactionHelper.validedTransaction(transaction, null, sMicrofinances.get(0), sSavings);
+                    sTransactionHelper.transferredTransaction(transaction, null, sMicrofinances.get(0), sSavings);
+                }
 
                 new DialogPersonal().showDialog(
                         mMakeTransactionActivity,
@@ -443,12 +426,12 @@ public class MakeTransactionActivity extends AppCompatActivity {
             }
             else {
                 transaction.setRecipient_account(sAccounts.get(0));
+                transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
                 if(sAccounts.get(0).getAccount_type().equals(Status.AccountType.saving)){
                     transaction.setNumber_day_waiting(sMicrofinances.get(0).getNombre_jour_avis_retrait_epargne());
-                    transaction.setTransaction_status(Status.TransactionStatus.advised);
-                }
-                else {
-                    transaction.setTransaction_status(Status.TransactionStatus.pending_validity);
+                    if(mTransactionType.equals(Status.TransactionType.withdrawal)) {
+                        transaction.setTransaction_status(Status.TransactionStatus.advised);
+                    }
                 }
 
                 sTransactionHelper.setTransaction(transaction);

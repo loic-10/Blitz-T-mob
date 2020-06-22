@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.example.blitz_t.EditProfileActivity">
+    tools:context="com.example.blitz_t.Views.Member.Activity.EditProfileMemberActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:background="@drawable/transparence_image"

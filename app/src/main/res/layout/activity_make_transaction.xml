@@ -66,6 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_vertical"
+        android:layout_marginBottom="38dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -93,25 +94,20 @@
 
             </RelativeLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="25dp"
-                android:layout_margin="15dp">
+                android:layout_margin="15dp"
+                android:orientation="vertical">
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/text_amount_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:labelText="@string/text_enter_amount"
                     app:iconSignifier="@drawable/ic_banknotes"
                     android:foregroundTint="@color/defaultColorWhite"
@@ -130,15 +126,9 @@
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/text_password_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/text_amount_group"
-                    app:layout_constraintStart_toStartOf="@+id/text_amount_group"
-                    app:layout_constraintTop_toBottomOf="@+id/text_amount_group"
                     app:labelText="@string/text_enter_password"
                     app:iconSignifier="@drawable/ic_password"
                     android:foregroundTint="@color/defaultColorWhite"
@@ -160,13 +150,7 @@
                     android:id="@+id/spinner_status_recipient_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/text_password_group"
-                    app:layout_constraintStart_toStartOf="@+id/text_password_group"
-                    app:layout_constraintTop_toBottomOf="@+id/text_password_group">
+                    android:layout_marginTop="16dp">
 
                     <ImageView
                         android:id="@+id/img0"
@@ -207,12 +191,6 @@
                     android:id="@+id/spinner_account_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintEnd_toEndOf="@+id/spinner_status_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/spinner_status_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner_status_recipient_group"
                     android:layout_marginTop="16dp">
 
                     <ImageView
@@ -254,17 +232,11 @@
                     android:id="@+id/text_full_name_recipient_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     app:iconSignifier="@drawable/ic_user"
                     android:foregroundTint="@color/defaultColorWhite"
                     app:secondaryColor="@color/defaultColorGray"
                     app:primaryColor="@color/defaultColorWhite"
-                    app:labelText="@string/text_enter_recipient_name"
-                    app:layout_constraintEnd_toEndOf="@+id/spinner_status_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/spinner_status_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner_status_recipient_group">
+                    app:labelText="@string/text_enter_recipient_name">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/text_full_name_recipient"
@@ -279,12 +251,6 @@
                     android:id="@+id/spinner_code_phone_recipient_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    app:layout_constraintEnd_toEndOf="@+id/text_full_name_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/text_full_name_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/text_full_name_recipient_group"
                     android:layout_marginTop="16dp">
 
                     <ImageView
@@ -324,15 +290,9 @@
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/text_phone_number_recipient_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/spinner_code_phone_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/spinner_code_phone_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner_code_phone_recipient_group"
                     app:labelText="@string/text_enter_phone_number_recipient"
                     app:iconSignifier="@drawable/ic_phone2"
                     android:foregroundTint="@color/defaultColorWhite"
@@ -351,15 +311,9 @@
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/text_cni_number_recipient_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/text_phone_number_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/text_phone_number_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/text_phone_number_recipient_group"
                     app:labelText="@string/text_enter_cni_number_recipient"
                     app:iconSignifier="@drawable/ic_identification_documents"
                     android:foregroundTint="@color/defaultColorWhite"
@@ -378,15 +332,9 @@
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/text_key_code_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/text_cni_number_recipient_group"
-                    app:layout_constraintStart_toStartOf="@+id/text_cni_number_recipient_group"
-                    app:layout_constraintTop_toBottomOf="@+id/text_cni_number_recipient_group"
                     app:labelText="@string/text_enter_key_code"
                     app:iconSignifier="@drawable/ic_key"
                     android:foregroundTint="@color/defaultColorWhite"
@@ -403,7 +351,7 @@
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_save"

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.example.blitz_t.Models.Customer.Customer;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
+import com.example.blitz_t.Views.Account.Activity.CreateAccountCustomerActivity;
 
 import static com.example.blitz_t.Models.Model.checkAccountCustomer;
 
@@ -46,14 +48,21 @@ public class AccountCustomerFragment extends Fragment {
 
         initView(view);
 
-        initEvent(view);
+        initEvent();
 
         checkAccountCustomer( recycler_view_account, view.getContext(), mCustomer, mMicrofinance, getActivity());
 
         return view;
     }
 
-    private void initEvent ( View view ) {
+    private void initEvent ( ) {
+        btn_new_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick ( View v ) {
+                Intent intent = new Intent(getContext(), CreateAccountCustomerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView ( View view ) {

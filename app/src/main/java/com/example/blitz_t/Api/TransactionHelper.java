@@ -69,7 +69,7 @@ public class TransactionHelper extends DB<Transaction> {
         setTransaction(transaction);
     }
 
-    public void transferredTransaction(Transaction transaction, Employee employee, ArrayList<Saving> savings, Microfinance microfinance) throws Exception {
+    public void transferredTransaction(Transaction transaction, Employee employee, Microfinance microfinance, ArrayList<Saving> savings) throws Exception {
         transaction.setValidator_employee(employee);
         transaction.setTransaction_status(Status.TransactionStatus.transferred);
         double transfer_sending_amount = Model.getAmountAndInterest(

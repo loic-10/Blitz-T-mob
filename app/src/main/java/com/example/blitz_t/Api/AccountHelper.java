@@ -1,5 +1,7 @@
 package com.example.blitz_t.Api;
 
+import android.content.res.Resources;
+
 import com.example.blitz_t.Models.Account.Account;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Saving.Saving;
@@ -86,6 +88,8 @@ public class AccountHelper extends DB<Account> {
         {
             saving = sSavingHelper.getSavingInProgress(account.get_id(), savings);
         }
+
+//        Resources.getSystem().
 
         account.setBalance(account.getBalance() + amount);
 

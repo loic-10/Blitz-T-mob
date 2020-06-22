@@ -14,6 +14,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 
+import com.example.blitz_t.Models.Model;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private Button button_start;
@@ -31,11 +34,15 @@ public class SplashScreenActivity extends AppCompatActivity {
 //        getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+//        Model.showNotification(this, "New notification", "Voici le contenu");
+
         button_start = findViewById(R.id.button_start);
         constraintLayout2 = findViewById(R.id.constraintLayout2);
         progressBar = findViewById(R.id.progressBar);
 
         button_start.setVisibility(View.INVISIBLE);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("allDevices");
 
         btnAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.button_animation);
         logoInfo = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_info_animation);
@@ -51,6 +58,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick ( View v ) {
+
                 Intent intent = new Intent(SplashScreenActivity.this, IntroActivity.class);
                 startActivity(intent);
                 finish();

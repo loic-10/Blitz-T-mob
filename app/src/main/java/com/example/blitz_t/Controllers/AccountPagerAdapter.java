@@ -72,7 +72,7 @@ public class AccountPagerAdapter extends PagerAdapter {
             @Override
             public void onClick ( View v ) {
             Intent intent = new Intent(mContext , AccountCustomerActivity.class);
-            Model.saveFormPreference(account , mContext.getString(R.string.SHARED_PREF_ACCOUNT_SELECT) ,
+            Model.saveFromPreference(account , mContext.getString(R.string.SHARED_PREF_ACCOUNT_SELECT) ,
                     mContext.getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
             mContext.startActivity(intent);
             }

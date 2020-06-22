@@ -132,17 +132,17 @@ public class AccountCustomerActivity extends AppCompatActivity {
                     break;
                 case R.id.btn_make_deposit :
                     intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
-                    Model.saveFormPreference(Status.TransactionType.deposit , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                    Model.saveFromPreference(Status.TransactionType.deposit , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
                             getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
                 case R.id.btn_make_withdrawal :
                     intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
-                    Model.saveFormPreference(Status.TransactionType.withdrawal , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                    Model.saveFromPreference(Status.TransactionType.withdrawal , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
                             getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
                 case R.id.btn_make_transfer :
                     intent = new Intent(getApplicationContext() , MakeTransactionActivity.class);
-                    Model.saveFormPreference(Status.TransactionType.transfer , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
+                    Model.saveFromPreference(Status.TransactionType.transfer , getString(R.string.SHARED_PREF_TRANSACTION_TYPE_SELECT) ,
                             getString(R.string.PREFERENCE_FILE_KEY) , mActivity);
                     break;
             }

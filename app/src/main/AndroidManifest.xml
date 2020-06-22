@@ -16,12 +16,22 @@
         android:roundIcon="@mipmap/logo_b"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Views.Transaction.Activity.MakeTransactionActivity"></activity>
+        <activity android:name=".Views.Account.Activity.CreateAccountCustomerActivity"></activity>
+        <activity android:name=".Views.Saving.Activity.SavingAccountActivity" />
+        <activity android:name=".Views.Setting.Activity.SettingActivity" />
+        <activity android:name=".Views.Transaction.Activity.DetailsTransactionActivity" />
+
+        <service
+            android:name=".Models.Notification.NotificationFirebase"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Views.Transaction.Activity.MakeTransactionActivity" />
         <activity android:name=".Views.Transaction.Activity.TransactionAccountActivity" />
         <activity android:name=".Views.Account.Activity.AccountCustomerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeCustomerActivity" />
+                android:value=".Views.Customer.Activity.HomeCustomerActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -36,26 +46,26 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".MapAgencyActivity" />
-        <activity android:name=".Views.Register.Customer.MembershipRequestActivity" />
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".Views.Customer.Activity.MembershipRequestCustomerActivity" />
+        <activity android:name=".Views.Member.Activity.EditProfileMemberActivity" />
         <activity android:name=".Views.Country.CountryActivity" />
         <activity android:name=".Views.City.CityActivity" />
-        <activity android:name=".Views.Login.Member.LoginMemberActivity" />
-        <activity android:name=".Views.Login.Customer.LoginCustomerActivity" />
-        <activity android:name=".Views.Register.Member.RegisterMemberPart2Activity" />
-        <activity android:name=".Views.Register.Member.RegisterMemberPart1Activity" />
+        <activity android:name=".Views.Member.Activity.LoginMemberActivity" />
+        <activity android:name=".Views.Customer.Activity.LoginCustomerActivity" />
+        <activity android:name=".Views.Member.Activity.RegisterMemberPart2Activity" />
+        <activity android:name=".Views.Member.Activity.RegisterMemberPart1Activity" />
         <activity
             android:name=".IntroActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".DetailAgencyActivity" />
-        <activity android:name=".RefundActivity" />
-        <activity android:name=".CreditActivity" />
-        <activity android:name=".MicrofinanceAgencyActivity" />
-        <activity android:name=".HomeCustomerActivity" />
-        <activity android:name=".HomeMemberActivity" />
+        <activity android:name=".Views.Agency.Activity.DetailsAgencyActivity" />
+        <activity android:name=".Views.Refund.Activity.RefundCreditAccountActivity" />
+        <activity android:name=".Views.Credit.Activity.CreditAccountActivity" />
+        <activity android:name=".Views.Agency.Activity.AgencyMicrofinanceActivity" />
+        <activity android:name=".Views.Customer.Activity.HomeCustomerActivity" />
+        <activity android:name=".Views.Member.Activity.HomeMemberActivity" />
         <activity android:name=".Views.Account.Fragment.AccountCustomerFragment" />
-        <activity android:name=".OthersMicrofinancesFragment" />
+        <activity android:name=".Views.Microfinance.Fragment.OthersMicrofinancesFragment" />
         <activity
             android:name=".ChoiceLogActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

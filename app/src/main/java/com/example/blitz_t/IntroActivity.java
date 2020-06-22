@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 import com.example.blitz_t.Controllers.IntroPagerAdapter;
+import com.example.blitz_t.Views.Customer.Activity.HomeCustomerActivity;
 import com.example.blitz_t.Views.ScreenItem;
 import com.google.android.material.tabs.TabLayout;
 

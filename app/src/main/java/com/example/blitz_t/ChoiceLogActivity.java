@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.example.blitz_t.Views.DesignApp;
+import com.example.blitz_t.Views.Microfinance.Fragment.OthersMicrofinancesFragment;
 
 public class ChoiceLogActivity extends AppCompatActivity {
 

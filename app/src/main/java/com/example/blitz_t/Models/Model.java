@@ -2,11 +2,18 @@ package com.example.blitz_t.Models;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
+import android.widget.Toast;
+
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner;
 import com.example.blitz_t.Api.AccountHelper;
 import com.example.blitz_t.Api.AgencyHelper;
@@ -29,47 +36,43 @@ import com.example.blitz_t.Models.Member.Member;
 import com.example.blitz_t.Models.Microfinance.Microfinance;
 import com.example.blitz_t.Models.Transaction.Transaction;
 import com.example.blitz_t.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.function.Consumer;
-
-import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import durdinapps.rxfirebase2.RxFirebaseDatabase;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class Model {
 
-    static MicrofinanceHelper sMicrofinanceHelper = new MicrofinanceHelper(new Microfinance());
+    private static MicrofinanceHelper sMicrofinanceHelper = new MicrofinanceHelper(new Microfinance());
 
-    static CustomerHelper sCustomerHelper = new CustomerHelper(new Customer());
+    private static CustomerHelper sCustomerHelper = new CustomerHelper(new Customer());
 
-    static CountryHelper sCountryHelper = new CountryHelper(new Country());
+    private static CountryHelper sCountryHelper = new CountryHelper(new Country());
 
-    static CityHelper sCityHelper = new CityHelper(new City());
+    private static CityHelper sCityHelper = new CityHelper(new City());
 
-    static AgencyHelper sAgencyHelper = new AgencyHelper(new Agency());
+    private static AgencyHelper sAgencyHelper = new AgencyHelper(new Agency());
 
-    static AccountHelper sAccountHelper = new AccountHelper(new Account());
+    private static AccountHelper sAccountHelper = new AccountHelper(new Account());
 
-    static TransactionHelper sTransactionHelper = new TransactionHelper(new Transaction());
+    private static TransactionHelper sTransactionHelper = new TransactionHelper(new Transaction());
+
+    private static int numberNotification;
 
     public static String ConvertToString(String dateInString) throws ParseException {
         String format = "YYYY-MM-dd";
@@ -106,14 +109,23 @@ public class Model {
         return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
     }
 
-    public static void saveFormPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
+    public static void saveFromPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
         String contentPreference = new Gson().toJson(object);
         SharedPreferences.Editor editor = contextWrapper.getSharedPreferences(preferenceFileKey , Context.MODE_PRIVATE).edit();
         editor.putString(filePreference , contentPreference);
         editor.apply();
     }
 
-    public static void clearFormPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
+    private static void addFromPreferenceNotification ( Object key, Object value,  ContextWrapper contextWrapper ) {
+        Dictionary dictionaryNotification = contentPreferenceNotification(contextWrapper);
+        dictionaryNotification.put(key, value);
+        String contentPreference = new Gson().toJson(dictionaryNotification);
+        SharedPreferences.Editor editor = contextWrapper.getSharedPreferences(contextWrapper.getString(R.string.PREFERENCE_FILE_KEY) , Context.MODE_PRIVATE).edit();
+        editor.putString(contextWrapper.getString(R.string.PREFERENCE_FILE_NOTIFICATION) , contentPreference);
+        editor.apply();
+    }
+
+    public static void clearFromPreference ( Object object, String filePreference, String preferenceFileKey, ContextWrapper contextWrapper ) {
         String contentPreference = new Gson().toJson(object);
         SharedPreferences.Editor editor = contextWrapper.getSharedPreferences(preferenceFileKey , Context.MODE_PRIVATE).edit();
         editor.putString(filePreference , contentPreference);
@@ -128,6 +140,16 @@ public class Model {
             return new Gson().fromJson(member_string, object.getClass());
         }
         return null;
+    }
+
+    private static Dictionary<Object, Object> contentPreferenceNotification ( ContextWrapper contextWrapper ) {
+        SharedPreferences sharedPref = contextWrapper.getSharedPreferences(contextWrapper.getString(R.string.PREFERENCE_FILE_KEY), Context.MODE_PRIVATE);
+        String member_string = sharedPref.getString(contextWrapper.getString(R.string.PREFERENCE_FILE_NOTIFICATION), null);
+        Dictionary<Object, Object> dictionary = new Hashtable<>();
+        if(member_string != null) {
+            return new Gson().fromJson(member_string, dictionary.getClass());
+        }
+        return new Hashtable();
     }
 
 //    public static String currentDateString(){
@@ -161,6 +183,28 @@ public class Model {
         objects.addAll(results);
     }
 
+    public static void reverseList(ArrayList objects, int limit){
+        ArrayList results = new ArrayList<>();
+        ArrayList results_ = new ArrayList<>();
+        for (int i = objects.size() - 1; i >= 0; i--){
+            results.add(objects.get(i));
+        }
+
+        results_.addAll(results);
+
+        if(limit > 0 && results_.size() > 0) {
+            results_.clear();
+            for (int i = 0; i < limit; i++) {
+                results_.add(results.get(i));
+                if ( (i + 1) >= results.size() )
+                    break;
+            }
+        }
+
+        objects.clear();
+        objects.addAll(results_);
+    }
+
 //    public static boolean isOnline(Context context) {
 //        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 //        assert cm != null;
@@ -169,15 +213,15 @@ public class Model {
 //    }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkAgenciesMicrofinance( final RecyclerView recyclerView, final Context context, final String name, final Microfinance microfinance, final Activity activity){
 
         RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        dataSnapshot -> displayAgenciesMicrofinance(dataSnapshot , recyclerView , context , name , microfinance , activity),
-                        throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    dataSnapshot -> displayAgenciesMicrofinance(dataSnapshot , recyclerView , context , name , microfinance , activity),
+                    throwable -> Toast.makeText(context, activity.getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
 
     }
@@ -205,7 +249,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkAccountCustomer( final ViewPager viewPager, final Context context, final Activity activity, final Customer customer, final Microfinance microfinance, final Account account_, final ArrayList<Account> accounts_){
 
         RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
@@ -213,7 +257,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayAccountCustomer(dataSnapshot , viewPager, context, activity, customer, microfinance, account_, accounts_),
-                        throwable -> Snackbar.make(viewPager, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(context, activity.getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
     }
 
@@ -253,7 +297,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkMicrofinances( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
         if(member != null){
             if(member.get_id() != null)
@@ -266,7 +310,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayMicrofinances(dataSnapshot , recyclerView, context, name, member, activity),
-                        throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(context, activity.getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
     }
 
@@ -290,7 +334,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     private static void checkMicrofinancesMember( final RecyclerView recyclerView, final Context context, final String name, final Member member, final Activity activity){
 
         RxFirebaseDatabase.observeValueEvent(sCustomerHelper.getCustomers())
@@ -298,7 +342,7 @@ public class Model {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     dataSnapshot -> displayMicrofinancesMember(dataSnapshot , recyclerView, context, name, member, activity),
-                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    throwable -> Toast.makeText(context, activity.getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
             );
 
     }
@@ -325,7 +369,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkTransactionCustomer ( final RecyclerView recyclerView , final Context context , final Customer customer , final Microfinance microfinance , final Activity activity , final String value , final int limit , final Account account , final SwipeRefreshLayout swipe_refresh_recycler_transaction ){
 
         if(swipe_refresh_recycler_transaction != null)
@@ -341,8 +385,12 @@ public class Model {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                    dataSnapshot -> displayTransactionCustomer(dataSnapshot , recyclerView , context , customer , microfinance , activity , value , limit , account , swipe_refresh_recycler_transaction),
-                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    dataSnapshot ->
+                            displayTransactionCustomer(dataSnapshot , recyclerView , context , customer , microfinance , activity , value , limit , account , swipe_refresh_recycler_transaction),
+                    throwable -> {
+                        Toast.makeText(context, activity.getString(R.string.text_operation_failed).concat(" : ").concat(Objects.requireNonNull(throwable.getMessage())), Toast.LENGTH_LONG).show();
+//                        checkTransactionCustomer(recyclerView, context , customer , microfinance , activity , value , limit , account ,  swipe_refresh_recycler_transaction);
+                    }
             );
 
     }
@@ -350,7 +398,6 @@ public class Model {
 
     private static void displayTransactionCustomer ( DataSnapshot dataSnapshot, final RecyclerView recyclerView , final Context context , final Customer customer , final Microfinance microfinance , final Activity activity , final String value , final int limit , final Account account , final SwipeRefreshLayout swipe_refresh_recycler_transaction ){
         final ArrayList<Transaction> transactions = new ArrayList<>();
-
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ) {
             dataSnapshot.getChildren().forEach(
@@ -378,22 +425,32 @@ public class Model {
                             )
                     ){
                         transactions.add(transaction);
+                        if(transaction.get_id() != null) {
+                            showNotification(
+                                    activity ,
+                                    microfinance.getNom() +
+                                            " : " +
+                                            activity.getString(R.string.text_menu_transaction) ,
+                                    transaction.getTransaction_type().toString().toUpperCase() +
+                                            " (" +
+                                            new StringBuilder(transaction.get_id()).substring(0 , 10).concat("...") +
+                                            ") : " +
+                                            transaction.getAmount() +
+                                            " " + microfinance.getCurrency().getCurrency_symbol() +
+                                            ". " +
+                                            transaction.getTransaction_status() +
+                                            ". \n" +
+                                            activity.getString(R.string.text_view_more) +
+                                            "..." ,
+                                    transaction.get_id() ,
+                                    transaction.getTransaction_status().toString()
+                            );
+                        }
                     }
                 }
             );
 
-            reverseList(transactions);
-
-            if(limit > 0 && transactions.size() > 0){
-                final ArrayList<Transaction> results = new ArrayList<>();
-                for (int i = 0; i < limit; i++){
-                    results.add(transactions.get(i));
-                    if((i + 1) >= transactions.size())
-                        break;
-                }
-                transactions.clear();
-                transactions.addAll(results);
-            }
+            reverseList(transactions, limit);
 
             TransactionRecyclerAdapter mAdapter = new TransactionRecyclerAdapter(transactions, context, activity);
             recyclerView.setHasFixedSize(true);
@@ -408,7 +465,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkAccountCustomer( final RecyclerView recyclerView, final Context context, final Customer customer, final Microfinance microfinance, final Activity activity){
 
         RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
@@ -416,7 +473,7 @@ public class Model {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     dataSnapshot -> displayAccountCustomer(dataSnapshot , recyclerView, context, customer, microfinance, activity),
-                    throwable -> Snackbar.make(recyclerView, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    throwable -> Toast.makeText(context, activity.getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
             );
 
     }
@@ -446,7 +503,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkCitiesForCountries( final SmartMaterialSpinner smartMaterialSpinner, final Country country, final Member member) {
 
         RxFirebaseDatabase.observeValueEvent(sCityHelper.getCities())
@@ -454,7 +511,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayCitiesForCountries(dataSnapshot , smartMaterialSpinner, country, member),
-                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(smartMaterialSpinner.getContext(), smartMaterialSpinner.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
 
     }
@@ -488,7 +545,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkCountries( final SmartMaterialSpinner smartMaterialSpinnerCountry, final SmartMaterialSpinner smartMaterialSpinnerCity, final Member member){
 
         RxFirebaseDatabase.observeValueEvent(sCountryHelper.getCountries())
@@ -496,7 +553,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayCountries(dataSnapshot , smartMaterialSpinnerCountry, smartMaterialSpinnerCity, member),
-                        throwable -> Snackbar.make(smartMaterialSpinnerCountry, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(smartMaterialSpinnerCountry.getContext(), smartMaterialSpinnerCountry.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
 
     }
@@ -534,7 +591,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkListNumberCode( final SmartMaterialSpinner smartMaterialSpinner, final Member member){
 
         RxFirebaseDatabase.observeValueEvent(sCountryHelper.getCountries())
@@ -542,7 +599,7 @@ public class Model {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     dataSnapshot -> displayListNumberCode(dataSnapshot , smartMaterialSpinner, member),
-                    throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    throwable -> Toast.makeText(smartMaterialSpinner.getContext(), smartMaterialSpinner.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
             );
 
     }
@@ -571,7 +628,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkCitiesForAgencyMicrofinance( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance) {
 
         RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
@@ -579,7 +636,7 @@ public class Model {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                     dataSnapshot -> displayCitiesForAgencyMicrofinance(dataSnapshot , smartMaterialSpinner, microfinance),
-                    throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                    throwable -> Toast.makeText(smartMaterialSpinner.getContext(), smartMaterialSpinner.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
             );
 
     }
@@ -606,7 +663,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkAgencyCity ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final City city ) {
 
         RxFirebaseDatabase.observeValueEvent(sAgencyHelper.getAgencies())
@@ -614,7 +671,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayAgencyCity(dataSnapshot , smartMaterialSpinner, microfinance, city),
-                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(smartMaterialSpinner.getContext(), smartMaterialSpinner.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
 
     }
@@ -642,7 +699,7 @@ public class Model {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint({"CheckResult" , "ShowToast"})
     public static void checkAccountMicrofinance ( final SmartMaterialSpinner smartMaterialSpinner, final Microfinance microfinance, final Account account ) {
 
         RxFirebaseDatabase.observeValueEvent(sAccountHelper.getAccounts())
@@ -650,7 +707,7 @@ public class Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         dataSnapshot -> displayAccountMicrofinance(dataSnapshot , smartMaterialSpinner, microfinance, account),
-                        throwable -> Snackbar.make(smartMaterialSpinner, R.string.text_operation_failed, Snackbar.LENGTH_LONG)
+                        throwable -> Toast.makeText(smartMaterialSpinner.getContext(), smartMaterialSpinner.getContext().getString(R.string.text_operation_failed), Toast.LENGTH_LONG).show()
                 );
 
     }
@@ -674,6 +731,74 @@ public class Model {
 
             smartMaterialSpinner.setItem(accounts);
         }
+    }
+
+//    private static RemoteViews getCustomDesign ( Activity activity , String title , String message ){
+//        RemoteViews remoteViews = new RemoteViews(activity.getApplicationContext().getPackageName(), R.layout.notification);
+//        remoteViews.setTextViewText(R.id.text_title, title);
+//        remoteViews.setTextViewText(R.id.text_message, message);
+//        remoteViews.setImageViewResource(R.id.icon_notification, R.mipmap.logo);
+//        return remoteViews;
+//    }
+
+    private static void showNotification ( Activity activity , String title , String message , Object key , Object value ){
+
+        if(key == null || value == null)
+            return;
+        Dictionary<Object, Object> dictionary = contentPreferenceNotification(activity);
+
+        if(dictionary.get(key) == null){
+            addFromPreferenceNotification(key, value, activity);
+        }
+        else {
+            if(dictionary.get(key).equals(value)){
+                return;
+            }
+            else {
+                addFromPreferenceNotification(key, value, activity);
+            }
+        }
+
+        String channel_id = "com.example.blitz_t.test";
+
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(),
+                numberNotification,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity.getApplicationContext(), channel_id)
+                .setSmallIcon(R.mipmap.logo_b)
+                .setSound(uri)
+                .setAutoCancel(true)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setOnlyAlertOnce(true)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setContentIntent(pendingIntent);
+
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager = (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel notificationChannel = new NotificationChannel(channel_id, "web_app", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setSound(uri, null);
+            if ( notificationManager != null ) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+        if ( notificationManager != null ) {
+            notificationManager.notify(numberNotification, builder.build());
+        }
+
+        numberNotification++;
+
     }
 
 }

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.blitz_t.MicrofinanceAgencyActivity;
+import com.example.blitz_t.Views.Agency.Activity.AgencyMicrofinanceActivity;
 import com.example.blitz_t.Models.Agency.Agency;
 import com.example.blitz_t.Models.Model;
 import com.example.blitz_t.R;
@@ -56,8 +56,8 @@ public class AgencyMicrofinanceRecyclerAdapter extends RecyclerView.Adapter<Agen
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MicrofinanceAgencyActivity.class);
-                Model.saveFormPreference(agency , String.valueOf(R.string.SHARED_PREF_AGENCY_SELECT) , String.valueOf(R.string.PREFERENCE_FILE_KEY) , activity);
+                Intent intent = new Intent(context, AgencyMicrofinanceActivity.class);
+                Model.saveFromPreference(agency , String.valueOf(R.string.SHARED_PREF_AGENCY_SELECT) , String.valueOf(R.string.PREFERENCE_FILE_KEY) , activity);
                 context.startActivity(intent);
             }
         });
